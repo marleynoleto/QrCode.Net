@@ -8,6 +8,7 @@ using Gma.QrCodeNet.Rendering;
 
 namespace Gma.QrCodeNet.Demo
 {
+    [ToolboxBitmap(typeof(QrCodeControl), "QrCodeControlIcon")]
     public class QrCodeControl : Control
     {
         private readonly QrEncoder m_Encoder;
