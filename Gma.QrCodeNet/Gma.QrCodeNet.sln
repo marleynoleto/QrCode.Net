@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.Encoding", "Gma.QrCodeNet.Encoder\Gma.QrCodeNet.Encoding.csproj", "{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.Demo", "Gma.QrCodeNet.Demo\Gma.QrCodeNet.Demo.csproj", "{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Gma.QrCodeNet.Demo\\Gma.QrCodeNet.Demo.csproj
+		SccProjectName1 = Gma.QrCodeNet.Demo
+		SccLocalPath1 = Gma.QrCodeNet.Demo
+		SccProjectUniqueName2 = Gma.QrCodeNet.Encoder\\Gma.QrCodeNet.Encoding.csproj
+		SccProjectName2 = Gma.QrCodeNet.Encoder
+		SccLocalPath2 = Gma.QrCodeNet.Encoder
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Debug|x86.ActiveCfg = Debug|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Debug|x86.Build.0 = Debug|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Release|Any CPU.ActiveCfg = Release|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Release|x86.ActiveCfg = Release|x86
+		{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

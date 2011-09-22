@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gma.QrCodeNet.Encoding</RootNamespace>
+    <AssemblyName>Gma.QrCodeNet.Encoding</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BitMatrix.cs" />
+    <Compile Include="common\BitArray.cs" />
+    <Compile Include="common\BitMatrixInternal.cs" />
+    <Compile Include="common\ByteArray.cs" />
+    <Compile Include="common\ByteMatrix.cs" />
+    <Compile Include="common\CharacterSetECI.cs" />
+    <Compile Include="common\reedsolomon\GF256.cs" />
+    <Compile Include="common\reedsolomon\GF256Poly.cs" />
+    <Compile Include="common\reedsolomon\ReedSolomonEncoder.cs" />
+    <Compile Include="common\reedsolomon\ReedSolomonException.cs" />
+    <Compile Include="Core\ECI.cs" />
+    <Compile Include="Core\EncodeHintType.cs" />
+    <Compile Include="QrEncoder.cs" />
+    <Compile Include="encoding\BitVector.cs" />
+    <Compile Include="encoding\BlockPair.cs" />
+    <Compile Include="encoding\EncoderInternal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="encoding\MaskUtil.cs" />
+    <Compile Include="encoding\MatrixUtil.cs" />
+    <Compile Include="Core\QRCodeInternal.cs" />
+    <Compile Include="Core\ErrorCorrectionLevelInternal.cs" />
+    <Compile Include="Core\FormatInformation.cs" />
+    <Compile Include="Core\Mode.cs" />
+    <Compile Include="ErrorCorrectionLevel.cs" />
+    <Compile Include="ErrorCorrectionLevelConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\ReaderException.cs" />
+    <Compile Include="Core\SupportClass.cs" />
+    <Compile Include="Core\Version.cs" />
+    <Compile Include="Core\WriterException.cs" />
+    <Compile Include="QrCode.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
