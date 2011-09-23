@@ -39,9 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitMatrix.cs" />
-    <Compile Include="Common\BitArray.cs" />
-    <Compile Include="Common\BitMatrixInternal.cs" />
-    <Compile Include="Common\ByteArray.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\CharacterSetECI.cs" />
     <Compile Include="Common\reedsolomon\GF256.cs" />

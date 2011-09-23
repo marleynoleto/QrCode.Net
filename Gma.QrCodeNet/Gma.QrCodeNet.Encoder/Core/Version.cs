@@ -13,8 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-using com.google.zxing.common;
-
 namespace com.google.zxing.qrcode.decoder
 {
 	
@@ -162,53 +160,8 @@ namespace com.google.zxing.qrcode.decoder
 			// If we didn't find a close enough match, fail
 			return null;
 		}
-		
-		/// <summary> See ISO 18004:2006 Annex E</summary>
-		internal BitMatrixInternal buildFunctionPattern()
-		{
-			int dimension = DimensionForVersion;
-			BitMatrixInternal bitMatrixInternal = new BitMatrixInternal(dimension);
-			
-			// Top left finder pattern + separator + format
-			bitMatrixInternal.setRegion(0, 0, 9, 9);
-			// Top right finder pattern + separator + format
-			bitMatrixInternal.setRegion(dimension - 8, 0, 8, 9);
-			// Bottom left finder pattern + separator + format
-			bitMatrixInternal.setRegion(0, dimension - 8, 9, 8);
-			
-			// Alignment patterns
-			int max = alignmentPatternCenters.Length;
-			for (int x = 0; x < max; x++)
-			{
-				int i = alignmentPatternCenters[x] - 2;
-				for (int y = 0; y < max; y++)
-				{
-					if ((x == 0 && (y == 0 || y == max - 1)) || (x == max - 1 && y == 0))
-					{
-						// No alignment patterns near the three finder paterns
-						continue;
-					}
-					bitMatrixInternal.setRegion(alignmentPatternCenters[y] - 2, i, 5, 5);
-				}
-			}
-			
-			// Vertical timing pattern
-			bitMatrixInternal.setRegion(6, 9, 1, dimension - 17);
-			// Horizontal timing pattern
-			bitMatrixInternal.setRegion(9, 6, dimension - 17, 1);
-			
-			if (versionNumber > 6)
-			{
-				// Version info, top right
-				bitMatrixInternal.setRegion(dimension - 11, 0, 3, 6);
-				// Version info, bottom left
-				bitMatrixInternal.setRegion(0, dimension - 11, 6, 3);
-			}
-			
-			return bitMatrixInternal;
-		}
-		
-		/// <summary> <p>Encapsulates a set of error-correction blocks in one symbol version. Most versions will
+
+	    /// <summary> <p>Encapsulates a set of error-correction blocks in one symbol version. Most versions will
 		/// use blocks of differing sizes within one version, so, this encapsulates the parameters for
 		/// each set of blocks. It also holds the number of error-correction codewords per block since it
 		/// will be the same across all blocks within one version.</p>

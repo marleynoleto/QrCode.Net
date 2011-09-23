@@ -13,14 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-using System;
-using ByteArray = com.google.zxing.common.ByteArray;
+using com.google.zxing.common;
+
 namespace com.google.zxing.qrcode.encoder
 {
 	
 	sealed class BlockPair
 	{
-		internal ByteArray DataBytes
+        internal sbyte[] DataBytes
 		{
 			get
 			{
@@ -28,7 +28,7 @@ namespace com.google.zxing.qrcode.encoder
 			}
 			
 		}
-		internal ByteArray ErrorCorrectionBytes
+        internal sbyte[] ErrorCorrectionBytes
 		{
 			get
 			{
@@ -38,11 +38,11 @@ namespace com.google.zxing.qrcode.encoder
 		}
 		
 		//UPGRADE_NOTE: Final was removed from the declaration of 'dataBytes '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
-		private ByteArray dataBytes;
+		private sbyte[] dataBytes;
 		//UPGRADE_NOTE: Final was removed from the declaration of 'errorCorrectionBytes '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
-		private ByteArray errorCorrectionBytes;
+		private sbyte[] errorCorrectionBytes;
 		
-		internal BlockPair(ByteArray data, ByteArray errorCorrection)
+		internal BlockPair(sbyte[] data, sbyte[] errorCorrection)
 		{
 			dataBytes = data;
 			errorCorrectionBytes = errorCorrection;

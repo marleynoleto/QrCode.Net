@@ -17,7 +17,6 @@ using System;
 using com.google.zxing.qrcode.decoder;
 using WriterException = com.google.zxing.WriterException;
 using EncodeHintType = com.google.zxing.EncodeHintType;
-using ByteArray = com.google.zxing.common.ByteArray;
 using CharacterSetECI = com.google.zxing.common.CharacterSetECI;
 using GF256 = com.google.zxing.common.reedsolomon.GF256;
 using ReedSolomonEncoder = com.google.zxing.common.reedsolomon.ReedSolomonEncoder;
@@ -408,14 +407,14 @@ namespace com.google.zxing.qrcode.encoder
 				int[] numDataBytesInBlock = new int[1];
 				int[] numEcBytesInBlock = new int[1];
 				getNumDataBytesAndNumECBytesForBlockID(numTotalBytes, numDataBytes, numRSBlocks, i, numDataBytesInBlock, numEcBytesInBlock);
-				
-				ByteArray dataBytes = new ByteArray();
-				dataBytes.set_Renamed(bits.Array, dataBytesOffset, numDataBytesInBlock[0]);
-				ByteArray ecBytes = generateECBytes(dataBytes, numEcBytesInBlock[0]);
+
+			    sbyte[] dataBytes = new sbyte[numDataBytesInBlock[0]];
+                Array.Copy(bits.Array, dataBytesOffset, dataBytes, 0, numDataBytesInBlock[0]);
+				sbyte[] ecBytes = generateECBytes(dataBytes, numEcBytesInBlock[0]);
 				blocks.Add(new BlockPair(dataBytes, ecBytes));
 				
-				maxNumDataBytes = System.Math.Max(maxNumDataBytes, dataBytes.size());
-				maxNumEcBytes = System.Math.Max(maxNumEcBytes, ecBytes.size());
+				maxNumDataBytes = Math.Max(maxNumDataBytes, dataBytes.Length);
+				maxNumEcBytes = Math.Max(maxNumEcBytes, ecBytes.Length);
 				dataBytesOffset += numDataBytesInBlock[0];
 			}
 			if (numDataBytes != dataBytesOffset)
@@ -428,10 +427,10 @@ namespace com.google.zxing.qrcode.encoder
 			{
 				for (int j = 0; j < blocks.Count; ++j)
 				{
-					ByteArray dataBytes = ((BlockPair) blocks[j]).DataBytes;
-					if (i < dataBytes.size())
+					sbyte[] dataBytes = ((BlockPair) blocks[j]).DataBytes;
+					if (i < dataBytes.Length)
 					{
-						result.appendBits(dataBytes.at(i), 8);
+						result.appendBits(dataBytes[i] & 0xff, 8);
 					}
 				}
 			}
@@ -440,10 +439,10 @@ namespace com.google.zxing.qrcode.encoder
 			{
 				for (int j = 0; j < blocks.Count; ++j)
 				{
-					ByteArray ecBytes = ((BlockPair) blocks[j]).ErrorCorrectionBytes;
-					if (i < ecBytes.size())
+					sbyte[] ecBytes = ((BlockPair) blocks[j]).ErrorCorrectionBytes;
+					if (i < ecBytes.Length)
 					{
-						result.appendBits(ecBytes.at(i), 8);
+						result.appendBits(ecBytes[i] & 0xff, 8);
 					}
 				}
 			}
@@ -454,22 +453,22 @@ namespace com.google.zxing.qrcode.encoder
 			}
 		}
 		
-		internal static ByteArray generateECBytes(ByteArray dataBytes, int numEcBytesInBlock)
+		internal static sbyte[] generateECBytes(sbyte[] dataBytes, int numEcBytesInBlock)
 		{
-			int numDataBytes = dataBytes.size();
+			int numDataBytes = dataBytes.Length;
 			int[] toEncode = new int[numDataBytes + numEcBytesInBlock];
 			for (int i = 0; i < numDataBytes; i++)
 			{
-				toEncode[i] = dataBytes.at(i);
+			    toEncode[i] = dataBytes[i] & 0xff;
 			}
-			new ReedSolomonEncoder(GF256.QR_CODE_FIELD).encode(toEncode, numEcBytesInBlock);
+		    new ReedSolomonEncoder(GF256.QR_CODE_FIELD).encode(toEncode, numEcBytesInBlock);
 			
-			ByteArray ecBytes = new ByteArray(numEcBytesInBlock);
+			sbyte[] ecBytes = new sbyte[numEcBytesInBlock];
 			for (int i = 0; i < numEcBytesInBlock; i++)
 			{
-				ecBytes.set_Renamed(i, toEncode[numDataBytes + i]);
+			    ecBytes[i] = (sbyte)toEncode[numDataBytes + i];
 			}
-			return ecBytes;
+		    return ecBytes;
 		}
 		
 		/// <summary> Append mode info. On success, store the result in "bits".</summary>
