@@ -15,6 +15,7 @@
 */
 using System;
 using com.google.zxing.qrcode.decoder;
+using Gma.QrCodeNet.Encoding.encoding;
 using WriterException = com.google.zxing.WriterException;
 using EncodeHintType = com.google.zxing.EncodeHintType;
 using CharacterSetECI = com.google.zxing.common.CharacterSetECI;
@@ -427,7 +428,7 @@ namespace com.google.zxing.qrcode.encoder
 			{
 				for (int j = 0; j < blocks.Count; ++j)
 				{
-					sbyte[] dataBytes = ((BlockPair) blocks[j]).DataBytes;
+					sbyte[] dataBytes = ((BlockPair) blocks[j]).Data;
 					if (i < dataBytes.Length)
 					{
 						result.appendBits(dataBytes[i] & 0xff, 8);
@@ -439,7 +440,7 @@ namespace com.google.zxing.qrcode.encoder
 			{
 				for (int j = 0; j < blocks.Count; ++j)
 				{
-					sbyte[] ecBytes = ((BlockPair) blocks[j]).ErrorCorrectionBytes;
+					sbyte[] ecBytes = ((BlockPair) blocks[j]).ErrorCorrectionCodewords;
 					if (i < ecBytes.Length)
 					{
 						result.appendBits(ecBytes[i] & 0xff, 8);
