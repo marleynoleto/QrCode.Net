@@ -39,15 +39,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitMatrix.cs" />
-    <Compile Include="common\BitArray.cs" />
-    <Compile Include="common\BitMatrixInternal.cs" />
-    <Compile Include="common\ByteArray.cs" />
-    <Compile Include="common\ByteMatrix.cs" />
-    <Compile Include="common\CharacterSetECI.cs" />
-    <Compile Include="common\reedsolomon\GF256.cs" />
-    <Compile Include="common\reedsolomon\GF256Poly.cs" />
-    <Compile Include="common\reedsolomon\ReedSolomonEncoder.cs" />
-    <Compile Include="common\reedsolomon\ReedSolomonException.cs" />
+    <Compile Include="Common\BitArray.cs" />
+    <Compile Include="Common\BitMatrixInternal.cs" />
+    <Compile Include="Common\ByteArray.cs" />
+    <Compile Include="Common\ByteMatrix.cs" />
+    <Compile Include="Common\CharacterSetECI.cs" />
+    <Compile Include="Common\reedsolomon\GF256.cs" />
+    <Compile Include="Common\reedsolomon\GF256Poly.cs" />
+    <Compile Include="Common\reedsolomon\ReedSolomonEncoder.cs" />
+    <Compile Include="Common\reedsolomon\ReedSolomonException.cs" />
     <Compile Include="Core\ECI.cs" />
     <Compile Include="Core\EncodeHintType.cs" />
     <Compile Include="QrEncoder.cs" />

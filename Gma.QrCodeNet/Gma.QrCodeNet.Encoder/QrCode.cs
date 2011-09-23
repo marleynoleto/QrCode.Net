@@ -11,7 +11,7 @@ namespace Gma.QrCodeNet.Encoding
             {
                 for (int j = 0; j < qrCodeInternal.MatrixWidth; j++)
                 {
-                    Matrix[i, j] = (qrCodeInternal.Matrix.get_Renamed(i, j) != 0);
+                    Matrix[i, j] = (qrCodeInternal.Matrix[j, i] != 0);
                 }
             }
         }

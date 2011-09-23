@@ -15,7 +15,7 @@
 */
 using System;
 using com.google.zxing.qrcode.decoder;
-using ByteMatrix = com.google.zxing.common.ByteMatrix;
+using Gma.QrCodeNet.Encoding.Common;
 using Mode = com.google.zxing.qrcode.decoder.Mode;
 namespace com.google.zxing.qrcode.encoder
 {
@@ -165,8 +165,6 @@ namespace com.google.zxing.qrcode.encoder
 		}
 		public ByteMatrix Matrix
 		{
-			// ByteMatrix data of the QR Code.
-			
 			get
 			{
 				return matrix;
@@ -225,7 +223,7 @@ namespace com.google.zxing.qrcode.encoder
 		internal int at(int x, int y)
 		{
 			// The value must be zero or one.
-			int value_Renamed = matrix.get_Renamed(x, y);
+			int value_Renamed = matrix[y, x];
 			if (!(value_Renamed == 0 || value_Renamed == 1))
 			{
 				// this is really like an assert... not sure what better exception to use?

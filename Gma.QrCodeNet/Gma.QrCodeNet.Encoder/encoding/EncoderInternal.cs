@@ -18,12 +18,13 @@ using com.google.zxing.qrcode.decoder;
 using WriterException = com.google.zxing.WriterException;
 using EncodeHintType = com.google.zxing.EncodeHintType;
 using ByteArray = com.google.zxing.common.ByteArray;
-using ByteMatrix = com.google.zxing.common.ByteMatrix;
 using CharacterSetECI = com.google.zxing.common.CharacterSetECI;
 using GF256 = com.google.zxing.common.reedsolomon.GF256;
 using ReedSolomonEncoder = com.google.zxing.common.reedsolomon.ReedSolomonEncoder;
 using Mode = com.google.zxing.qrcode.decoder.Mode;
 using Version = com.google.zxing.qrcode.decoder.Version;
+using Gma.QrCodeNet.Encoding.Common;
+
 namespace com.google.zxing.qrcode.encoder
 {
 	

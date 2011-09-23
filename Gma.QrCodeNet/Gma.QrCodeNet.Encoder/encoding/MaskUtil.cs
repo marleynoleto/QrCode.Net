@@ -14,7 +14,8 @@
 * limitations under the License.
 */
 using System;
-using ByteMatrix = com.google.zxing.common.ByteMatrix;
+using Gma.QrCodeNet.Encoding.Common;
+
 namespace com.google.zxing.qrcode.encoder
 {
 	
@@ -44,15 +45,12 @@ namespace com.google.zxing.qrcode.encoder
 		internal static int applyMaskPenaltyRule2(ByteMatrix matrix)
 		{
 			int penalty = 0;
-			sbyte[][] array = matrix.Array;
-			int width = matrix.Width;
-			int height = matrix.Height;
-			for (int y = 0; y < height - 1; ++y)
+		    for (int y = 0; y < matrix.Height - 1; ++y)
 			{
-				for (int x = 0; x < width - 1; ++x)
+				for (int x = 0; x < matrix.Width - 1; ++x)
 				{
-					int value_Renamed = array[y][x];
-					if (value_Renamed == array[y][x + 1] && value_Renamed == array[y + 1][x] && value_Renamed == array[y + 1][x + 1])
+					int value_Renamed = matrix[x,y];
+                    if (value_Renamed == matrix[x + 1, y] && value_Renamed == matrix[x, y + 1] && value_Renamed == matrix[x + 1, y + 1])
 					{
 						penalty += 3;
 					}
@@ -67,19 +65,18 @@ namespace com.google.zxing.qrcode.encoder
 		internal static int applyMaskPenaltyRule3(ByteMatrix matrix)
 		{
 			int penalty = 0;
-			sbyte[][] array = matrix.Array;
-			int width = matrix.Width;
+		    int width = matrix.Width;
 			int height = matrix.Height;
 			for (int y = 0; y < height; ++y)
 			{
 				for (int x = 0; x < width; ++x)
 				{
 					// Tried to simplify following conditions but failed.
-					if (x + 6 < width && array[y][x] == 1 && array[y][x + 1] == 0 && array[y][x + 2] == 1 && array[y][x + 3] == 1 && array[y][x + 4] == 1 && array[y][x + 5] == 0 && array[y][x + 6] == 1 && ((x + 10 < width && array[y][x + 7] == 0 && array[y][x + 8] == 0 && array[y][x + 9] == 0 && array[y][x + 10] == 0) || (x - 4 >= 0 && array[y][x - 1] == 0 && array[y][x - 2] == 0 && array[y][x - 3] == 0 && array[y][x - 4] == 0)))
+					if (x + 6 < width && matrix[x,y] == 1 && matrix[x + 1,y] == 0 && matrix[x + 2,y] == 1 && matrix[x + 3,y] == 1 && matrix[x + 4,y] == 1 && matrix[x + 5,y] == 0 && matrix[x + 6,y] == 1 && ((x + 10 < width && matrix[x + 7,y] == 0 && matrix[x + 8,y] == 0 && matrix[x + 9,y] == 0 && matrix[x + 10,y] == 0) || (x - 4 >= 0 && matrix[x - 1,y] == 0 && matrix[x - 2,y] == 0 && matrix[x - 3,y] == 0 && matrix[x - 4,y] == 0)))
 					{
 						penalty += 40;
 					}
-					if (y + 6 < height && array[y][x] == 1 && array[y + 1][x] == 0 && array[y + 2][x] == 1 && array[y + 3][x] == 1 && array[y + 4][x] == 1 && array[y + 5][x] == 0 && array[y + 6][x] == 1 && ((y + 10 < height && array[y + 7][x] == 0 && array[y + 8][x] == 0 && array[y + 9][x] == 0 && array[y + 10][x] == 0) || (y - 4 >= 0 && array[y - 1][x] == 0 && array[y - 2][x] == 0 && array[y - 3][x] == 0 && array[y - 4][x] == 0)))
+					if (y + 6 < height && matrix[x,y] == 1 && matrix[x,y + 1] == 0 && matrix[x,y + 2] == 1 && matrix[x,y + 3] == 1 && matrix[x,y + 4] == 1 && matrix[x,y + 5] == 0 && matrix[x,y + 6] == 1 && ((y + 10 < height && matrix[x,y + 7] == 0 && matrix[x,y + 8] == 0 && matrix[x,y + 9] == 0 && matrix[x,y + 10] == 0) || (y - 4 >= 0 && matrix[x,y - 1] == 0 && matrix[x,y - 2] == 0 && matrix[x,y - 3] == 0 && matrix[x,y - 4] == 0)))
 					{
 						penalty += 40;
 					}
@@ -100,14 +97,13 @@ namespace com.google.zxing.qrcode.encoder
 		internal static int applyMaskPenaltyRule4(ByteMatrix matrix)
 		{
 			int numDarkCells = 0;
-			sbyte[][] array = matrix.Array;
-			int width = matrix.Width;
+		    int width = matrix.Width;
 			int height = matrix.Height;
 			for (int y = 0; y < height; ++y)
 			{
 				for (int x = 0; x < width; ++x)
 				{
-					if (array[y][x] == 1)
+					if (matrix[x,y] == 1)
 					{
 						numDarkCells += 1;
 					}
@@ -190,12 +186,11 @@ namespace com.google.zxing.qrcode.encoder
 			//       int bit = matrix.get(j, i);
 			int iLimit = isHorizontal?matrix.Height:matrix.Width;
 			int jLimit = isHorizontal?matrix.Width:matrix.Height;
-			sbyte[][] array = matrix.Array;
-			for (int i = 0; i < iLimit; ++i)
+		    for (int i = 0; i < iLimit; ++i)
 			{
 				for (int j = 0; j < jLimit; ++j)
 				{
-					int bit = isHorizontal?array[i][j]:array[j][i];
+					int bit = isHorizontal?matrix[j,i]:matrix[i,j];
 					if (bit == prevBit)
 					{
 						numSameBitCells += 1;
