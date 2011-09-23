@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Gma.QrCodeNet.Encoder")]
 [assembly: AssemblyDescription("")]
@@ -9,3 +10,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("46f0d5b0-3954-4f7e-94dc-4d2757f22441")]
 [assembly: AssemblyVersion("0.0.1.*")]
 [assembly: AssemblyFileVersion("0.0.1.0")]
+
+[assembly: InternalsVisibleTo("Gma.QrCodeNet.Encoding.Tests")]
