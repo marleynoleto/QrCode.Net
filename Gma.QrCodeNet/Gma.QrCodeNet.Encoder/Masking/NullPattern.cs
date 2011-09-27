@@ -4,10 +4,6 @@ namespace Gma.QrCodeNet.Encoding.Masking
 {
     internal class NullPattern : Pattern
     {
-        public NullPattern(int width) : base(width)
-        {
-        }
-
         public override bool this[int i, int j]
         {
             get { return false; }

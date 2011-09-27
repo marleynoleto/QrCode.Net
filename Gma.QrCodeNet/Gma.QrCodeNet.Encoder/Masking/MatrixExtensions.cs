@@ -1,6 +1,6 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Masking
 {
-    public static class MaskingExtensions
+    public static class MatrixExtensions
     {
         public static BitMatrix Xor(this BitMatrix first, BitMatrix second)
         {

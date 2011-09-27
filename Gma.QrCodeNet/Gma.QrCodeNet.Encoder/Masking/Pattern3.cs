@@ -1,15 +1,15 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Masking
 {
-    internal class Pattern2 : Pattern
+    internal class Pattern3 : Pattern
 {
         public override bool this[int i, int j]
         {
-            get { return j % 2 == 0; }
+            get { return (j + i) % 3 == 0; }
         }
 
         public override MaskPatternType MaskPatternType
         {
-            get { return MaskPatternType.Type2; }
+            get { return MaskPatternType.Type3; }
         }
 }
 }

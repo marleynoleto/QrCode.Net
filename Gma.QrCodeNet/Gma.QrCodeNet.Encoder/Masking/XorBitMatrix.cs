@@ -9,10 +9,6 @@ namespace Gma.QrCodeNet.Encoding.Masking
 
         public XorBitMatrix(BitMatrix first, BitMatrix second)
         {
-            if (first.Width!=second.Width)
-            {
-                throw new ArgumentException("Matrices must have same size.");
-            }
             m_First = first;
             m_Second = second;
         }
