@@ -169,65 +169,71 @@ namespace com.google.zxing.qrcode.encoder
 		// See 8.7 of JISX0510:2004 (p.38) for how to embed data bits.
 		internal static void  embedDataBits(BitVector dataBits, int maskPattern, ByteMatrix matrix)
 		{
-			int bitIndex = 0;
-			int direction = - 1;
-			// Start from the right bottom cell.
-			int x = matrix.Width - 1;
-			int y = matrix.Height - 1;
-			while (x > 0)
+		    int lastConsumeDbitIndex = TryEmbedDataBits(matrix, dataBits, maskPattern);
+		    // All bits should be consumed.
+			if (lastConsumeDbitIndex != dataBits.size())
 			{
-				// Skip the vertical timing pattern.
-				if (x == 6)
-				{
-					x -= 1;
-				}
-				while (y >= 0 && y < matrix.Height)
-				{
-					for (int i = 0; i < 2; ++i)
-					{
-						int xx = x - i;
-						// Skip the cell if it's not empty.
-						if (!isEmpty(matrix[y, xx]))
-						{
-							continue;
-						}
-						int bit;
-						if (bitIndex < dataBits.size())
-						{
-							bit = dataBits.at(bitIndex);
-							++bitIndex;
-						}
-						else
-						{
-							// Padding bit. If there is no bit left, we'll fill the left cells with 0, as described
-							// in 8.4.9 of JISX0510:2004 (p. 24).
-							bit = 0;
-						}
-						
-						// Skip masking if mask_pattern is -1.
-						if (maskPattern != - 1)
-						{
-							if (MaskUtil.getDataMaskBit(maskPattern, xx, y))
-							{
-								bit ^= 0x1;
-							}
-						}
-					    matrix[y, xx] = (sbyte)bit;
-					}
-					y += direction;
-				}
-				direction = - direction; // Reverse the direction.
-				y += direction;
-				x -= 2; // Move to the left.
-			}
-			// All bits should be consumed.
-			if (bitIndex != dataBits.size())
-			{
-				throw new WriterException("Not all bits consumed: " + bitIndex + '/' + dataBits.size());
+				throw new WriterException("Not all bits consumed: " + lastConsumeDbitIndex + '/' + dataBits.size());
 			}
 		}
-		
-		// Return the position of the most significant bit set (to one) in the "value". The most
+
+	    internal static int TryEmbedDataBits(ByteMatrix matrix, BitVector dataBits, int maskPattern)
+	    {
+	        int bitIndex = 0;
+	        int direction = - 1;
+	        // Start from the right bottom cell.
+	        int x = matrix.Width - 1;
+	        int y = matrix.Height - 1;
+	        while (x > 0)
+	        {
+	            // Skip the vertical timing pattern.
+	            if (x == 6)
+	            {
+	                x -= 1;
+	            }
+	            while (y >= 0 && y < matrix.Height)
+	            {
+	                for (int i = 0; i < 2; ++i)
+	                {
+	                    int xx = x - i;
+	                    // Skip the cell if it's not empty.
+	                    if (!isEmpty(matrix[y, xx]))
+	                    {
+	                        continue;
+	                    }
+	                    int bit;
+	                    if (bitIndex < dataBits.size())
+	                    {
+	                        bit = dataBits.at(bitIndex);
+	                        ++bitIndex;
+	                    }
+	                    else
+	                    {
+	                        // Padding bit. If there is no bit left, we'll fill the left cells with 0, as described
+	                        // in 8.4.9 of JISX0510:2004 (p. 24).
+	                        bit = 0;
+	                    }
+						
+	                    // Skip masking if mask_pattern is -1.
+	                    if (maskPattern != - 1)
+	                    {
+	                        if (MaskUtil.getDataMaskBit(maskPattern, xx, y))
+	                        {
+	                            bit ^= 0x1;
+	                        }
+	                    }
+	                    matrix[y, xx] = (sbyte)bit;
+	                }
+	                y += direction;
+	            }
+	            direction = - direction; // Reverse the direction.
+	            y += direction;
+	            x -= 2; // Move to the left.
+	        }
+	        return bitIndex;
+	    }
+
+	    // Return the position of the most significant bit set (to one) in the "value". The most
 		// significant bit is position 32. If there is no bit set, return 0. Examples:
 		// - findMSBSet(0) => 0
 		// - findMSBSet(1) => 1

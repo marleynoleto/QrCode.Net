@@ -58,6 +58,7 @@
     <Compile Include="DataEncodation\EncoderTestBase.cs" />
     <Compile Include="DataEncodation\NumericEncoderTest.cs" />
     <Compile Include="EndToEndSmokeTests.cs" />
+    <Compile Include="Masking\MaskPatternTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gma.QrCodeNet.Encoder\Gma.QrCodeNet.Encoding.csproj">
@@ -76,6 +77,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="DataSet1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Masking\MaskPatternTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

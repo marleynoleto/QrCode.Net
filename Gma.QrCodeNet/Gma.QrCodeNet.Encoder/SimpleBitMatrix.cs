@@ -14,6 +14,19 @@ namespace Gma.QrCodeNet.Encoding
             m_InternalMatrix = new bool[width,width];
         }
 
+        //TODO: Remove this constructor - needed only for legacy compatibility.
+        internal SimpleBitMatrix(Common.ByteMatrix byteMatrix) :
+            this(byteMatrix.Width)
+        {
+            for (int i = 0; i < byteMatrix.Width; i++)
+            {
+                for (int j = 0; j < byteMatrix.Height; j++)
+                {
+                    this.Set(i, j, (byteMatrix[j, i] != 0));
+                }
+            }
+        }
+
         public override bool this[int i, int j]
         {
             get { return m_InternalMatrix[i, j]; }
