@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\CharacterSetECI.cs" />

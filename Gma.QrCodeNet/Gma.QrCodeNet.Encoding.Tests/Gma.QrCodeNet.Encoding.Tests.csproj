@@ -51,6 +51,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitListTest.cs" />
     <Compile Include="BitVectorTestExtensions.cs" />
     <Compile Include="BitMatrixTestExtensions.cs" />
     <Compile Include="DataEncodation\AlphanumericEncoderTest.cs" />
