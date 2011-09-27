@@ -12,7 +12,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
     {
         protected override string CsvFileName { get { return "AlphanumericEncoderTestDataSet.csv"; } }
 
-        [TestMethod]
+        //[TestMethod]
         public override void GenerateTestDataSet()
         {
             base.GenerateTestDataSet();
