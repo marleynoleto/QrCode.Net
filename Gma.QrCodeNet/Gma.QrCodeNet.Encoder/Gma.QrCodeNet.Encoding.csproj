@@ -41,39 +41,41 @@
     <Compile Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
-    <Compile Include="Common\CharacterSetECI.cs" />
-    <Compile Include="Common\reedsolomon\GF256.cs" />
-    <Compile Include="Common\reedsolomon\GF256Poly.cs" />
-    <Compile Include="Common\reedsolomon\ReedSolomonEncoder.cs" />
-    <Compile Include="Common\reedsolomon\ReedSolomonException.cs" />
-    <Compile Include="Core\ECI.cs" />
-    <Compile Include="Core\EncodeHintType.cs" />
+    <Compile Include="_legacy\Common\CharacterSetECI.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\GF256.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\GF256Poly.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\ReedSolomonEncoder.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\ReedSolomonException.cs" />
+    <Compile Include="_legacy\Core\ECI.cs" />
+    <Compile Include="_legacy\Core\EncodeHintType.cs" />
     <Compile Include="DataEncodation\AlphanumericEncoder.cs" />
     <Compile Include="DataEncodation\EncoderBase.cs" />
     <Compile Include="DataEncodation\Mode.cs" />
     <Compile Include="DataEncodation\NumericEncoder.cs" />
     <Compile Include="QrEncoder.cs" />
-    <Compile Include="encoding\BitVector.cs" />
-    <Compile Include="encoding\BlockPair.cs" />
-    <Compile Include="encoding\EncoderInternal.cs">
+    <Compile Include="_legacy\encoding\BitVector.cs" />
+    <Compile Include="_legacy\encoding\BlockPair.cs" />
+    <Compile Include="_legacy\encoding\EncoderInternal.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="encoding\MaskUtil.cs" />
-    <Compile Include="encoding\MatrixUtil.cs" />
-    <Compile Include="Core\QRCodeInternal.cs" />
-    <Compile Include="Core\ErrorCorrectionLevelInternal.cs" />
-    <Compile Include="Core\FormatInformation.cs" />
-    <Compile Include="Core\Mode.cs" />
+    <Compile Include="_legacy\encoding\MaskUtil.cs" />
+    <Compile Include="_legacy\encoding\MatrixUtil.cs" />
+    <Compile Include="_legacy\Core\QRCodeInternal.cs" />
+    <Compile Include="_legacy\Core\ErrorCorrectionLevelInternal.cs" />
+    <Compile Include="_legacy\Core\FormatInformation.cs" />
+    <Compile Include="_legacy\Core\Mode.cs" />
     <Compile Include="ErrorCorrectionLevel.cs" />
-    <Compile Include="ErrorCorrectionLevelConverter.cs" />
+    <Compile Include="_compatibility\ErrorCorrectionLevelConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\ReaderException.cs" />
-    <Compile Include="Core\SupportClass.cs" />
-    <Compile Include="Core\Version.cs" />
-    <Compile Include="Core\WriterException.cs" />
+    <Compile Include="_legacy\Core\ReaderException.cs" />
+    <Compile Include="_legacy\Core\SupportClass.cs" />
+    <Compile Include="_legacy\Core\Version.cs" />
+    <Compile Include="_legacy\Core\WriterException.cs" />
     <Compile Include="QrCode.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Masking\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
