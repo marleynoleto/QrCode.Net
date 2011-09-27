@@ -47,6 +47,10 @@
     <Compile Include="Common\reedsolomon\ReedSolomonException.cs" />
     <Compile Include="Core\ECI.cs" />
     <Compile Include="Core\EncodeHintType.cs" />
+    <Compile Include="DataEncodation\AlphanumericEncoder.cs" />
+    <Compile Include="DataEncodation\EncoderBase.cs" />
+    <Compile Include="DataEncodation\Mode.cs" />
+    <Compile Include="DataEncodation\NumericEncoder.cs" />
     <Compile Include="QrEncoder.cs" />
     <Compile Include="encoding\BitVector.cs" />
     <Compile Include="encoding\BlockPair.cs" />

@@ -25,7 +25,7 @@ namespace com.google.zxing.qrcode.decoder
 	/// </author>
 	/// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
 	/// </author>
-	internal sealed class Mode
+	public sealed class Mode
 	{
 		internal int Bits
 		{

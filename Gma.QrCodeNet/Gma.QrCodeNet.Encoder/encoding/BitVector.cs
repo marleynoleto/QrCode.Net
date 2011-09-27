@@ -14,6 +14,9 @@
 * limitations under the License.
 */
 using System;
+using System.Collections;
+using System.Collections.Generic;
+
 namespace com.google.zxing.qrcode.encoder
 {
 	
@@ -28,7 +31,7 @@ namespace com.google.zxing.qrcode.encoder
 	/// </author>
 	/// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
 	/// </author>
-	internal sealed class BitVector
+    internal sealed class BitVector : IEnumerable<bool>
 	{
 		internal sbyte[] Array
 		{
@@ -154,8 +157,17 @@ namespace com.google.zxing.qrcode.encoder
 			}
 		}
 		
-		// Return String like "01110111" for debugging.
-		public override System.String ToString()
+		
+	    public IEnumerator<bool> GetEnumerator()
+	    {
+	        for (int i = 0; i < this.size(); i++)
+	        {
+	            yield return this.at(i)!=0;
+	        }
+	    }
+
+        // Return String like "01110111" for debugging.
+	    public override System.String ToString()
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder(sizeInBits);
 			for (int i = 0; i < sizeInBits; ++i)
@@ -175,8 +187,13 @@ namespace com.google.zxing.qrcode.encoder
 			}
 			return result.ToString();
 		}
-		
-		// Add a new byte to the end, possibly reallocating and doubling the size of the array if we've
+
+	    IEnumerator IEnumerable.GetEnumerator()
+	    {
+	        return GetEnumerator();
+	    }
+
+	    // Add a new byte to the end, possibly reallocating and doubling the size of the array if we've
 		// run out of room.
 		private void  appendByte(int value_Renamed)
 		{
@@ -192,5 +209,16 @@ namespace com.google.zxing.qrcode.encoder
 			array[sizeInBits >> 3] = (sbyte) value_Renamed;
 			sizeInBits += 8;
 		}
+
+	    public BitVector Append(BitVector bitVector)
+	    {
+	        this.appendBitVector(bitVector);
+	        return this;
+	    }
+
+	    public void Append(int value, int bitCount)
+	    {
+	        this.appendBits(value, bitCount);
+	    }
 	}
 }

@@ -51,7 +51,11 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitVectorTestExtensions.cs" />
     <Compile Include="BitMatrixTestExtensions.cs" />
+    <Compile Include="DataEncodation\AlphanumericEncoderTest.cs" />
+    <Compile Include="DataEncodation\EncoderTestBase.cs" />
+    <Compile Include="DataEncodation\NumericEncoderTest.cs" />
     <Compile Include="EndToEndSmokeTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +68,12 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DataEncodation\AlphanumericEncoderTestDataSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="DataEncodation\NumericEncoderTestDataSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="DataSet1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
