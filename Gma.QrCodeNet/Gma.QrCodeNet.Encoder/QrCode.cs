@@ -6,14 +6,15 @@ namespace Gma.QrCodeNet.Encoding
     {
         internal QrCode(QRCodeInternal qrCodeInternal)
         {
-            Matrix = new BitMatrix(qrCodeInternal.MatrixWidth);
+            SimpleBitMatrix simpleBitMatrix = new SimpleBitMatrix(qrCodeInternal.MatrixWidth);
             for (int i = 0; i < qrCodeInternal.MatrixWidth; i++)
             {
                 for (int j = 0; j < qrCodeInternal.MatrixWidth; j++)
                 {
-                    Matrix[i, j] = (qrCodeInternal.Matrix[j, i] != 0);
+                    simpleBitMatrix.Set(i, j , (qrCodeInternal.Matrix[j, i] != 0));
                 }
             }
+            this.Matrix = simpleBitMatrix;
         }
 
         public BitMatrix Matrix

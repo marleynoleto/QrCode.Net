@@ -41,6 +41,14 @@
     <Compile Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
+    <Compile Include="Masking\Pattern1.cs" />
+    <Compile Include="Masking\MaskPatternType.cs" />
+    <Compile Include="Masking\Pattern2.cs" />
+    <Compile Include="Masking\XorBitMatrix.cs" />
+    <Compile Include="Masking\MaskingExtensions.cs" />
+    <Compile Include="Masking\NullPattern.cs" />
+    <Compile Include="Masking\Pattern.cs" />
+    <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="_legacy\Common\CharacterSetECI.cs" />
     <Compile Include="_legacy\Common\reedsolomon\GF256.cs" />
     <Compile Include="_legacy\Common\reedsolomon\GF256Poly.cs" />
@@ -73,9 +81,7 @@
     <Compile Include="_legacy\Core\WriterException.cs" />
     <Compile Include="QrCode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Masking\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -30,13 +30,13 @@ namespace Gma.QrCodeNet.Encoding.Tests
             }
 
             BitArray bitArray = new BitArray(data);
-            BitMatrix matrix = new BitMatrix(width);
+            SimpleBitMatrix matrix = new SimpleBitMatrix(width);
             for (int index = 0; index < length; index++)
             {
                 int i = index % width;
                 int j = index / width;
 
-                matrix[i, j] = bitArray[index];
+                matrix.Set(i, j, bitArray[index]);
             }
             return matrix;
         }
