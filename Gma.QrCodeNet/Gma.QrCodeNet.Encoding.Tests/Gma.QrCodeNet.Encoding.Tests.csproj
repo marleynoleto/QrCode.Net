@@ -37,7 +37,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.6.0.11089, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -52,13 +55,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitListTest.cs" />
-    <Compile Include="BitVectorTestExtensions.cs" />
-    <Compile Include="BitMatrixTestExtensions.cs" />
-    <Compile Include="DataEncodation\AlphanumericEncoderTest.cs" />
+    <Compile Include="Masking\TestCases\MaskPatternTestCaseFactory.cs" />
+    <Compile Include="_Helper\BitMatrixToGraphicExtensions.cs" />
+    <Compile Include="_Helper\BitVectorTestExtensions.cs" />
+    <Compile Include="_Helper\BitMatrixTestExtensions.cs" />
+    <Compile Include="DataEncodation\TestCases\AlphanumericEncoderTestCaseFactory.cs" />
+    <Compile Include="DataEncodation\AlphaumericEncoderTest.cs" />
     <Compile Include="DataEncodation\EncoderTestBase.cs" />
+    <Compile Include="DataEncodation\TestCases\EncoderTestCaseFactoryBase.cs" />
     <Compile Include="DataEncodation\NumericEncoderTest.cs" />
-    <Compile Include="EndToEndSmokeTests.cs" />
+    <Compile Include="DataEncodation\TestCases\NumericEncoderTestCaseFactory.cs" />
+    <Compile Include="EndToEnd\TestCases\EndToEndSmokeTestCaseFactory.cs" />
+    <Compile Include="EndToEnd\EndToEndSmokeTests.cs" />
     <Compile Include="Masking\MaskPatternTest.cs" />
+    <Compile Include="_Helper\MatrixConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gma.QrCodeNet.Encoder\Gma.QrCodeNet.Encoding.csproj">
@@ -70,18 +80,20 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DataEncodation\AlphanumericEncoderTestDataSet.csv">
+    <None Include="DataEncodation\TestCases\AlphanumericEncoderTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="DataEncodation\NumericEncoderTestDataSet.csv">
+    <None Include="DataEncodation\TestCases\NumericEncoderTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="DataSet1.csv">
+    <None Include="EndToEnd\TestCases\DataSet1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Masking\MaskPatternTestDataSet.csv">
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Masking\TestCases\MaskPatternTestDataSet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

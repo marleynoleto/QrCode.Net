@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using NUnit.Framework;
 
 namespace Gma.QrCodeNet.Encoding.Tests
 {
@@ -67,25 +69,25 @@ namespace Gma.QrCodeNet.Encoding.Tests
                 }
         }
 
-        public static bool IsEquivalentTo(this BitMatrix first, BitMatrix second)
+        public static void AssertEquals(this BitMatrix expected, BitMatrix actual)
         {
-            if (first == null) throw new ArgumentNullException("first");
-            if (second == null) throw new ArgumentNullException("second");
+            if (expected == null) throw new ArgumentNullException("expected");
+            if (actual == null) throw new ArgumentNullException("actual");
 
-            if (first.Width != second.Width)
+            if (expected.Width != actual.Width)
             {
-                return false;
+                Assert.Fail("Mtrix must have same size. Expected {0}, Actual {1}", expected.Width, actual.Width);
             }
 
-            for (int i = 0; i < first.Width; i++)
-                for (int j = 0; j < first.Width; j++)
+            
+            for (int i = 0; i < expected.Width; i++)
+                for (int j = 0; j < expected.Width; j++)
                 {
-                    if (first[i, j] != second[i, j])
+                    if (expected[i, j] != actual[i, j])
                     {
-                        return false;
+                        Assert.Fail("Matrces are different.\nExpected:{0}Actual:{1}.", expected.ToGraphicString(), actual.ToGraphicString());
                     }
                 }
-            return true;
         }
     }
 }

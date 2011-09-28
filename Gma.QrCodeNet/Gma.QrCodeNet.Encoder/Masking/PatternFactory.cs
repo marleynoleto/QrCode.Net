@@ -11,6 +11,9 @@ namespace Gma.QrCodeNet.Encoding.Masking
         {
             switch (maskPatternType)
             {
+                case MaskPatternType.Type0:
+                    return new Pattern0();
+
                 case MaskPatternType.Type1:
                     return new Pattern1();
 

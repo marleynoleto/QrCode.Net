@@ -4,7 +4,7 @@
 {
         public override bool this[int i, int j]
         {
-            get { return j % 2 == 0; }
+            get { return i % 3 == 0; }
         }
 
         public override MaskPatternType MaskPatternType

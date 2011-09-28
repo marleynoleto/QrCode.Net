@@ -2,21 +2,21 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Gma.QrCodeNet.Encoding.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class BitListTest
     {
-        [TestMethod]
+        [Test]
         public void Count_is_0_after_costruction()
         {
             BitList target = new BitList();
             Assert.AreEqual(0, target.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void Insert_1_count_is_1()
         {
             BitList target = new BitList();
@@ -24,7 +24,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
             Assert.AreEqual(1, target.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void Insert_0_count_is_1()
         {
             BitList target = new BitList();
