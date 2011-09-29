@@ -41,6 +41,7 @@
     <Compile Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
+    <Compile Include="DataEncodation\EightBitByteEncoder.cs" />
     <Compile Include="Masking\Pattern0.cs" />
     <Compile Include="Masking\Pattern7.cs" />
     <Compile Include="Masking\Pattern4.cs" />

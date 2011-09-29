@@ -31,6 +31,16 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// <param name="content"></param>
         /// <returns></returns>
         internal abstract BitVector GetDataBits(string content);
+        
+        
+        /// <summary>
+        /// Returns the boolean representation of progress GetDataBits. 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="dataBits">Contain bit representation of input data</param>
+        /// <returns>Bolean indicate if conversion is success. False most likely means input char is not in range of encoding table</returns>
+        internal abstract bool TryGetDataBits(string content, out BitVector dataBits);
+        
 
         /// <summary>
         /// Returns bit representation of <see cref="Mode"/> value.
