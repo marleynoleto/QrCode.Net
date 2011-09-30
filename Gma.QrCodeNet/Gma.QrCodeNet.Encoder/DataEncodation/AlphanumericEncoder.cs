@@ -63,7 +63,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         	for (int i = 0 ; i < length; i++)
         	{
         		int positionFromEnd = startIndex + length - i - 1;
-        		int code = getAlphanumericCode(content[i]);
+        		int code = getAlphanumericCode(content[positionFromEnd]);
         		if(code < 0)
         			throw new FormatException();	//Currently throw FormatException
         		Value += code * iMultiplyValue;
@@ -82,7 +82,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         	for (int i = 0 ; i < length; i++)
         	{
         		int positionFromEnd = startIndex + length - i - 1;
-        		int code = getAlphanumericCode(content[i]);
+        		int code = getAlphanumericCode(content[positionFromEnd]);
         		if(code < 0)
         			return false;
         		Value += code * iMultiplyValue;
