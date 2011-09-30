@@ -56,6 +56,8 @@
   <ItemGroup>
     <Compile Include="BitListTest.cs" />
     <Compile Include="Masking\TestCases\MaskPatternTestCaseFactory.cs" />
+    <Compile Include="Positioning\PositioningPatternsTest.cs" />
+    <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />
     <Compile Include="_Helper\BitMatrixToGraphicExtensions.cs" />
     <Compile Include="_Helper\BitVectorTestExtensions.cs" />
     <Compile Include="_Helper\BitMatrixTestExtensions.cs" />
@@ -92,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Masking\TestCases\MaskPatternTestDataSet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Positioning\TestCases\PositioningPatternsTestDataSet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

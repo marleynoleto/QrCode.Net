@@ -57,6 +57,9 @@
     <Compile Include="Masking\MatrixExtensions.cs" />
     <Compile Include="Masking\NullPattern.cs" />
     <Compile Include="Masking\Pattern.cs" />
+    <Compile Include="Positioning\PositionDetection.cs" />
+    <Compile Include="Positioning\TriStateBit.cs" />
+    <Compile Include="Positioning\TriStateMatrix.cs" />
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="_legacy\Common\CharacterSetECI.cs" />
     <Compile Include="_legacy\Common\reedsolomon\GF256.cs" />
