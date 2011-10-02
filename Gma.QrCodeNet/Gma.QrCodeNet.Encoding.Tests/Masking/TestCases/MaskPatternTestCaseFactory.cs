@@ -56,7 +56,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
             ByteMatrix matrix;
             BitMatrix input = GetOriginal(matrixSize, randomizer, out matrix);
             ApplyPattern(matrix, pattern);
-            BitMatrix expected = new SimpleBitMatrix(matrix);
+            BitMatrix expected = matrix.ToBitMatrix();
             return new TestCaseData(input, pattern, expected);
         }
 

@@ -4,11 +4,6 @@ namespace Gma.QrCodeNet.Encoding.Tests
 {
     public static class MatrixConverter
     {
-        public static BitMatrix ToBitMatrix(this ByteMatrix byteMatrix)
-        {
-            return new SimpleBitMatrix(byteMatrix);
-        }
-
         public static ByteMatrix ToByteMatrix(this BitMatrix bitMatrix)
         {
             ByteMatrix result = new ByteMatrix(bitMatrix.Width, bitMatrix.Width);

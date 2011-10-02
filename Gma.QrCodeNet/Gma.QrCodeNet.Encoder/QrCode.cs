@@ -1,4 +1,5 @@
 ﻿using com.google.zxing.qrcode.encoder;
+using Gma.QrCodeNet.Encoding.Common;
 
 namespace Gma.QrCodeNet.Encoding
 {
@@ -6,7 +7,7 @@ namespace Gma.QrCodeNet.Encoding
     {
         internal QrCode(QRCodeInternal qrCodeInternal)
         {
-            this.Matrix = new SimpleBitMatrix(qrCodeInternal.Matrix);
+            this.Matrix = qrCodeInternal.Matrix.ToBitMatrix();
         }
 
         public BitMatrix Matrix

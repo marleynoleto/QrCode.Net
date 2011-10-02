@@ -2,21 +2,37 @@
 
 namespace Gma.QrCodeNet.Encoding.Positioning
 {
-    internal class TriStateMatrix
+    public class TriStateMatrix : SimpleBitMatrix
     {
-        private readonly TriStateBit[,] m_Matrix;
+        private readonly SimpleBitMatrix m_IsUsed;
 
         public TriStateMatrix(int width)
+            : base(width)
         {
-            m_Matrix = new TriStateBit[width,width];
+            m_IsUsed = new SimpleBitMatrix(width);
         }
 
-        public TriStateBit this[int i, int j]
+        public override bool this[int i, int j]
         {
-            get { return m_Matrix[i, j];}
-            set { m_Matrix[i, j] = value; }
+            get
+            {
+                if (!IsUsed(i, j))
+                {
+                    throw new InvalidOperationException(string.Format("The value of cell [{0},{1}] is not set.", i, j));
+                }
+                return base[i, j];
+            }
         }
 
-        public int Width { get { return m_Matrix.GetLength(0); } }
+        internal bool IsUsed(int i, int j)
+        {
+            return m_IsUsed[i, j];
+        }
+
+        internal override void Set(int i, int j, bool value)
+        {
+            m_IsUsed.Set(i, j, true);
+            base.Set(i, j, value);
+        }
     }
 }

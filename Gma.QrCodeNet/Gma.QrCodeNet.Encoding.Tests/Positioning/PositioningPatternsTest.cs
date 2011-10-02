@@ -1,6 +1,8 @@
 ﻿using Gma.QrCodeNet.Encoding.Masking;
+using Gma.QrCodeNet.Encoding.Positioning;
 using Gma.QrCodeNet.Encoding.Tests.Masking;
 using Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases;
+using Gma.QrCodeNet.Encoding.Tests;
 using NUnit.Framework;
 
 namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment
@@ -9,29 +11,26 @@ namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment
     public class PositioningPatternsTest
     {
 
-        //[Test]
-        //[TestCaseSource(typeof(MaskPatternTestCaseFactory), "TestCasesFromReferenceImplementation")]
-        public void Test_against_reference_implementation(BitMatrix input, MaskPatternType patternType, BitMatrix expected)
+        [Test]
+        [TestCaseSource(typeof(PositioningPatternsTestCaseFactory), "TestCasesFromReferenceImplementation")]
+        public void Test_against_reference_implementation(int version, TriStateMatrix expected)
         {
-            Pattern pattern = new PatternFactory().CreateByType(patternType);
-
-            BitMatrix result = input.Apply(pattern);
-
-            expected.AssertEquals(result);
-        }
-
-        //[Test]
-        //[TestCaseSource(typeof(MaskPatternTestCaseFactory), "TestCasesFromTxtFile")]
-        public void Test_against_DataSet(BitMatrix input, MaskPatternType patternType, BitMatrix expected)
-        {
-            Pattern pattern = new PatternFactory().CreateByType(patternType);
-
-            BitMatrix result = input.Apply(pattern);
-
-            expected.AssertEquals(result);
+      
+            TriStateMatrix target = new TriStateMatrix(expected.Width);
+            PositioninngPatternBuilder.EmbedBasicPatterns(version, target);
+            expected.AssertEquals(target);
         }
 
         [Test]
+        [TestCaseSource(typeof(PositioningPatternsTestCaseFactory), "TestCasesFromTxtFile")]
+        public void Test_against_DataSet(int version, TriStateMatrix expected)
+        {
+            TriStateMatrix target = new TriStateMatrix(expected.Width);
+            PositioninngPatternBuilder.EmbedBasicPatterns(version, target);
+            expected.AssertEquals(target);
+        }
+
+        //[Test]
         public void Generate()
         {
             new PositioningPatternsTestCaseFactory().GenerateMaskPatternTestDataSet();

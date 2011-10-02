@@ -41,6 +41,7 @@
     <Compile Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
+    <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\EightBitByteEncoder.cs" />
     <Compile Include="Masking\Pattern0.cs" />
     <Compile Include="Masking\Pattern7.cs" />
@@ -58,7 +59,6 @@
     <Compile Include="Masking\NullPattern.cs" />
     <Compile Include="Masking\Pattern.cs" />
     <Compile Include="Positioning\PositionDetection.cs" />
-    <Compile Include="Positioning\TriStateBit.cs" />
     <Compile Include="Positioning\TriStateMatrix.cs" />
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="_legacy\Common\CharacterSetECI.cs" />

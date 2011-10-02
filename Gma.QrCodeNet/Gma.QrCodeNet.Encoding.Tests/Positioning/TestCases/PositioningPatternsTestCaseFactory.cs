@@ -3,6 +3,8 @@ using System.IO;
 using com.google.zxing.qrcode.encoder;
 using Gma.QrCodeNet.Encoding.Common;
 using NUnit.Framework;
+using Gma.QrCodeNet.Encoding.Positioning;
+using Gma.QrCodeNet.Encoding.Tests;
 
 namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases
 {
@@ -19,7 +21,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases
                     while (!file.EndOfStream)
                     {
                         int version = int.Parse(file.ReadLine());
-                        BitMatrix expected = BitMatrixToGraphicExtensions.FromGraphic(file);
+                        TriStateMatrix expected = TriStateMatrixToGraphicExtensions.FromGraphic(file);
                         yield return new TestCaseData(version, expected).SetName(string.Format(s_TestNameFormat, expected.Width, version));
                     }
                 }
@@ -43,8 +45,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases
         {
             ByteMatrix matrix = new ByteMatrix(matrixSize, matrixSize);
             EmbedPositionAdjustmentPattern(matrix, version);
-            BitMatrix expected = new SimpleBitMatrix(matrix);
-            return new TestCaseData(version, expected);
+            return new TestCaseData(version, matrix.ToBitMatrix());
         }
 
 
@@ -59,8 +60,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases
                 {
                     string version = testCaseData.Arguments[0].ToString();
                     file.WriteLine(version);
-                    ((BitMatrix)testCaseData.Arguments[1]).ToGraphic(file);
-
+                    TriStateMatrixToGraphicExtensions.ToGraphic(((TriStateMatrix)testCaseData.Arguments[1]), file);
                 }
                 file.Close();
             }

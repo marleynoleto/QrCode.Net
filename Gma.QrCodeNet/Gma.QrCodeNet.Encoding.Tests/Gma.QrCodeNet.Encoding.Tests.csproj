@@ -70,6 +70,11 @@
     <Compile Include="EndToEnd\TestCases\EndToEndSmokeTestCaseFactory.cs" />
     <Compile Include="EndToEnd\EndToEndSmokeTests.cs" />
     <Compile Include="Masking\MaskPatternTest.cs" />
+    <Compile Include="_Helper\ByteMatrixToGraphicExtensions.cs" />
+    <Compile Include="_Helper\TriStateMatrixToGraphicExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Helper\TriStateMatrixTestExtensions.cs" />
     <Compile Include="_Helper\MatrixConverter.cs" />
   </ItemGroup>
   <ItemGroup>
