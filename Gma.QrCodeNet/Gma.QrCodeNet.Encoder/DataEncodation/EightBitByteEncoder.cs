@@ -8,6 +8,8 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	/// </summary>
 	internal class EightBitByteEncoder : EncoderBase
 	{
+		private const string _defaultEncoding = "Shift_JIS";
+		
 		public EightBitByteEncoder(int version) 
             : base(version)
         {
@@ -18,14 +20,19 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.EightBitByte; }
         }
 
-		internal override BitVector GetDataBits(string content)
+		internal override BitVector GetDataBits(string content, string encoding)
         {
 			BitVector dataBits = new BitVector();
 			
 			byte[] contentBytes;
 			int contentLength = content.Length;
+			string strEncoding;
+			if(encoding == null)
+				strEncoding = _defaultEncoding;
+			else
+				strEncoding = encoding;
 			try {
-				contentBytes = System.Text.Encoding.GetEncoding("Shift_JIS").GetBytes(content);
+				contentBytes = System.Text.Encoding.GetEncoding(strEncoding).GetBytes(content);
 			} catch (Exception e) {
 				
 				throw e;
@@ -44,12 +51,22 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			return dataBits;
 		}
 		
-		internal override bool TryGetDataBits(string content, ref BitVector dataBits)
+		internal override bool TryGetDataBits(string content, string encoding, ref BitVector dataBits)
         {
 			byte[] contentBytes;
 			int contentLength = content.Length;
+			
+			string strEncoding;
+			if(encoding == null)
+				strEncoding = _defaultEncoding;
+			else
+				strEncoding = encoding;
+			
 			try {
-				contentBytes = System.Text.Encoding.GetEncoding("Shift_JIS").GetBytes(content);
+				//Shift_JIS contain JIS 0201(JIS8) and JIS 0208. 
+				//JIS0201 one byte per char. Use for EightBiteByte encode
+				//JIS0208 two byte per char. Use for Kanji encode
+				contentBytes = System.Text.Encoding.GetEncoding(strEncoding).GetBytes(content);
 			} catch (Exception) {
 				
 				return false;
@@ -59,7 +76,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			{
 				for(int i = 0; i < contentLength; i++)
 				{
-					dataBits.appendBits(contentBytes[i], 8);
+					dataBits.appendBits(contentBytes[i], 8);	//EightBitByte different to Num and AlphaNum. bitCount for each Char is constant 8;
 				}
 				return true;
 			}

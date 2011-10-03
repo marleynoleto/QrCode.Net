@@ -21,7 +21,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Alphanumeric; }
         }
 
-        internal override BitVector GetDataBits(string content)
+        internal override BitVector GetDataBits(string content, string encoding)
         {
             BitVector dataBits = new BitVector();
             
@@ -38,7 +38,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         }
         
         //Combine with TryGetAlphaNumValue. Return false without throw exception
-        internal override bool TryGetDataBits(string content, ref BitVector dataBits)
+        internal override bool TryGetDataBits(string content, string encoding, ref BitVector dataBits)
         {
         	//dataBits = new BitVector();
             

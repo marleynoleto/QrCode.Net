@@ -15,7 +15,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Numeric; }
         }
 
-        internal override BitVector GetDataBits(string content)
+        internal override BitVector GetDataBits(string content, string encoding)
         {
             BitVector dataBits = new BitVector();
             for (int i = 0; i < content.Length; i += 3)
@@ -29,7 +29,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             return dataBits;
         }
         
-        internal override bool TryGetDataBits(string content, ref BitVector dataBits)
+        internal override bool TryGetDataBits(string content, string encoding, ref BitVector dataBits)
         {
         	//dataBits = new BitVector();
             for (int i = 0; i < content.Length; i += 3)

@@ -21,7 +21,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			BitVector dataBits = new BitVector();
 			this.GetModeIndicator(ref dataBits);
 			this.GetCharCountIndicator(GetDataLength(content), ref dataBits);
-			if(TryGetDataBits(content, ref dataBits))
+			if(TryGetDataBits(content, null, ref dataBits))
 				return dataBits;
 			else 
 				return dataBits;
@@ -38,7 +38,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        internal abstract BitVector GetDataBits(string content);
+        internal abstract BitVector GetDataBits(string content, string encoding);
         
         
         /// <summary>
@@ -47,7 +47,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// <param name="content"></param>
         /// <param name="dataBits">Contain bit representation of input data</param>
         /// <returns>Bolean indicate if conversion is success. False most likely means input char is not in range of encoding table</returns>
-        internal abstract bool TryGetDataBits(string content, ref BitVector dataBits);
+        internal abstract bool TryGetDataBits(string content, string encoding, ref BitVector dataBits);
         
 
         /// <summary>
