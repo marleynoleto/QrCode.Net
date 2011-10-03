@@ -38,9 +38,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         }
         
         //Combine with TryGetAlphaNumValue. Return false without throw exception
-        internal override bool TryGetDataBits(string content, out BitVector dataBits)
+        internal override bool TryGetDataBits(string content, ref BitVector dataBits)
         {
-        	dataBits = new BitVector();
+        	//dataBits = new BitVector();
             
             for (int i = 0; i < content.Length; i += 2)
             {

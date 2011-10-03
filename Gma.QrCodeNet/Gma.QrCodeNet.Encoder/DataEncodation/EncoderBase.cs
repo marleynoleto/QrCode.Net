@@ -14,10 +14,18 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 
         internal BitVector Encode(string content)
         {
-            return
-                GetModeIndicator().Append(
-                    GetCharCountIndicator(GetDataLength(content))).Append(
-                        GetDataBits(content));
+//            return
+//                GetModeIndicator().Append(
+//                    GetCharCountIndicator(GetDataLength(content))).Append(
+//                        GetDataBits(content));
+			BitVector dataBits = new BitVector();
+			this.GetModeIndicator(ref dataBits);
+			this.GetCharCountIndicator(GetDataLength(content), ref dataBits);
+			if(TryGetDataBits(content, ref dataBits))
+				return dataBits;
+			else 
+				return dataBits;
+
         }
 
         protected virtual int GetDataLength(string content)
@@ -39,7 +47,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// <param name="content"></param>
         /// <param name="dataBits">Contain bit representation of input data</param>
         /// <returns>Bolean indicate if conversion is success. False most likely means input char is not in range of encoding table</returns>
-        internal abstract bool TryGetDataBits(string content, out BitVector dataBits);
+        internal abstract bool TryGetDataBits(string content, ref BitVector dataBits);
         
 
         /// <summary>
@@ -47,11 +55,11 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <returns></returns>
         /// <remarks>See Chapter 8.4 Data encodation, Table 2 — Mode indicators</remarks>
-        internal BitVector GetModeIndicator()
+        internal void GetModeIndicator(ref BitVector modeIndicatorBits)
         {
-            BitVector modeIndicatorBits = new BitVector();
+            //BitVector modeIndicatorBits = new BitVector();
             modeIndicatorBits.Append((int) this.Mode, 4);
-            return modeIndicatorBits;
+            //return modeIndicatorBits;
         }
 
         /// <summary>
@@ -59,12 +67,12 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <param name="characterCount"></param>
         /// <returns></returns>
-        private BitVector GetCharCountIndicator(int characterCount)
+        private void GetCharCountIndicator(int characterCount, ref BitVector characterCountBits)
         {
-            BitVector characterCountBits = new BitVector();
+            //BitVector characterCountBits = new BitVector();
             int bitCount = GetBitCountInCharCountIndicator();
             characterCountBits.Append(characterCount, bitCount);
-            return characterCountBits;
+            //return characterCountBits;
         }
 
         /// <summary>

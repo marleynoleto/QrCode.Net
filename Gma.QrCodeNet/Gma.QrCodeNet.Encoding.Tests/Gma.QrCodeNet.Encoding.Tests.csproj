@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitListTest.cs" />
+    <Compile Include="DataEncodation\EightBitByteEncoderTest.cs" />
+    <Compile Include="DataEncodation\TestCases\EightBitByteEncoderTestCaseFactory.cs" />
     <Compile Include="Masking\TestCases\MaskPatternTestCaseFactory.cs" />
     <Compile Include="Positioning\PositioningPatternsTest.cs" />
     <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />

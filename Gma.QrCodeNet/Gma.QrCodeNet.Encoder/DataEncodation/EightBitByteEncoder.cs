@@ -40,9 +40,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			return dataBits;
 		}
 		
-		internal override bool TryGetDataBits(string content, out BitVector dataBits)
+		internal override bool TryGetDataBits(string content, ref BitVector dataBits)
         {
-			dataBits = new BitVector();
+			//dataBits = new BitVector();
 			for(int i = 0; i < content.Length; i++)
 			{
 				int value;
