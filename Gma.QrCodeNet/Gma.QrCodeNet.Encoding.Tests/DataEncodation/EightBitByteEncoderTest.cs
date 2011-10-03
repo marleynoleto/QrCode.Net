@@ -7,7 +7,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 	[TestFixture]
 	public class EightBitByteEncoderTest : EncoderTestBase
 	{
-		[Test, TestCaseSource(typeof(EightBitByteEncoderTestCaseFactory), "TestCasesFromReferenceImplementation")]
+        [Test, TestCaseSource(typeof(EightBitByteEncoderTestCaseFactory), "TestCasesFromReferenceImplementation")]
 		public override void Test_against_reference_implementation(string inputString, int version, IEnumerable<bool> expected)
         {
             base.Test_against_reference_implementation(inputString, version, expected);
@@ -22,6 +22,12 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 		protected override EncoderBase CreateEncoder(int version)
         {
             return new EightBitByteEncoder(version);
+        }
+
+        //[Test]
+        public void Generate()
+        {
+            new EightBitByteEncoderTestCaseFactory().GenerateTestDataSet();
         }
 	}
 }

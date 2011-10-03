@@ -33,7 +33,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
             expected.AssertEquals(result);
         }
 
-        [Test]
+        //[Test]
         public void Generate()
         {
             new MaskPatternTestCaseFactory().GenerateMaskPatternTestDataSet();
