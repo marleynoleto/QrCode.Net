@@ -38,7 +38,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
                 int i = index % width;
                 int j = index / width;
 
-                matrix.Set(i, j, bitArray[index]);
+                matrix[i, j] = bitArray[index];
             }
             return matrix;
         }

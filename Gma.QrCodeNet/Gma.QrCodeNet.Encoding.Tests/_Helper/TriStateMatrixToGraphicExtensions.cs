@@ -66,11 +66,11 @@ namespace Gma.QrCodeNet.Encoding.Tests
                 {
                     if (lines[j][i]==s_0Char)
                     {
-                        matrix.Set(i, j, false);
+                        matrix[i, j] = false;
                     }
                     else if (lines[j][i]==s_1Char)
                     {
-                        matrix.Set(i, j, true);
+                        matrix[i, j] = true;
                     }
                 }
             }

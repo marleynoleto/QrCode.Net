@@ -22,17 +22,16 @@ namespace Gma.QrCodeNet.Encoding.Positioning
                 }
                 return base[i, j];
             }
+            set
+            {
+                m_IsUsed[i, j] = true;
+                base[i, j] = value;
+            }
         }
 
         internal bool IsUsed(int i, int j)
         {
             return m_IsUsed[i, j];
-        }
-
-        internal override void Set(int i, int j, bool value)
-        {
-            m_IsUsed.Set(i, j, true);
-            base.Set(i, j, value);
         }
     }
 }

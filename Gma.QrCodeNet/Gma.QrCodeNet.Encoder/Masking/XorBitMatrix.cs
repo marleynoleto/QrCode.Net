@@ -16,11 +16,17 @@ namespace Gma.QrCodeNet.Encoding.Masking
         public override bool this[int i, int j]
         {
             get { return m_First[i, j] ^ m_Second[i, j]; }
+            set { throw new NotSupportedException(); }
         }
 
         public override int Width
         {
             get { return m_First.Width; }
+        }
+
+        public override int Height
+        {
+            get { return m_First.Height; }
         }
     }
 }

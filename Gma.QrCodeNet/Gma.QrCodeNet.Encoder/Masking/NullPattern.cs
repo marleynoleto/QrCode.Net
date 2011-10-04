@@ -7,6 +7,7 @@ namespace Gma.QrCodeNet.Encoding.Masking
         public override bool this[int i, int j]
         {
             get { return false; }
+            set { throw new NotSupportedException(); }
         }
 
         public override MaskPatternType MaskPatternType

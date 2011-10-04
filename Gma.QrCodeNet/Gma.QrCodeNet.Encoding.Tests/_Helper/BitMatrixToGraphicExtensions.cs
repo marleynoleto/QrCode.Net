@@ -55,7 +55,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
             {
                 for (int i = 0; i < matrix.Width; i++)
                 {
-                    matrix.Set(i, j, lines[j][i] == s_1Char);
+                    matrix[i, j] = lines[j][i] == s_1Char;
                 }
             }
             return matrix;

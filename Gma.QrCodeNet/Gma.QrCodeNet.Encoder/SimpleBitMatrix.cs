@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
 
 namespace Gma.QrCodeNet.Encoding
 {
-    public class SimpleBitMatrix : BitMatrix
+    public class SimpleBitMatrix : SquareBitMatrix
     {
-        private readonly bool[,] m_InternalMatrix;
+        private readonly BitArray m_InternalArray;
 
         public SimpleBitMatrix(int width)
+            : base(width)
         {
-            m_InternalMatrix = new bool[width,width];
+            m_InternalArray = new BitArray(width*width);
         }
 
         public override bool this[int i, int j]
         {
-            get { return m_InternalMatrix[i, j]; }
+            get
+            {
+                return m_InternalArray[PointToIndex(j, i)];
+            }
+            set
+            {
+                m_InternalArray[PointToIndex(j, i)] = value;    
+            }
         }
 
-        internal virtual void Set(int i, int j, bool value)
+        private int PointToIndex(int j, int i)
         {
-            m_InternalMatrix[i, j] = value;
-        }
-
-        public override int Width
-        {
-            get { return m_InternalMatrix.GetLength(0); }
+            return j * Width + i;
         }
     }
 }
