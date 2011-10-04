@@ -4,36 +4,18 @@ using com.google.zxing.qrcode.encoder;
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
 	/// <summary>
-	/// Description of Class1.
+	/// Description of KanjiEncoder.
 	/// </summary>
-	internal class EightBitByteEncoder : EncoderBase
+	internal class KanjiEncoder : EncoderBase
 	{
-		private const string _defaultEncoding = "Shift_JIS";
-		public string Encoding {get; private set;}
-		
-		public EightBitByteEncoder(int version, string encoding)
+		public KanjiEncoder(int version)
 			:base(version)
-        {
-			if(encoding != null)
-				Encoding = encoding;
-			else
-				Encoding = _defaultEncoding;
-        }
-		
-		internal override BitVector Encode(string content)
-        {
-			BitVector dataBits = new BitVector();
-			base.GetModeIndicator(ref dataBits);
-			base.GetCharCountIndicator(GetDataLength(content), ref dataBits);
-			GetDataBits(content, ref dataBits);
-
-			return dataBits;
-        }
-		
+		{
+		}
 		
 		internal override Mode Mode
         {
-            get { return Mode.EightBitByte; }
+            get { return Mode.Kanji; }
         }
 
 		internal override void GetDataBits(string content, ref BitVector dataBits)
@@ -45,21 +27,35 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				//Shift_JIS contain JIS 0201(JIS8) and JIS 0208. 
 				//JIS0201 one byte per char. Use for EightBiteByte encode
 				//JIS0208 two byte per char. Use for Kanji encode
-				contentBytes = System.Text.Encoding.GetEncoding(Encoding).GetBytes(content);
+				contentBytes = System.Text.Encoding.GetEncoding("Shift_JIS").GetBytes(content);
 			} catch (Exception e) {
 				
 				throw e;
 			}
 			
-			if(contentBytes.Length == contentLength)
+			int bytesLength = contentBytes.Length;
+			
+			if(bytesLength / 2 == contentLength && bytesLength % 2 == 0)	//Convert only if all char is 2 bytes length. 
 			{
-				for(int i = 0; i < contentLength; i++)
+				for(int i = 0; i < bytesLength; i += 2)
 				{
-					dataBits.appendBits(contentBytes[i], 8);	//EightBitByte different to Num and AlphaNum. bitCount for each Char is constant 8;
+					int code = (contentBytes[i] << 8) + (contentBytes[i+1] & 0xff);
+					if (code >= 0x8140 && code <= 0x9ffc)	//Formula according to ISO/IEC 18004:2000 Kanji mode Page 24
+					{
+						code = code - 0x8140;
+					}
+					else if (code >= 0xe040 && code <= 0xebbf)	//Formula according to ISO/IEC 18004:2000 Kanji mode Page 24
+					{
+						code = code - 0xc140;
+					}
+					else
+						throw new System.ArgumentException("Invalid byte sequence");
+					int encoded = ((code >> 8) * 0xc0) + (code & 0xff);	//Formula according to ISO/IEC 18004:2000 Kanji mode Page 24
+					dataBits.appendBits(encoded, 13);	//Formula according to ISO/IEC 18004:2000 Kanji mode Page 25
 				}
 			}
 			else
-				throw new System.ArgumentException("Content contain non JIS8 char");
+				throw new System.ArgumentException("Content contain non Kanji char");
 			
 		}
 		
@@ -73,19 +69,17 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </remarks>
         protected override int GetBitCountInCharCountIndicator()
         {
-            int versionGroup = GetVersionGroup();
+        	int versionGroup = GetVersionGroup();
             switch (versionGroup)
             {
                 case 0:
                     return 8;
                 case 1:
-                    return 16;
+                    return 10;
                 default:
-                    return 16;
+                    return 12;
             }
         }
-        
-        
 		
 	}
 }

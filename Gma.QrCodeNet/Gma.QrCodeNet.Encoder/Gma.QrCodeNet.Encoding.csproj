@@ -43,6 +43,7 @@
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\EightBitByteEncoder.cs" />
+    <Compile Include="DataEncodation\KanjiEncoder.cs" />
     <Compile Include="Masking\Pattern0.cs" />
     <Compile Include="Masking\Pattern7.cs" />
     <Compile Include="Masking\Pattern4.cs" />

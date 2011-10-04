@@ -95,6 +95,36 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
             }
             return result.ToString();
         }
+        
+        protected string GenerateRandomKanjiString(int inputSize, Random randomizer)
+        {
+        	StringBuilder result = new StringBuilder(inputSize);
+        	Decoder shiftJisDecoder = System.Text.Encoding.GetEncoding("Shift_JIS").GetDecoder();
+        	for(int i = 0; i < inputSize; i++)
+        	{
+        		byte[] b;
+        		//URL: http://interscript.sourceforge.net/interscript/doc/en_shiftjis_0003.html
+        		//Generate Kanji from table 0x96 and table 0xE9
+        		if(randomizer.Next(0, 2) == 0)
+        		{
+        			b = BitConverter.GetBytes((short)randomizer.Next(38464, 38653));
+        			
+        		}
+        		else
+        		{
+        			b = BitConverter.GetBytes((short)randomizer.Next(59712, 59901));
+        		}
+        		byte[] bytes = new byte[]{b[1], b[0]};
+        		int charLength = shiftJisDecoder.GetCharCount(bytes, 0, bytes.Length);
+        		if(charLength == 1)
+        		{
+        			char[] c = new char[shiftJisDecoder.GetCharCount(bytes, 0, bytes.Length)];
+        			shiftJisDecoder.GetChars(bytes, 0, bytes.Length, c, 0);
+        			result.Append(c[0]);
+        		}
+        	}
+        	return result.ToString();
+        }
 
         protected abstract IEnumerable<bool> EncodeUsingReferenceImplementation(string content, int version);
 

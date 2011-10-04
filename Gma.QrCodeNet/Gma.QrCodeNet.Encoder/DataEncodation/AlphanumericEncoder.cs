@@ -51,24 +51,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         }
         
         
-        //Try method will return false if any char inside content is not ALphaNum. 
-        //Instead of normal method throw exception
-        private bool TryGetAlphaNumValue(string content, int startIndex, int length, out int Value)
-        {
-        	Value = 0;
-        	int iMultiplyValue = 1;
-        	for (int i = 0 ; i < length; i++)
-        	{
-        		int positionFromEnd = startIndex + length - i - 1;
-        		int code = getAlphanumericCode(content[positionFromEnd]);
-        		if(code < 0)
-        			return false;
-        		Value += code * iMultiplyValue;
-        		iMultiplyValue *= _iMultiply45;
-        	}
-        	return true;
-        }
-        
         /// <returns> the code point of the table used in alphanumeric mode or
 		/// -1 if there is no corresponding code in the table.
 		/// </returns>

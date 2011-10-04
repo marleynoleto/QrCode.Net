@@ -12,7 +12,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         public int Version { get; private set; }
         internal abstract Mode Mode { get; }
         
-        internal BitVector Encode(string content)
+        internal virtual BitVector Encode(string content)
         {
 //            return
 //                GetModeIndicator().Append(
