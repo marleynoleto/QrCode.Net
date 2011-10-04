@@ -102,7 +102,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         {
             // Step 2: Append "bytes" into "dataBits" in appropriate encoding.
             BitVector dataBits = new BitVector();
-            EncoderInternal.appendBytes(content, mode, dataBits, null);
+            EncoderInternal.appendBytes(content, mode, dataBits, "Shift_JIS");
 
             // Step 4: Build another bit vector that contains header and data.
             BitVector headerAndDataBits = new BitVector();

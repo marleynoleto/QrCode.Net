@@ -11,7 +11,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 
         public int Version { get; private set; }
         internal abstract Mode Mode { get; }
-
+        
         internal BitVector Encode(string content)
         {
 //            return
@@ -21,11 +21,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			BitVector dataBits = new BitVector();
 			this.GetModeIndicator(ref dataBits);
 			this.GetCharCountIndicator(GetDataLength(content), ref dataBits);
-			if(TryGetDataBits(content, null, ref dataBits))
-				return dataBits;
-			else 
-				return dataBits;
+			GetDataBits(content, ref dataBits);
 
+			return dataBits;
         }
 
         protected virtual int GetDataLength(string content)
@@ -38,16 +36,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        internal abstract BitVector GetDataBits(string content, string encoding);
-        
-        
-        /// <summary>
-        /// Returns the boolean representation of progress GetDataBits. 
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="dataBits">Contain bit representation of input data</param>
-        /// <returns>Bolean indicate if conversion is success. False most likely means input char is not in range of encoding table</returns>
-        internal abstract bool TryGetDataBits(string content, string encoding, ref BitVector dataBits);
+        internal abstract void GetDataBits(string content, ref BitVector dataBits);
         
 
         /// <summary>
@@ -67,7 +56,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <param name="characterCount"></param>
         /// <returns></returns>
-        private void GetCharCountIndicator(int characterCount, ref BitVector characterCountBits)
+        internal void GetCharCountIndicator(int characterCount, ref BitVector characterCountBits)
         {
             //BitVector characterCountBits = new BitVector();
             int bitCount = GetBitCountInCharCountIndicator();

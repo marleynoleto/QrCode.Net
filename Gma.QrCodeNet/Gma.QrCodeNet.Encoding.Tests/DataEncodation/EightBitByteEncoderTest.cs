@@ -21,7 +21,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 		
 		protected override EncoderBase CreateEncoder(int version)
         {
-            return new EightBitByteEncoder(version);
+            return new EightBitByteEncoder(version, "Shift_JIS");
         }
 
         //[Test]

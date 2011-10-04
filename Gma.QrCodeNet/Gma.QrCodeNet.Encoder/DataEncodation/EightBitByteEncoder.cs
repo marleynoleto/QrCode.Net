@@ -9,30 +9,43 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	internal class EightBitByteEncoder : EncoderBase
 	{
 		private const string _defaultEncoding = "Shift_JIS";
+		public string Encoding {get; private set;}
 		
-		public EightBitByteEncoder(int version) 
-            : base(version)
+		public EightBitByteEncoder(int version, string encoding)
+			:base(version)
         {
+			if(encoding != null)
+				Encoding = encoding;
+			else
+				Encoding = _defaultEncoding;
         }
+		
+		internal new BitVector Encode(string content)
+        {
+			BitVector dataBits = new BitVector();
+			base.GetModeIndicator(ref dataBits);
+			base.GetCharCountIndicator(GetDataLength(content), ref dataBits);
+			GetDataBits(content, ref dataBits);
+
+			return dataBits;
+        }
+		
 		
 		internal override Mode Mode
         {
             get { return Mode.EightBitByte; }
         }
 
-		internal override BitVector GetDataBits(string content, string encoding)
+		internal override void GetDataBits(string content, ref BitVector dataBits)
         {
-			BitVector dataBits = new BitVector();
-			
 			byte[] contentBytes;
-			int contentLength = content.Length;
-			string strEncoding;
-			if(encoding == null)
-				strEncoding = _defaultEncoding;
-			else
-				strEncoding = encoding;
+			int contentLength = base.GetDataLength(content);
+			
 			try {
-				contentBytes = System.Text.Encoding.GetEncoding(strEncoding).GetBytes(content);
+				//Shift_JIS contain JIS 0201(JIS8) and JIS 0208. 
+				//JIS0201 one byte per char. Use for EightBiteByte encode
+				//JIS0208 two byte per char. Use for Kanji encode
+				contentBytes = System.Text.Encoding.GetEncoding(Encoding).GetBytes(content);
 			} catch (Exception e) {
 				
 				throw e;
@@ -48,43 +61,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			else
 				throw new System.ArgumentException("Content contain non JIS8 char");
 			
-			return dataBits;
 		}
-		
-		internal override bool TryGetDataBits(string content, string encoding, ref BitVector dataBits)
-        {
-			byte[] contentBytes;
-			int contentLength = content.Length;
-			
-			string strEncoding;
-			if(encoding == null)
-				strEncoding = _defaultEncoding;
-			else
-				strEncoding = encoding;
-			
-			try {
-				//Shift_JIS contain JIS 0201(JIS8) and JIS 0208. 
-				//JIS0201 one byte per char. Use for EightBiteByte encode
-				//JIS0208 two byte per char. Use for Kanji encode
-				contentBytes = System.Text.Encoding.GetEncoding(strEncoding).GetBytes(content);
-			} catch (Exception) {
-				
-				return false;
-			}
-			
-			if(contentBytes.Length == contentLength)
-			{
-				for(int i = 0; i < contentLength; i++)
-				{
-					dataBits.appendBits(contentBytes[i], 8);	//EightBitByte different to Num and AlphaNum. bitCount for each Char is constant 8;
-				}
-				return true;
-			}
-			else
-				return false;
-			
-		}
-		
 		
 		/// <summary>
         /// Defines the length of the Character Count Indicator, 

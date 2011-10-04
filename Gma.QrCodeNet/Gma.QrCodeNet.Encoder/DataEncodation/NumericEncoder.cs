@@ -15,9 +15,8 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Numeric; }
         }
 
-        internal override BitVector GetDataBits(string content, string encoding)
+        internal override void GetDataBits(string content, ref BitVector dataBits)
         {
-            BitVector dataBits = new BitVector();
             for (int i = 0; i < content.Length; i += 3)
             {
                 int groupLength = Math.Min(3, content.Length-i);
@@ -26,25 +25,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                 dataBits.Append(value, bitCount);
             }
 
-            return dataBits;
         }
         
-        internal override bool TryGetDataBits(string content, string encoding, ref BitVector dataBits)
-        {
-        	//dataBits = new BitVector();
-            for (int i = 0; i < content.Length; i += 3)
-            {
-                int groupLength = Math.Min(3, content.Length-i);
-                int value;
-                //Use trygetdigitgroupvalue. Return false if content is not numeric.
-                if(!TryGetDigitGroupValue(content, i, groupLength, out value))
-                	return false;
-                int bitCount = GetBitCountByGroupLength(groupLength);
-                dataBits.Append(value, bitCount);
-            }
-            return true;
-        }
-
+        
         protected override int GetBitCountInCharCountIndicator()
         {
             int versionGroup = GetVersionGroup();

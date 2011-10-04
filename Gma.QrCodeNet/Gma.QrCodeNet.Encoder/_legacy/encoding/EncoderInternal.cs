@@ -583,7 +583,7 @@ namespace com.google.zxing.qrcode.encoder
 			try
 			{
 				//UPGRADE_TODO: Method 'java.lang.String.getBytes' was converted to 'System.Text.Encoding.GetEncoding(string).GetBytes(string)' which has a different behavior. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1073_javalangStringgetBytes_javalangString'"
-				bytes = SupportClass.ToSByteArray(System.Text.Encoding.GetEncoding("shift_jis").GetBytes(content));
+				bytes = SupportClass.ToSByteArray(System.Text.Encoding.GetEncoding(encoding).GetBytes(content));
 			}
 			catch (System.IO.IOException uee)
 			{
