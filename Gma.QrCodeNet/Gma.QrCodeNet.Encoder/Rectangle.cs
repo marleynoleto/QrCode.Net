@@ -31,5 +31,10 @@ namespace Gma.QrCodeNet.Encoding
         {
             return GetEnumerator();
         }
+
+        public override string ToString()
+        {
+            return string.Format("Rectangle({0};{1}):({2} x {3})", Location.X, Location.Y, Size.Width, Size.Height);
+        }
     }
 }

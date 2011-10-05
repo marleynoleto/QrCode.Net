@@ -18,7 +18,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning
             embedDarkDotAtLeftBottomCorner(matrix);
 
             // Position adjustment patterns appear if version >= 2.
-            new PositionAdjustmentBuilder(version).Embed(matrix);
+            new AlignmentPatternBuilder(version).Embed(matrix);
             // Timing patterns should be embedded after position adj. patterns.
             embedTimingPatterns(matrix);
         }
@@ -58,24 +58,17 @@ namespace Gma.QrCodeNet.Encoding.Positioning
         private static void EmbedThreeBigSquaresAtCorners(TriStateMatrix matrix)
         {
             PositionDetectionPattern bigSqaure = new PositionDetectionPattern();
-            HorizontalSeparationPattern hSeparator = new HorizontalSeparationPattern();
-            VerticalSeparationPattern vSeparator = new VerticalSeparationPattern();
 
+            Size sizeWithSeparation = new Size(bigSqaure.Width - 1, bigSqaure.Height - 1);
             Point leftTopCorner = new Point(0,0);
-            bigSqaure.CopyTo(matrix, leftTopCorner);
-            vSeparator.CopyTo(matrix, leftTopCorner.Offset(bigSqaure.Width, 0));
-            hSeparator.CopyTo(matrix, leftTopCorner.Offset(0, bigSqaure.Height));
+            bigSqaure.CopyTo(matrix, new Rectangle(new Point(1,1), sizeWithSeparation), leftTopCorner);
 
-            Point rightTopCorner = new Point(matrix.Width - bigSqaure.Width, 0);
-            bigSqaure.CopyTo(matrix, rightTopCorner);
-            vSeparator.CopyTo(matrix, rightTopCorner.Offset(-1, 0));
-            hSeparator.CopyTo(matrix, rightTopCorner.Offset(0, bigSqaure.Height));
+            Point rightTopCorner = new Point(matrix.Width - bigSqaure.Width + 1, 0);
+            bigSqaure.CopyTo(matrix, new Rectangle(new Point(0, 1), sizeWithSeparation), rightTopCorner);
 
 
-            Point leftBottomCorner = new Point(0, matrix.Width - bigSqaure.Width);
-            bigSqaure.CopyTo(matrix, leftBottomCorner);
-            vSeparator.CopyTo(matrix, leftBottomCorner.Offset(bigSqaure.Width, -1));
-            hSeparator.CopyTo(matrix, leftBottomCorner.Offset(0, -1));
+            Point leftBottomCorner = new Point(0, matrix.Width - bigSqaure.Width + 1);
+            bigSqaure.CopyTo(matrix, new Rectangle(new Point(1, 0), sizeWithSeparation), leftBottomCorner);
         }
     }
 }

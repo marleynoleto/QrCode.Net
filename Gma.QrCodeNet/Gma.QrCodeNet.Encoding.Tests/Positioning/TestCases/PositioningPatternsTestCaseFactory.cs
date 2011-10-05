@@ -4,9 +4,8 @@ using com.google.zxing.qrcode.encoder;
 using Gma.QrCodeNet.Encoding.Common;
 using NUnit.Framework;
 using Gma.QrCodeNet.Encoding.Positioning;
-using Gma.QrCodeNet.Encoding.Tests;
 
-namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases
+namespace Gma.QrCodeNet.Encoding.Tests.Positioning.TestCases
 {
     public class PositioningPatternsTestCaseFactory
     {
@@ -44,7 +43,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases
         private TestCaseData GenerateRandomTestCaseData(int matrixSize, int version)
         {
             ByteMatrix matrix = new ByteMatrix(matrixSize, matrixSize);
-            EmbedPositionAdjustmentPattern(matrix, version);
+            EmbedAlignmentPattern(matrix, version);
             return new TestCaseData(version, matrix.ToBitMatrix());
         }
 
@@ -66,7 +65,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases
             }
         }
 
-        private void EmbedPositionAdjustmentPattern(ByteMatrix matrix, int version)
+        private void EmbedAlignmentPattern(ByteMatrix matrix, int version)
         {
             matrix.Clear(-1);
             MatrixUtil.embedBasicPatterns(version, matrix);

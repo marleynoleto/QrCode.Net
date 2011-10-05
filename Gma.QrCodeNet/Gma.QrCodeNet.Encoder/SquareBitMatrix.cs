@@ -9,6 +9,11 @@
             m_Width = width;
         }
 
+        internal static int GetWidthByVersion(int version)
+        {
+            return 17 + 4 * version;
+        }
+
         public override int Height
         {
             get { return Width; }

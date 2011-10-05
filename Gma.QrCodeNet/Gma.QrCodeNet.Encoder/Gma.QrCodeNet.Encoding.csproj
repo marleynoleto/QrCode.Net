@@ -63,8 +63,9 @@
     <Compile Include="Positioning\Stencils\HorizontalSeparationPattern.cs" />
     <Compile Include="Positioning\Stencils\PatternStencilBase.cs" />
     <Compile Include="Positioning\Stencils\VerticalSeparationPattern.cs" />
+    <Compile Include="Positioning\TriStateMatrixExtensions.cs" />
     <Compile Include="Size.cs" />
-    <Compile Include="Positioning\Stencils\PositionAdjustmentPattern.cs" />
+    <Compile Include="Positioning\Stencils\AlignmentPattern.cs" />
     <Compile Include="Positioning\PositionAdjustmentBuilder.cs" />
     <Compile Include="Positioning\PositioninngPatternBuilder.cs" />
     <Compile Include="Positioning\Stencils\PositionDetectionPattern.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Rectangle.cs" />
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
+    <Compile Include="Version.cs" />
     <Compile Include="_legacy\Common\CharacterSetECI.cs" />
     <Compile Include="_legacy\Common\reedsolomon\GF256.cs" />
     <Compile Include="_legacy\Common\reedsolomon\GF256Poly.cs" />

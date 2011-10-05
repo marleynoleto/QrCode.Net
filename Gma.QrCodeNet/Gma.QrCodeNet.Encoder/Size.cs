@@ -11,5 +11,10 @@
             Width = width;
             Height = height;
         }
+
+        public override string ToString()
+        {
+            return string.Format("Size({0};{1})", Width, Height);
+        }
     }
 }

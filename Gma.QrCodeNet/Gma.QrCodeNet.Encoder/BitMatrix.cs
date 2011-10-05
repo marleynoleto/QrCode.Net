@@ -17,19 +17,18 @@
             set { this[point.X, point.Y] = value; }
         }
 
-        internal void CopyTo(SimpleBitMatrix target, Rectangle sourceArea, Point targetOffset)
+        internal void CopyTo(SimpleBitMatrix target, Rectangle sourceArea, Point targetPoint)
         {
             foreach (Point point in sourceArea)
             {
                 bool sourceValue = this[point];
-                target[point.Offset(targetOffset)] = sourceValue;
+                target[point.Offset(targetPoint)] = sourceValue;
             }
         }
 
-        internal void CopyTo(SimpleBitMatrix target, Point targetOffset)
+        internal void CopyTo(SimpleBitMatrix target, Point targetPoint)
         {
-            CopyTo(target, new Rectangle(new Point(0,0), new Size(Width, Height)), targetOffset);
+            CopyTo(target, new Rectangle(new Point(0,0), new Size(Width, Height)), targetPoint);
         }
-
     }
 }

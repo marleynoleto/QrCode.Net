@@ -1,11 +1,8 @@
-﻿using Gma.QrCodeNet.Encoding.Masking;
-using Gma.QrCodeNet.Encoding.Positioning;
-using Gma.QrCodeNet.Encoding.Tests.Masking;
-using Gma.QrCodeNet.Encoding.Tests.PositionAdjustment.TestCases;
-using Gma.QrCodeNet.Encoding.Tests;
+﻿using Gma.QrCodeNet.Encoding.Positioning;
+using Gma.QrCodeNet.Encoding.Tests.Positioning.TestCases;
 using NUnit.Framework;
 
-namespace Gma.QrCodeNet.Encoding.Tests.PositionAdjustment
+namespace Gma.QrCodeNet.Encoding.Tests.Alignment
 {
     [TestFixture]
     public class PositioningPatternsTest

@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Gma.QrCodeNet.Encoding.Positioning
 {
-    class PositionAdjustment
+    internal class AlignmentPatternBuilder
     {
-        private static readonly int[][] s_PositionAdjustmentPattern = new[]
-                                                                          {
-                                                                              new [] { 1, 1, 1, 1, 1 }, 
-                                                                              new [] { 1, 0, 0, 0, 1 }, 
-                                                                              new [] { 1, 0, 1, 0, 1 }, 
-                                                                              new [] { 1, 0, 0, 0, 1 }, 
-                                                                              new [] { 1, 1, 1, 1, 1 }
-                                                                          };
-
-
-        private static readonly byte[][] s_PositionAdjustmentPatternCoordinatesByVersion = new []
+        //Table E.1 — Row/column coordinates of center module of Alignment Patterns
+        private static readonly byte[][] s_AlignmentPatternCoordinatesByVersion = new []
                                                                                          {
                                                                                              null,
                                                                                              new byte[] {} , 
@@ -62,37 +50,51 @@ namespace Gma.QrCodeNet.Encoding.Positioning
                                                                                              new byte[] { 6, 30, 58, 86, 114, 142, 170 }
                                                                                          };
 
-        internal PositionAdjustment(byte[] coordinates)
+        private readonly byte[] m_Coordinates;
+        private readonly AlignmentPattern m_Stencil;
+
+        internal AlignmentPatternBuilder(int version)
+            : this(GetCoordinatesByVersion(version))
         {
             
         }
 
-        private static void embedPositionAdjustmentPattern(int xStart, int yStart, TriStateMatrix matrix)
+        internal AlignmentPatternBuilder(byte[] coordinates)
         {
-            for (int y = 0; y < 5; ++y)
+            m_Coordinates = coordinates;
+            m_Stencil = new AlignmentPattern();
+        }
+
+        private static byte[] GetCoordinatesByVersion(int version)
+        {
+            return s_AlignmentPatternCoordinatesByVersion[version];
+        }
+
+        internal void Embed(TriStateMatrix matrix)
+        {
+            Embed(matrix, GetPoints(matrix));
+        }
+
+        internal IEnumerable<Point> GetPoints(TriStateMatrix matrix)
+        {
+            foreach (byte x in m_Coordinates)
             {
-                for (int x = 0; x < 5; ++x)
+                foreach (byte y in m_Coordinates)
                 {
-                    matrix.Set(yStart + y, xStart + x, (sbyte)s_PositionAdjustmentPattern[y][x]==1);
+                    Point point = new Point(x - 2, y - 2);
+                    if (!matrix.IsUsed(point.Offset(2,2)))
+                    {
+                        yield return point;
+                    }
                 }
             }
         }
 
-        internal static void maybeEmbedPositionAdjustmentPatterns(int version, TriStateMatrix matrix)
+        internal void Embed(TriStateMatrix matrix, IEnumerable<Point> coordinates)
         {
-            byte[] coordinates = s_PositionAdjustmentPatternCoordinatesByVersion[version];
-            foreach (byte x in coordinates)
+            foreach (Point point in coordinates)
             {
-                foreach (byte y in coordinates)
-                {
-                    // If the cell is unset, we embed the position adjustment pattern here.
-                    if (!matrix.IsUsed(x, y))
-                    {
-                        // -2 is necessary since the x/y coordinates point to the center of the pattern, not the
-                        // left top corner.
-                        embedPositionAdjustmentPattern(y - 2, x - 2, matrix);
-                    }
-                }
+                m_Stencil.CopyTo(matrix, point);
             }
         }
     }
