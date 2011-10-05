@@ -19,10 +19,13 @@
 
         internal void CopyTo(SimpleBitMatrix target, Rectangle sourceArea, Point targetPoint)
         {
-            foreach (Point point in sourceArea)
+            for (int j = 0; j < sourceArea.Size.Height; j++)
             {
-                bool sourceValue = this[point];
-                target[point.Offset(targetPoint)] = sourceValue;
+                for (int i = 0; i < sourceArea.Size.Width; i++)
+                {
+                    bool value = this[sourceArea.Location.X + i, sourceArea.Location.Y + j];
+                    target[targetPoint.X + i, targetPoint.Y + j] = value;
+                }
             }
         }
 
