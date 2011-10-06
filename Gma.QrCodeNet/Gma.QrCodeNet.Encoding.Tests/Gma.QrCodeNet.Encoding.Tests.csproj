@@ -98,6 +98,7 @@
     <None Include="DataEncodation\TestCases\EightBitByteEncoderTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="DataEncodation\TestCases\KanjiEncoderTestDataSet.csv" />
     <None Include="DataEncodation\TestCases\NumericEncoderTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

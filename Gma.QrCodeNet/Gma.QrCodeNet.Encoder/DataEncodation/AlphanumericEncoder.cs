@@ -5,11 +5,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
     internal class AlphanumericEncoder : EncoderBase
     {
-    	// The original table is defined in the table 5 of ISO/IEC 18004 First Edition 2000-06-15 (P.21)
-    	// This array is mapping table 5 towards Unicode 0000 ~ 005F
-    	private static readonly int[] ALPHANUMERIC_TABLE = new int[]{- 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, 36, - 1, - 1, - 1, 37, 38, - 1, - 1, - 1, - 1, 39, 40, - 1, 41, 42, 43, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 44, - 1, - 1, - 1, - 1, - 1, - 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, - 1, - 1, - 1, - 1, - 1};
-		
-    	private const int _iMultiply45 = 45;
+    	
     	
         public AlphanumericEncoder(int version) 
             : base(version)
@@ -21,8 +17,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Alphanumeric; }
         }
 
-        internal override void GetDataBits(string content, ref BitVector dataBits)
+        internal override BitVector GetDataBits(string content)
         {
+        	BitVector dataBits = new BitVector();
             for (int i = 0; i < content.Length; i += 2)
             {
                 int groupLength = Math.Min(2, content.Length-i);
@@ -30,10 +27,20 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                 int bitCount = GetBitCountByGroupLength(groupLength);
                 dataBits.Append(value, bitCount);
             }
-
+			return dataBits;
         }
         
-        
+    	/// <summary>
+    	/// The original table is defined in the table 5 of ISO/IEC 18004 First Edition 2000-06-15 (P.21)
+    	/// This array is mapping table 5 towards Unicode 0000 ~ 005F
+    	/// </summary>
+    	//private static readonly int[] ALPHANUMERIC_TABLE = new int[]{- 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, - 1, 36, - 1, - 1, - 1, 37, 38, - 1, - 1, - 1, - 1, 39, 40, - 1, 41, 42, 43, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 44, - 1, - 1, - 1, - 1, - 1, - 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, - 1, - 1, - 1, - 1, - 1};
+		
+    	/// <summary>
+    	/// Constant from Chapter 8.4.3 Alphanumeric Mode. P.21
+    	/// </summary>
+    	private const int MULTIPLY_FIRST_CHAR = 45;
+    	
         private int GetAlphaNumValue(string content, int startIndex, int length)
         {
         	int Value = 0;
@@ -41,27 +48,24 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         	for (int i = 0 ; i < length; i++)
         	{
         		int positionFromEnd = startIndex + length - i - 1;
-        		int code = getAlphanumericCode(content[positionFromEnd]);
+        		int code = AlphanumericTable.ConvertAlphaNumChar(content[positionFromEnd]);
         		if(code < 0)
-        			throw new FormatException();	//Currently throw FormatException
+        			throw new ArgumentOutOfRangeException("Char inside content is not AlphaNumeric");
         		Value += code * iMultiplyValue;
-        		iMultiplyValue *= _iMultiply45;
+        		iMultiplyValue *= MULTIPLY_FIRST_CHAR;
         	}
         	return Value;
         }
         
         
-        /// <returns> the code point of the table used in alphanumeric mode or
+        /// <returns> 
+        /// the code point of the table used in alphanumeric mode or
 		/// -1 if there is no corresponding code in the table.
 		/// </returns>
-		internal static int getAlphanumericCode(int code)
-		{
-			if (code < ALPHANUMERIC_TABLE.Length)
-			{
-				return ALPHANUMERIC_TABLE[code];
-			}
-			return - 1;
-		}
+//		internal static int getAlphanumericCode(int code)
+//		{
+//			return code < ALPHANUMERIC_TABLE.Length ? ALPHANUMERIC_TABLE[code] : -1;
+//		}
         
 
         /// <summary>
@@ -81,8 +85,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                     return 9;
                 case 1:
                     return 11;
-                default:
+                case 2:
                     return 13;
+                default:
+                    throw new InvalidOperationException("Unexpected Version group:" + versionGroup.ToString());
             }
         }
         
@@ -94,8 +100,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                     return 0;
                 case 1:
                     return 6;
-                default:
+                case 2:
                     return 11;
+                default:
+                    throw new InvalidOperationException("Unexpected group length:" + groupLength.ToString());
             }
         }
     }

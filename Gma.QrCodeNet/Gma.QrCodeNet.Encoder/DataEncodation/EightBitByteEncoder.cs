@@ -9,26 +9,18 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	internal class EightBitByteEncoder : EncoderBase
 	{
 		private const string _defaultEncoding = "Shift_JIS";
-		public string Encoding {get; private set;}
 		
+		public string Encoding {get; private set;}
+		/// <summary>
+		/// EightBitByte encoder's encoding will change according to different region
+		/// </summary>
+		/// <param name="encoding">Default encoding is "Shift_JIS"</param>
 		public EightBitByteEncoder(int version, string encoding)
 			:base(version)
         {
-			if(encoding != null)
-				Encoding = encoding;
-			else
-				Encoding = _defaultEncoding;
+			Encoding = encoding ?? _defaultEncoding;
         }
 		
-		internal override BitVector Encode(string content)
-        {
-			BitVector dataBits = new BitVector();
-			base.GetModeIndicator(ref dataBits);
-			base.GetCharCountIndicator(GetDataLength(content), ref dataBits);
-			GetDataBits(content, ref dataBits);
-
-			return dataBits;
-        }
 		
 		
 		internal override Mode Mode
@@ -36,30 +28,47 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.EightBitByte; }
         }
 
-		internal override void GetDataBits(string content, ref BitVector dataBits)
+		/// <summary>
+        /// Encode content to specific encoding byte array
+        /// </summary>
+        /// <param name="encoding">
+        /// The code page name of the preferred encoding.
+        /// Possible values are listed in the Name column of the table that appears in the Encoding class topic
+        /// </param>
+        /// <returns>Byte array</returns>
+        protected byte[] EncodeContent(string content, string encoding)
         {
-			byte[] contentBytes;
-			int contentLength = base.GetDataLength(content);
-			
-			try {
-				//Shift_JIS contain JIS 0201(JIS8) and JIS 0208. 
-				//JIS0201 one byte per char. Use for EightBiteByte encode
-				//JIS0208 two byte per char. Use for Kanji encode
-				contentBytes = System.Text.Encoding.GetEncoding(Encoding).GetBytes(content);
-			} catch (Exception e) {
+        	byte[] contentBytes;
+        	try 
+        	{
+				contentBytes = System.Text.Encoding.GetEncoding(encoding).GetBytes(content);
+			} catch (ArgumentException e) {
 				
 				throw e;
 			}
+        	return contentBytes;
+        }
+		
+		private const int EIGHT_BIT_BYTE_BITCOUNT = 8;
+		
+		internal override BitVector GetDataBits(string content)
+        {
+			BitVector dataBits = new BitVector();
 			
+			byte[] contentBytes = EncodeContent(content, Encoding);
+			
+			int contentLength = base.GetDataLength(content);
 			if(contentBytes.Length == contentLength)
 			{
 				for(int i = 0; i < contentLength; i++)
 				{
-					dataBits.appendBits(contentBytes[i], 8);	//EightBitByte different to Num and AlphaNum. bitCount for each Char is constant 8;
+					dataBits.appendBits(contentBytes[i], EIGHT_BIT_BYTE_BITCOUNT);
 				}
 			}
 			else
-				throw new System.ArgumentException("Content contain non JIS8 char");
+				throw new ArgumentOutOfRangeException("EightBiteByte mode will only accept char with one byte length");
+			
+			return dataBits;
 			
 		}
 		
@@ -80,8 +89,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                     return 8;
                 case 1:
                     return 16;
-                default:
+                case 2:
                     return 16;
+                default:
+                    throw new InvalidOperationException("Unexpected Version group:" + versionGroup.ToString());
             }
         }
         

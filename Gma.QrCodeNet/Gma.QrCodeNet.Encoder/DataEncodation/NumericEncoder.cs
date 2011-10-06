@@ -15,8 +15,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Numeric; }
         }
 
-        internal override void GetDataBits(string content, ref BitVector dataBits)
+        internal override BitVector GetDataBits(string content)
         {
+        	BitVector dataBits = new BitVector();
+        	
             for (int i = 0; i < content.Length; i += 3)
             {
                 int groupLength = Math.Min(3, content.Length-i);
@@ -25,6 +27,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                 dataBits.Append(value, bitCount);
             }
 
+            return dataBits;
         }
         
         
@@ -37,8 +40,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                     return 10;
                 case 1:
                     return 12;
-                default:
+                case 2:
                     return 14;
+                default:
+                    throw new InvalidOperationException("Unexpected Version group:" + versionGroup.ToString());
             }
         }
 
@@ -83,8 +88,11 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                     return 4;
                 case 2:
                     return 7;
+                case 3:
+                    return 10;
+                default:
+                    throw new InvalidOperationException("Unexpected group length:" + groupLength.ToString());
             }
-            return 10;
         }
     }
 }
