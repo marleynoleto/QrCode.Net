@@ -28,27 +28,22 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.EightBitByte; }
         }
 
-		/// <summary>
-        /// Encode content to specific encoding byte array
-        /// </summary>
-        /// <param name="encoding">
-        /// The code page name of the preferred encoding.
-        /// Possible values are listed in the Name column of the table that appears in the Encoding class topic
-        /// </param>
-        /// <returns>Byte array</returns>
         protected byte[] EncodeContent(string content, string encoding)
         {
         	byte[] contentBytes;
         	try 
         	{
 				contentBytes = System.Text.Encoding.GetEncoding(encoding).GetBytes(content);
-			} catch (ArgumentException e) {
+			} catch (ArgumentException ex) {
 				
-				throw e;
+				throw ex;
 			}
         	return contentBytes;
         }
 		
+        /// <summary>
+        /// Bitcount, Chapter 8.4.4, P.24
+        /// </summary>
 		private const int EIGHT_BIT_BYTE_BITCOUNT = 8;
 		
 		internal override BitVector GetDataBits(string content)
@@ -72,14 +67,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			
 		}
 		
-		/// <summary>
-        /// Defines the length of the Character Count Indicator, 
-        /// which varies according to themode and the symbol version in use
-        /// </summary>
-        /// <returns>Number of bits in Character Count Indicator.</returns>
-        /// <remarks>
-        /// See Chapter 8.4 Data encodation, Table 3 — Number of bits in Character Count Indicator.
-        /// </remarks>
         protected override int GetBitCountInCharCountIndicator()
         {
             int versionGroup = GetVersionGroup();

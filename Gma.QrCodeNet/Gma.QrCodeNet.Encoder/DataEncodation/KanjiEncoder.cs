@@ -18,13 +18,16 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Kanji; }
         }
 
+		/// <summary>
+		/// Bitcount according to ISO/IEC 18004:2000 Kanji mode Page 25
+		/// </summary>
 		private const int KANJI_BITCOUNT = 13;
 		
 		internal override BitVector GetDataBits(string content)
         {
 			BitVector dataBits = new BitVector();
 			
-			byte[] contentBytes = EncodeContent(content, "Shift_JIS");
+			byte[] contentBytes = EncodeContent(content);
 			int contentLength = base.GetDataLength(content);
 			
 			
@@ -35,7 +38,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				for(int i = 0; i < bytesLength; i += 2)
 				{
 					int encoded = ConvertShiftJIS(contentBytes[i], contentBytes[i+1]);
-					dataBits.appendBits(encoded, KANJI_BITCOUNT);	//Formula according to ISO/IEC 18004:2000 Kanji mode Page 25
+					dataBits.appendBits(encoded, KANJI_BITCOUNT);	
 				}
 			}
 			else
@@ -45,23 +48,15 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			
 		}
 		
-		/// <summary>
-        /// Encode content to specific encoding byte array
-        /// </summary>
-        /// <param name="encoding">
-        /// The code page name of the preferred encoding.
-        /// Possible values are listed in the Name column of the table that appears in the Encoding class topic
-        /// </param>
-        /// <returns>Byte array</returns>
-        protected byte[] EncodeContent(string content, string encoding)
+        protected byte[] EncodeContent(string content)
         {
         	byte[] contentBytes;
         	try 
         	{
-				contentBytes = System.Text.Encoding.GetEncoding(encoding).GetBytes(content);
-			} catch (ArgumentException e) {
+				contentBytes = System.Text.Encoding.GetEncoding("Shift_JIS").GetBytes(content);
+			} catch (ArgumentException ex) {
 				
-				throw e;
+				throw ex;
 			}
         	return contentBytes;
         }
@@ -77,13 +72,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		
 		/// <summary>
 		/// Multiply value for Most significant byte.
+		/// Chapter 8.4.5 P.24
 		/// </summary>
 		private const int MULTIPLY_FOR_msb = 0xC0;
 		
-		/// <summary>
-		/// Shift JIS two byte encoding Compacte to 13 bit binary codewords 
-		/// </summary>
-		/// <returns>13 bit binary codewards</returns>
 		/// <remarks>
 		/// See Chapter 8.4.5 P.24 Kanji Mode
 		/// </remarks>
@@ -105,14 +97,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			return ((Subtracted >> 8) * MULTIPLY_FOR_msb) + (Subtracted & 0xFF);
 		}
 		
-		/// <summary>
-        /// Defines the length of the Character Count Indicator, 
-        /// which varies according to themode and the symbol version in use
-        /// </summary>
-        /// <returns>Number of bits in Character Count Indicator.</returns>
-        /// <remarks>
-        /// See Chapter 8.4 Data encodation, Table 3 — Number of bits in Character Count Indicator.
-        /// </remarks>
         protected override int GetBitCountInCharCountIndicator()
         {
         	int versionGroup = GetVersionGroup();

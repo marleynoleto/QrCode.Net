@@ -18,10 +18,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         internal override BitVector GetDataBits(string content)
         {
         	BitVector dataBits = new BitVector();
-        	
-            for (int i = 0; i < content.Length; i += 3)
+        	int contentLength = content.Length;
+            for (int i = 0; i < contentLength; i += 3)
             {
-                int groupLength = Math.Min(3, content.Length-i);
+                int groupLength = Math.Min(3, contentLength-i);
                 int value = GetDigitGroupValue(content, i, groupLength);
                 int bitCount = GetBitCountByGroupLength(groupLength);
                 dataBits.Append(value, bitCount);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
 	/// <summary>
-	/// Table contain several special char. Thus use dictionary instead of enum. 
+	/// Table at chapter 8.4.3. P.21
 	/// </summary>
 	internal class AlphanumericTable
 	{
@@ -62,7 +62,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		/// Convert char to int value
 		/// </summary>
 		/// <param name="inputChar">Alpha Numeric Char</param>
-		/// <returns>Return negative one if Char is not belong to Alpha Numeric Table</returns>
 		/// <remarks>Table from chapter 8.4.3 P21</remarks>
 		internal static int ConvertAlphaNumChar(char inputChar)
 		{
