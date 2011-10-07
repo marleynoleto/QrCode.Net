@@ -61,11 +61,12 @@
     <Compile Include="Masking\MatrixExtensions.cs" />
     <Compile Include="Masking\NullPattern.cs" />
     <Compile Include="Masking\Pattern.cs" />
+    <Compile Include="Positioning\Stencils\DarkDotAtLeftBottom.cs" />
     <Compile Include="Positioning\Stencils\PatternStencilBase.cs" />
+    <Compile Include="Positioning\Stencils\TimingPattern.cs" />
     <Compile Include="Positioning\TriStateMatrixExtensions.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Positioning\Stencils\AlignmentPattern.cs" />
-    <Compile Include="Positioning\PositionAdjustmentBuilder.cs" />
     <Compile Include="Positioning\PositioninngPatternBuilder.cs" />
     <Compile Include="Positioning\Stencils\PositionDetectionPattern.cs" />
     <Compile Include="Positioning\TriStateMatrix.cs" />

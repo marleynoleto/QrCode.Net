@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Gma.QrCodeNet.Encoding.Positioning
+namespace Gma.QrCodeNet.Encoding.Positioning.Stencils
 {
     internal abstract class PatternStencilBase : BitMatrix
     {
+        public int Version { get; private set; }
+
+        internal PatternStencilBase(int version)
+        {
+            Version = version;
+        }
+
         protected const bool o = false;
         protected const bool x = true;
 
@@ -25,9 +33,6 @@ namespace Gma.QrCodeNet.Encoding.Positioning
             get { return Stencil.GetLength(1); }
         }
 
-        protected void GetPositions(int version)
-        {
-            
-        }
+        public abstract void ApplyTo(TriStateMatrix matrix);
     }
 }
