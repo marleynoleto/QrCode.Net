@@ -16,6 +16,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\Nness\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,11 @@
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\AlphanumericTable.cs" />
+    <Compile Include="Masking\Scoring\BitBinaryTree.cs" />
+    <Compile Include="Masking\Scoring\BitBinaryTreeNode.cs" />
+    <Compile Include="Masking\Scoring\BitCheckBinaryTree.cs" />
+    <Compile Include="Masking\Scoring\BitCheckValue.cs" />
+    <Compile Include="Masking\Scoring\PenaltyRuleThree.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="DataEncodation\EightBitByteEncoder.cs" />
     <Compile Include="DataEncodation\KanjiEncoder.cs" />
