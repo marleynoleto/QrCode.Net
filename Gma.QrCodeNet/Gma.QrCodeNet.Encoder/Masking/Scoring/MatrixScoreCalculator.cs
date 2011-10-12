@@ -18,7 +18,11 @@ namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 
         internal static int PenaltyScore(this BitMatrix matrix)
         {
-            return 0;
+            PenaltyFactory penaltyFactory = new PenaltyFactory();
+            return
+            	penaltyFactory
+            	.AllRules()
+            	.Sum(penalty => penalty.PenaltyCalculate(matrix));
         }
     }
 }

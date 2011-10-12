@@ -1,6 +1,6 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
-	internal struct BitCheckValue
+	internal struct Penalty3NodeValue
     {
         public int BitCheckIndex { get; private set; }
 
@@ -8,7 +8,7 @@
 
         public int IndexJumpValue { get; private set; }
 
-        internal BitCheckValue(bool bitValue, int bitCheckIndex, int indexJumpValue) 
+        internal Penalty3NodeValue(bool bitValue, int bitCheckIndex, int indexJumpValue) 
             : this()
         {
             BitCheckIndex = bitCheckIndex;

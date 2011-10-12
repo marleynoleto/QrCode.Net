@@ -1,11 +1,11 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
-	internal class PenaltyRuleThree
+	internal class Penalty3 : Penalty
     {
 
-        BitCheckBinaryTree bitCheckTree = new BitCheckBinaryTree();
+        Penalty3CheckTree bitCheckTree = new Penalty3CheckTree();
 
-        internal int PenaltyCalculate(BitMatrix matrix)
+        internal override int PenaltyCalculate(BitMatrix matrix)
         {
             Size size = matrix.Size;
             int penaltyValue = 0;
@@ -37,9 +37,9 @@
         }
         
 
-        private int MidPatternCheck(BitMatrix matrix, Point position, BitBinaryTreeNode<BitCheckValue> checkNode, bool isHorizontal)
+        private int MidPatternCheck(BitMatrix matrix, Point position, BitBinaryTreeNode<Penalty3NodeValue> checkNode, bool isHorizontal)
         {
-            BitCheckValue checkValue = checkNode.Value;
+            Penalty3NodeValue checkValue = checkNode.Value;
             Size size = matrix.Size;
             if( checkValue.IndexJumpValue > 0 )
             {
