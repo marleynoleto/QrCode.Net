@@ -3,7 +3,7 @@
 	internal class Penalty3 : Penalty
     {
 
-        Penalty3CheckTree bitCheckTree = new Penalty3CheckTree();
+        private Penalty3CheckTree bitCheckTree = new Penalty3CheckTree();
 
         internal override int PenaltyCalculate(BitMatrix matrix)
         {
@@ -11,16 +11,21 @@
             int penaltyValue = 0;
             for (int i = 0; i < size.Height; i++)
             {
-                penaltyValue += MidPatternSearch(matrix, new Point(0, i), 0, true);
+                penaltyValue += MidPatternSearch(matrix, new Point(0, i), true);
             }
 
             for (int i = 0; i < size.Width; i++)
             {
-                penaltyValue += MidPatternSearch(matrix, new Point(i, 0), 0, false);
+                penaltyValue += MidPatternSearch(matrix, new Point(i, 0), false);
             }
 
 
             return penaltyValue;
+        }
+
+        private int MidPatternSearch(BitMatrix matrix, Point position, bool isHorizontal)
+        {
+            return MidPatternSearch(matrix, position, 0, isHorizontal);
         }
 
 
@@ -35,7 +40,7 @@
                 return 0;
             return MidPatternCheck(matrix, newPosition, bitCheckTree.Root, isHorizontal);
         }
-        
+
 
         private int MidPatternCheck(BitMatrix matrix, Point position, BitBinaryTreeNode<Penalty3NodeValue> checkNode, bool isHorizontal)
         {
@@ -47,7 +52,8 @@
             }
             else if (checkValue.IndexJumpValue == 0)
             {
-                return PatternCheck(matrix, position, isHorizontal);
+                int penaltyValue = PatternCheck(matrix, position, isHorizontal);
+                return penaltyValue + MidPatternSearch(matrix, position, 4, isHorizontal);
             }
             else
             {
@@ -85,11 +91,62 @@
             else
             {
                 if (matrix[FrontOnePos] && matrix[EndOnePos])
-                    return 40 + MidPatternSearch(matrix, position, 4, isHorizontal);
+                    return LightAreaCheck(matrix, position, isHorizontal);
                 else
                     return 0;
             }
 
+        }
+
+        private int LightAreaCheck(BitMatrix matrix, Point position, bool isHorizontal)
+        {
+            Size size = matrix.Size;
+            Point LeftCheckPoint = isHorizontal ? position.Offset(-5, 0)
+                : position.Offset(0, -5);
+            Point RightCheckPoint = isHorizontal ? position.Offset(9, 0)
+                : position.Offset(0, 9);
+            int penaltyValue = 0;
+            int WhiteModuleCount = 0;
+
+            if(isInsideMatrix(size, LeftCheckPoint))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (matrix[LeftCheckPoint] == false)
+                    {
+                        WhiteModuleCount++;
+                        LeftCheckPoint = isHorizontal ? LeftCheckPoint.Offset(1, 0)
+                            : LeftCheckPoint.Offset(0, 1);
+                    }
+                    else
+                        break;
+                }
+
+                penaltyValue = WhiteModuleCount == 4 ? 40 + penaltyValue
+                    : penaltyValue;
+            }
+
+            WhiteModuleCount = 0;
+
+            if (isInsideMatrix(size, RightCheckPoint))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (matrix[RightCheckPoint] == false)
+                    {
+                        WhiteModuleCount++;
+                        RightCheckPoint = isHorizontal ? RightCheckPoint.Offset(-1, 0)
+                            : RightCheckPoint.Offset(0, -1);
+                    }
+                    else
+                        break;
+                }
+                penaltyValue = WhiteModuleCount == 4 ? 40 + penaltyValue
+                    : penaltyValue;
+            }
+
+
+            return penaltyValue;
         }
 
 
@@ -98,6 +155,10 @@
             return position.X >= size.Width || position.X < 0 || position.Y >= size.Height || position.Y < 0;
         }
 
+        private bool isInsideMatrix(Size size, Point position)
+        {
+            return !isOutsideMatrix(size, position);
+        }
 
         private bool isInsideMatrix(Size size, Point position, int indexJumpValue, bool isHorizontal)
         {

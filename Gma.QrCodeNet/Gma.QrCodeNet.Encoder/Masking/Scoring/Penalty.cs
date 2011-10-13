@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Gma.QrCodeNet.Encoding.Masking.Scoring
+﻿namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
-	internal abstract class Penalty
+	public abstract class Penalty
 	{
 		internal abstract int PenaltyCalculate(BitMatrix matrix);
 	}

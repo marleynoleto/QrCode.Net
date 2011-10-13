@@ -49,6 +49,8 @@
     <Compile Include="Masking\Scoring\Penalty.cs" />
     <Compile Include="Masking\Scoring\Penalty1.cs" />
     <Compile Include="Masking\Scoring\Penalty2.cs" />
+    <Compile Include="Masking\Scoring\Penalty2CheckTree.cs" />
+    <Compile Include="Masking\Scoring\Penalty2NodeValue.cs" />
     <Compile Include="Masking\Scoring\Penalty3CheckTree.cs" />
     <Compile Include="Masking\Scoring\Penalty3NodeValue.cs" />
     <Compile Include="Masking\Scoring\Penalty3.cs" />
