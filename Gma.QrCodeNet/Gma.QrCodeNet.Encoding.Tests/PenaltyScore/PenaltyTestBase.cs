@@ -17,16 +17,35 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
 		private void TestPenaltyRule(BitMatrix input, PenaltyRules penaltyRule, int expected)
 		{
 			Penalty penalty = new PenaltyFactory().CreateByRule(penaltyRule);
+			
 			int result = penalty.PenaltyCalculate(input);
 			
-			AssertIntEquals(expected, result);
+			AssertIntEquals(expected, result, input);
 		}
 		
-		private static void AssertIntEquals(int expected, int actual)
+		protected static void AssertIntEquals(int expected, int actual, BitMatrix matrix)
         {
 			if(expected != actual)
+			{
+				GenerateFaultyRecord(matrix);
 				Assert.Fail("Penalty scores are different.\nExpected:{0}Actual:{1}.", expected.ToString(), actual.ToString());
+				
+			}
 		}
+		
+		private const string s_TxtFileName = "MatrixOfFailedPenaltyScore.txt";
+
+        public static void GenerateFaultyRecord(BitMatrix matrix)
+        {
+            string path = Path.Combine(Path.GetTempPath(), s_TxtFileName);
+            using (var file = File.CreateText(path))
+            {
+                matrix.ToGraphic(file);
+                file.WriteLine("=====");
+                file.Close();
+                
+            }
+        }
 		
 	}
 }

@@ -86,7 +86,7 @@
             }
             else if (isOutsideMatrix(size, FrontOnePos))
             {
-                return MidPatternSearch(matrix, position, 4, isHorizontal);
+                return 0;
             }
             else
             {
@@ -106,47 +106,34 @@
             Point RightCheckPoint = isHorizontal ? position.Offset(9, 0)
                 : position.Offset(0, 9);
             int penaltyValue = 0;
-            int WhiteModuleCount = 0;
+            penaltyValue = OneSideWhiteAreaCheck(matrix, LeftCheckPoint, true, isHorizontal) ? penaltyValue + 40 : penaltyValue;
+            penaltyValue = OneSideWhiteAreaCheck(matrix, RightCheckPoint, false, isHorizontal) ? penaltyValue + 40 : penaltyValue;
 
-            if(isInsideMatrix(size, LeftCheckPoint))
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (matrix[LeftCheckPoint] == false)
-                    {
-                        WhiteModuleCount++;
-                        LeftCheckPoint = isHorizontal ? LeftCheckPoint.Offset(1, 0)
-                            : LeftCheckPoint.Offset(0, 1);
-                    }
-                    else
-                        break;
-                }
-
-                penaltyValue = WhiteModuleCount == 4 ? 40 + penaltyValue
-                    : penaltyValue;
-            }
-
-            WhiteModuleCount = 0;
-
-            if (isInsideMatrix(size, RightCheckPoint))
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (matrix[RightCheckPoint] == false)
-                    {
-                        WhiteModuleCount++;
-                        RightCheckPoint = isHorizontal ? RightCheckPoint.Offset(-1, 0)
-                            : RightCheckPoint.Offset(0, -1);
-                    }
-                    else
-                        break;
-                }
-                penaltyValue = WhiteModuleCount == 4 ? 40 + penaltyValue
-                    : penaltyValue;
-            }
-
-
+            penaltyValue = penaltyValue == 80 ? 40 : penaltyValue;
             return penaltyValue;
+        }
+        
+        private bool OneSideWhiteAreaCheck(BitMatrix matrix, Point checkPoint, bool isLeftSide, bool isHorizontal)
+        {
+        	int WhiteModuleCount = 0;
+        	int offsetValue = isLeftSide ? 1 : -1;
+        	Size size = matrix.Size;
+        	if(isInsideMatrix(size, checkPoint))
+            {
+        		for (int i = 0; i < 4; i++)
+            	{
+            		if (matrix[checkPoint] == false)
+               		{
+                 		WhiteModuleCount++;
+                    	checkPoint = isHorizontal ? checkPoint.Offset(offsetValue, 0)
+                    		: checkPoint.Offset(0, offsetValue);
+                	}
+                	else
+                		break;
+           		}
+        	}
+        	
+        	return WhiteModuleCount == 4;
         }
 
 
