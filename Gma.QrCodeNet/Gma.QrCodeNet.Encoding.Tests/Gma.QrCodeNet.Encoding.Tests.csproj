@@ -66,13 +66,11 @@
     <Compile Include="PenaltyScore\Penalty3Test.cs" />
     <Compile Include="PenaltyScore\Penalty4Test.cs" />
     <Compile Include="PenaltyScore\PenaltyTestBase.cs" />
-    <Compile Include="PenaltyScore\PenaltyTotalTest.cs" />
     <Compile Include="PenaltyScore\TestCases\Penalty1TestCaseFactory.cs" />
     <Compile Include="PenaltyScore\TestCases\Penalty2TestCaseFactory.cs" />
     <Compile Include="PenaltyScore\TestCases\Penalty3TestCaseFactory.cs" />
     <Compile Include="PenaltyScore\TestCases\Penalty4TestCaseFactory.cs" />
     <Compile Include="PenaltyScore\TestCases\PenaltyScoreTestCaseFactory.cs" />
-    <Compile Include="PenaltyScore\TestCases\PenaltyTotalTestCaseFactory.cs" />
     <Compile Include="Positioning\PositioningPatternsTest.cs" />
     <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />
     <Compile Include="_Helper\BitMatrixToGraphicExtensions.cs" />

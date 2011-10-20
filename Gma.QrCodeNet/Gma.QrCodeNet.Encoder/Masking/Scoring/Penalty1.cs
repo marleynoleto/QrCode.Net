@@ -5,17 +5,17 @@
 
         internal override int PenaltyCalculate(BitMatrix matrix)
         {
-            Size size = matrix.Size;
+            MatrixSize size = matrix.Size;
             int penaltyValue = 0;
 
             for (int i = 0; i < size.Height; i++)
             {
-                penaltyValue += FiveSameModuleSearch(matrix, new Point(0, i), true);
+                penaltyValue += FiveSameModuleSearch(matrix, new MatrixPoint(0, i), true);
             }
 
             for (int i = 0; i < size.Width; i++)
             {
-                penaltyValue += FiveSameModuleSearch(matrix, new Point(i, 0), false);
+                penaltyValue += FiveSameModuleSearch(matrix, new MatrixPoint(i, 0), false);
             }
 
 
@@ -23,9 +23,9 @@
         }
 
 
-        private int FiveSameModuleSearch(BitMatrix matrix, Point position, bool isHorizontal)
+        private int FiveSameModuleSearch(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
-            Size size = matrix.Size;
+            MatrixSize size = matrix.Size;
 
             int ModuleCount = FiveSameModuleCheck(matrix, position, isHorizontal);
 
@@ -47,9 +47,9 @@
 
         }
 
-        private int FiveSameModuleSearch(BitMatrix matrix, Point position, int indexJumpValue, bool isHorizontal)
+        private int FiveSameModuleSearch(BitMatrix matrix, MatrixPoint position, int indexJumpValue, bool isHorizontal)
         {
-            Point newPosition;
+            MatrixPoint newPosition;
             if (isInsideMatrix(matrix.Size, position, indexJumpValue, isHorizontal))
             {
                 newPosition = isHorizontal ? position.Offset(indexJumpValue, 0)
@@ -60,10 +60,10 @@
             return FiveSameModuleSearch(matrix, newPosition, isHorizontal);
         }
 
-        private int FiveSameModuleCheck(BitMatrix matrix, Point position, bool isHorizontal)
+        private int FiveSameModuleCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
-            Size size = matrix.Size;
-            Point RightCheckPoint = isHorizontal ? position.Offset(4, 0)
+            MatrixSize size = matrix.Size;
+            MatrixPoint RightCheckPoint = isHorizontal ? position.Offset(4, 0)
                 : position.Offset(0, 4);
             if (isOutsideMatrix(size, RightCheckPoint))
                 return 0;
@@ -91,10 +91,10 @@
         }
 
         
-        private int SameModuleExceedNumberCheck(BitMatrix matrix, Point position, bool isHorizontal)
+        private int SameModuleExceedNumberCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             
-            Size size = matrix.Size;
+            MatrixSize size = matrix.Size;
             int ExceedNumber = 0;
             
             int indexJumpValue = 5;
@@ -104,7 +104,7 @@
 
             do
             {
-                Point checkIndex;
+                MatrixPoint checkIndex;
                 checkIndex = isHorizontal ? position.Offset(indexJumpValue, 0)
                        : position.Offset(0, indexJumpValue);
 
@@ -120,18 +120,18 @@
         }
 
 
-        private bool isOutsideMatrix(Size size, Point position, int indexJumpValue, bool isHorizontal)
+        private bool isOutsideMatrix(MatrixSize size, MatrixPoint position, int indexJumpValue, bool isHorizontal)
         {
             return !isInsideMatrix(size, position, indexJumpValue, isHorizontal);
         }
 
-        private bool isOutsideMatrix(Size size, Point position)
+        private bool isOutsideMatrix(MatrixSize size, MatrixPoint position)
         {
             return position.X >= size.Width || position.X < 0 || position.Y >= size.Height || position.Y < 0;
         }
 
 
-        private bool isInsideMatrix(Size size, Point position, int indexJumpValue, bool isHorizontal)
+        private bool isInsideMatrix(MatrixSize size, MatrixPoint position, int indexJumpValue, bool isHorizontal)
         {
             if (isHorizontal)
             {

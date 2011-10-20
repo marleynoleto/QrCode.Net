@@ -4,7 +4,7 @@
 	{
 		internal override int PenaltyCalculate(BitMatrix matrix)
 		{
-			Size size = matrix.Size;
+			MatrixSize size = matrix.Size;
 			int DarkBitCount = 0;
 			
 			for(int j = 0; j < size.Height; j++)

@@ -20,26 +20,37 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
 			
 			int result = penalty.PenaltyCalculate(input);
 			
-			AssertIntEquals(expected, result, input);
+			AssertIntEquals(expected, result, input, penaltyRule);
 		}
 		
-		protected static void AssertIntEquals(int expected, int actual, BitMatrix matrix)
+		protected static void AssertIntEquals(int expected, int actual, BitMatrix matrix, PenaltyRules penaltyRule)
         {
 			if(expected != actual)
 			{
-				GenerateFaultyRecord(matrix);
+				GenerateFaultyRecord(matrix, penaltyRule, expected, actual);
 				Assert.Fail("Penalty scores are different.\nExpected:{0}Actual:{1}.", expected.ToString(), actual.ToString());
 				
 			}
 		}
 		
 		private const string s_TxtFileName = "MatrixOfFailedPenaltyScore.txt";
-
-        public static void GenerateFaultyRecord(BitMatrix matrix)
+		
+        public static void GenerateFaultyRecord(BitMatrix matrix, PenaltyRules penaltyRule, int expected, int actual)
         {
             string path = Path.Combine(Path.GetTempPath(), s_TxtFileName);
-            using (var file = File.CreateText(path))
+            
+            if(!File.Exists(path))
             {
+            	using (StreamWriter file = File.CreateText(path)) 
+              	{
+            		file.WriteLine();
+            	}
+            }
+            
+            using (var file = File.AppendText(path))
+            {
+            	file.Write(penaltyRule.ToString());
+            	file.Write(string.Format(" Expected: {0}, Actual: {0}", expected.ToString(), actual.ToString()));
                 matrix.ToGraphic(file);
                 file.WriteLine("=====");
                 file.Close();

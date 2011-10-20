@@ -2,11 +2,11 @@
 {
 	internal class Penalty2 : Penalty
     {
-        private Penalty2CheckTree bitCheckTree = new Penalty2CheckTree();
+        private Penalty2DecitionTree bitCheckTree = new Penalty2DecitionTree();
 
         internal override int PenaltyCalculate(BitMatrix matrix)
         {
-            Size size = matrix.Size;
+            MatrixSize size = matrix.Size;
             int penaltyValue = 0;
 
             if (size.Height < 2)
@@ -14,22 +14,22 @@
 
             for (int i = 0; i < size.Height; i++)
             {
-                penaltyValue += SquareBlockSearch(matrix, new Point(0, i));
+                penaltyValue += SquareBlockSearch(matrix, new MatrixPoint(0, i));
             }
 
             return penaltyValue;
         }
 
 
-        private int SquareBlockSearch(BitMatrix matrix, Point position)
+        private int SquareBlockSearch(BitMatrix matrix, MatrixPoint position)
         {
             return SquareBlockSearch(matrix, position, 0);
         }
 
-        private int SquareBlockSearch(BitMatrix matrix, Point position, int indexJumpValue)
+        private int SquareBlockSearch(BitMatrix matrix, MatrixPoint position, int indexJumpValue)
         {
-            Size size = matrix.Size;
-            Point newPosition;
+            MatrixSize size = matrix.Size;
+            MatrixPoint newPosition;
 
             if (isInsideMatrix(size, position, indexJumpValue))
             {
@@ -41,10 +41,10 @@
             return SquareBlockCheck(matrix, newPosition, bitCheckTree.Root);
         }
 
-        private int SquareBlockCheck(BitMatrix matrix, Point position, BitBinaryTreeNode<Penalty2NodeValue> checkNode)
+        private int SquareBlockCheck(BitMatrix matrix, MatrixPoint position, BitBinaryTreeNode<Penalty2DecitionNode> checkNode)
         {
-            Penalty2NodeValue checkValue = checkNode.Value;
-            Size size = matrix.Size;
+            Penalty2DecitionNode checkValue = checkNode.Value;
+            MatrixSize size = matrix.Size;
 
             if (checkValue.IndexJumpValue > 0)
             {
@@ -56,7 +56,7 @@
             }
             else
             {
-                Point checkIndex = position.Offset(checkValue.BitCheckPoint);
+                MatrixPoint checkIndex = position.Offset(checkValue.BitCheckPoint);
 
                 if (isOutsideMatrix(size, checkIndex))
                     return 0;
@@ -67,12 +67,12 @@
 
         }
 
-        private bool isOutsideMatrix(Size size, Point position)
+        private bool isOutsideMatrix(MatrixSize size, MatrixPoint position)
         {
             return position.X >= size.Width || position.X < 0 || position.Y >= size.Height || position.Y < 0;
         }
 
-        private bool isInsideMatrix(Size size, Point position, int indexJumpValue)
+        private bool isInsideMatrix(MatrixSize size, MatrixPoint position, int indexJumpValue)
         {
             return size.Width > (position.X + indexJumpValue);
         }

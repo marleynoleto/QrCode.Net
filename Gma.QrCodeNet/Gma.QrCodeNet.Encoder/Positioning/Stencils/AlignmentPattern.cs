@@ -27,27 +27,27 @@ namespace Gma.QrCodeNet.Encoding.Positioning.Stencils
 
         public override void ApplyTo(TriStateMatrix matrix)
         {
-            foreach (Point coordinatePair in GetNonColidingCoordinatePairs(matrix))
+            foreach (MatrixPoint coordinatePair in GetNonColidingCoordinatePairs(matrix))
             {
                 this.CopyTo(matrix, coordinatePair);
             }
         }
 
-        public IEnumerable<Point> GetNonColidingCoordinatePairs(TriStateMatrix matrix)
+        public IEnumerable<MatrixPoint> GetNonColidingCoordinatePairs(TriStateMatrix matrix)
         {
             return
                 GetAllCoordinatePairs()
                     .Where(point => !matrix.IsUsed(point.Offset(2, 2)));
         }
 
-        private IEnumerable<Point> GetAllCoordinatePairs()
+        private IEnumerable<MatrixPoint> GetAllCoordinatePairs()
         {
             IEnumerable<byte> coordinates = GetPatternCoordinatesByVersion(Version);
             foreach (byte centerX in coordinates)
             {
                 foreach (byte centerY in coordinates)
                 {
-                    Point location = new Point(centerX - 2, centerY - 2);
+                    MatrixPoint location = new MatrixPoint(centerX - 2, centerY - 2);
                     yield return location;
                 }
             }

@@ -30,22 +30,22 @@ namespace Gma.QrCodeNet.Encoding.Positioning.Stencils
 
         public override void ApplyTo(TriStateMatrix matrix)
         {
-            Size size = GetSizeOfSquareWithSeparators();
+            MatrixSize size = GetSizeOfSquareWithSeparators();
             
-            Point leftTopCorner = new Point(0, 0);
-            this.CopyTo(matrix, new Rectangle(new Point(1, 1), size), leftTopCorner);
+            MatrixPoint leftTopCorner = new MatrixPoint(0, 0);
+            this.CopyTo(matrix, new Rectangle(new MatrixPoint(1, 1), size), leftTopCorner);
 
-            Point rightTopCorner = new Point(matrix.Width - this.Width + 1, 0);
-            this.CopyTo(matrix, new Rectangle(new Point(0, 1), size), rightTopCorner);
+            MatrixPoint rightTopCorner = new MatrixPoint(matrix.Width - this.Width + 1, 0);
+            this.CopyTo(matrix, new Rectangle(new MatrixPoint(0, 1), size), rightTopCorner);
 
 
-            Point leftBottomCorner = new Point(0, matrix.Width - this.Width + 1);
-            this.CopyTo(matrix, new Rectangle(new Point(1, 0), size), leftBottomCorner);
+            MatrixPoint leftBottomCorner = new MatrixPoint(0, matrix.Width - this.Width + 1);
+            this.CopyTo(matrix, new Rectangle(new MatrixPoint(1, 0), size), leftBottomCorner);
         }
 
-        private Size GetSizeOfSquareWithSeparators()
+        private MatrixSize GetSizeOfSquareWithSeparators()
         {
-            return new Size(this.Width - 1, this.Height - 1);
+            return new MatrixSize(this.Width - 1, this.Height - 1);
         }
     }
 }

@@ -1,25 +1,25 @@
 ﻿namespace Gma.QrCodeNet.Encoding
 {
-    internal struct Point
+    public struct MatrixPoint
     {
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        internal Point(int x, int y) 
+        internal MatrixPoint(int x, int y) 
             : this()
         {
             X = x;
             Y = y;
         }
 
-        public Point Offset(Point offset)
+        public MatrixPoint Offset(MatrixPoint offset)
         {
-            return new Point(offset.X + this.X, offset.Y + this.Y);
+            return new MatrixPoint(offset.X + this.X, offset.Y + this.Y);
         }
 
-        internal Point Offset(int offsetX, int offsetY)
+        internal MatrixPoint Offset(int offsetX, int offsetY)
         {
-            return Offset(new Point(offsetX, offsetY));
+            return Offset(new MatrixPoint(offsetX, offsetY));
         }
 
         public override string ToString()

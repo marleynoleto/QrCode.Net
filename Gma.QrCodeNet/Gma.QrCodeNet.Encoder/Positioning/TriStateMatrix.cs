@@ -34,7 +34,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning
             return m_IsUsed[i, j];
         }
 
-        internal bool IsUsed(Point point)
+        internal bool IsUsed(MatrixPoint point)
         {
             return IsUsed(point.X, point.Y);
         }

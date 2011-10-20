@@ -3,36 +3,36 @@
 	internal class Penalty3 : Penalty
     {
 
-        private Penalty3CheckTree bitCheckTree = new Penalty3CheckTree();
+        private Penalty3DecitionTree bitCheckTree = new Penalty3DecitionTree();
 
         internal override int PenaltyCalculate(BitMatrix matrix)
         {
-            Size size = matrix.Size;
+            MatrixSize size = matrix.Size;
             int penaltyValue = 0;
             for (int i = 0; i < size.Height; i++)
             {
-                penaltyValue += MidPatternSearch(matrix, new Point(0, i), true);
+                penaltyValue += MidPatternSearch(matrix, new MatrixPoint(0, i), true);
             }
 
             for (int i = 0; i < size.Width; i++)
             {
-                penaltyValue += MidPatternSearch(matrix, new Point(i, 0), false);
+                penaltyValue += MidPatternSearch(matrix, new MatrixPoint(i, 0), false);
             }
 
 
             return penaltyValue;
         }
 
-        private int MidPatternSearch(BitMatrix matrix, Point position, bool isHorizontal)
+        private int MidPatternSearch(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             return MidPatternSearch(matrix, position, 0, isHorizontal);
         }
 
 
-        private int MidPatternSearch(BitMatrix matrix, Point position, int indexJumpValue, bool isHorizontal)
+        private int MidPatternSearch(BitMatrix matrix, MatrixPoint position, int indexJumpValue, bool isHorizontal)
         {
-            Size size = matrix.Size;
-            Point newPosition;
+            MatrixSize size = matrix.Size;
+            MatrixPoint newPosition;
             if (isInsideMatrix(size, position, indexJumpValue, isHorizontal))
                 newPosition = isHorizontal ? position.Offset(indexJumpValue, 0)
                     : position.Offset(0, indexJumpValue);
@@ -42,10 +42,10 @@
         }
 
 
-        private int MidPatternCheck(BitMatrix matrix, Point position, BitBinaryTreeNode<Penalty3NodeValue> checkNode, bool isHorizontal)
+        private int MidPatternCheck(BitMatrix matrix, MatrixPoint position, BitBinaryTreeNode<Penalty3DecitionNode> checkNode, bool isHorizontal)
         {
-            Penalty3NodeValue checkValue = checkNode.Value;
-            Size size = matrix.Size;
+            Penalty3DecitionNode checkValue = checkNode.Value;
+            MatrixSize size = matrix.Size;
             if( checkValue.IndexJumpValue > 0 )
             {
                 return MidPatternSearch(matrix, position, checkValue.IndexJumpValue, isHorizontal);
@@ -57,7 +57,7 @@
             }
             else
             {
-                Point checkIndex;
+                MatrixPoint checkIndex;
                 if (isInsideMatrix(size, position, checkValue.BitCheckIndex, isHorizontal))
                     checkIndex = isHorizontal ? position.Offset(checkValue.BitCheckIndex, 0)
                     : position.Offset(0, checkValue.BitCheckIndex);
@@ -71,15 +71,15 @@
         }
 
 
-        private int PatternCheck(BitMatrix matrix, Point position, bool isHorizontal)
+        private int PatternCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
-            Point FrontOnePos;
+            MatrixPoint FrontOnePos;
             FrontOnePos = isHorizontal ? position.Offset(-1, 0)
                 : position.Offset(0, -1);
-            Point EndOnePos;
+            MatrixPoint EndOnePos;
             EndOnePos = isHorizontal ? position.Offset(5, 0)
                 : position.Offset(0, 5);
-            Size size = matrix.Size;
+            MatrixSize size = matrix.Size;
             if (isOutsideMatrix(size, EndOnePos))
             {
                 return 0;
@@ -98,12 +98,12 @@
 
         }
 
-        private int LightAreaCheck(BitMatrix matrix, Point position, bool isHorizontal)
+        private int LightAreaCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
-            Size size = matrix.Size;
-            Point LeftCheckPoint = isHorizontal ? position.Offset(-5, 0)
+            MatrixSize size = matrix.Size;
+            MatrixPoint LeftCheckPoint = isHorizontal ? position.Offset(-5, 0)
                 : position.Offset(0, -5);
-            Point RightCheckPoint = isHorizontal ? position.Offset(9, 0)
+            MatrixPoint RightCheckPoint = isHorizontal ? position.Offset(9, 0)
                 : position.Offset(0, 9);
             int penaltyValue = 0;
             penaltyValue = OneSideWhiteAreaCheck(matrix, LeftCheckPoint, true, isHorizontal) ? penaltyValue + 40 : penaltyValue;
@@ -113,11 +113,11 @@
             return penaltyValue;
         }
         
-        private bool OneSideWhiteAreaCheck(BitMatrix matrix, Point checkPoint, bool isLeftSide, bool isHorizontal)
+        private bool OneSideWhiteAreaCheck(BitMatrix matrix, MatrixPoint checkPoint, bool isLeftSide, bool isHorizontal)
         {
         	int WhiteModuleCount = 0;
         	int offsetValue = isLeftSide ? 1 : -1;
-        	Size size = matrix.Size;
+        	MatrixSize size = matrix.Size;
         	if(isInsideMatrix(size, checkPoint))
             {
         		for (int i = 0; i < 4; i++)
@@ -137,17 +137,17 @@
         }
 
 
-        private bool isOutsideMatrix(Size size, Point position)
+        private bool isOutsideMatrix(MatrixSize size, MatrixPoint position)
         {
             return position.X >= size.Width || position.X < 0 || position.Y >= size.Height || position.Y < 0;
         }
 
-        private bool isInsideMatrix(Size size, Point position)
+        private bool isInsideMatrix(MatrixSize size, MatrixPoint position)
         {
             return !isOutsideMatrix(size, position);
         }
 
-        private bool isInsideMatrix(Size size, Point position, int indexJumpValue, bool isHorizontal)
+        private bool isInsideMatrix(MatrixSize size, MatrixPoint position, int indexJumpValue, bool isHorizontal)
         {
             if (isHorizontal)
             {

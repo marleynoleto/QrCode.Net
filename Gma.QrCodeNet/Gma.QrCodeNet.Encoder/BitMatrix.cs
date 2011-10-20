@@ -6,18 +6,18 @@
         public abstract int Width { get; }
         public abstract int Height { get; }
 
-        internal Size Size
+        internal MatrixSize Size
         {
-            get { return new Size(Width, Height); }
+            get { return new MatrixSize(Width, Height); }
         }
 
-        internal bool this[Point point]
+        internal bool this[MatrixPoint point]
         {
             get { return this[point.X, point.Y]; }
             set { this[point.X, point.Y] = value; }
         }
 
-        internal void CopyTo(SimpleBitMatrix target, Rectangle sourceArea, Point targetPoint)
+        internal void CopyTo(SimpleBitMatrix target, Rectangle sourceArea, MatrixPoint targetPoint)
         {
             for (int j = 0; j < sourceArea.Size.Height; j++)
             {
@@ -29,9 +29,9 @@
             }
         }
 
-        internal void CopyTo(SimpleBitMatrix target, Point targetPoint)
+        internal void CopyTo(SimpleBitMatrix target, MatrixPoint targetPoint)
         {
-            CopyTo(target, new Rectangle(new Point(0,0), new Size(Width, Height)), targetPoint);
+            CopyTo(target, new Rectangle(new MatrixPoint(0,0), new MatrixSize(Width, Height)), targetPoint);
         }
     }
 }
