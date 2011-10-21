@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Gma.QrCodeNet.Encoding
 {
-    internal struct Rectangle : IEnumerable<MatrixPoint>
+    internal struct MatrixRectangle : IEnumerable<MatrixPoint>
     {
         public MatrixPoint Location { get; private set; }
         public MatrixSize Size { get; private set; }
 
-        internal Rectangle(MatrixPoint location, MatrixSize size) :
+        internal MatrixRectangle(MatrixPoint location, MatrixSize size) :
             this()
         {
             Location = location;

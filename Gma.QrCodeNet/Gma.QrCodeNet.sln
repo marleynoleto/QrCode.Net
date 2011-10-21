@@ -1,16 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+# SharpDevelop 4.1.0.8000
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{6AE2EB7F-333D-461E-B806-DB342B92879C}"
+	ProjectSection(SolutionItems) = preProject
+		lib\nunit.framework.dll = lib\nunit.framework.dll
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.Encoding", "Gma.QrCodeNet.Encoder\Gma.QrCodeNet.Encoding.csproj", "{AA3FD0C4-5577-4327-8486-AA4F5903DB9B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.Demo", "Gma.QrCodeNet.Demo\Gma.QrCodeNet.Demo.csproj", "{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.Encoding.Tests", "Gma.QrCodeNet.Encoding.Tests\Gma.QrCodeNet.Encoding.Tests.csproj", "{3C686D15-BFF5-474A-8381-B742790D8148}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{6AE2EB7F-333D-461E-B806-DB342B92879C}"
-	ProjectSection(SolutionItems) = preProject
-		lib\nunit.framework.dll = lib\nunit.framework.dll
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution

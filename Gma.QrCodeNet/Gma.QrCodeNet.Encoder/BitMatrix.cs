@@ -17,7 +17,7 @@
             set { this[point.X, point.Y] = value; }
         }
 
-        internal void CopyTo(SimpleBitMatrix target, Rectangle sourceArea, MatrixPoint targetPoint)
+        internal void CopyTo(SimpleBitMatrix target, MatrixRectangle sourceArea, MatrixPoint targetPoint)
         {
             for (int j = 0; j < sourceArea.Size.Height; j++)
             {
@@ -31,7 +31,7 @@
 
         internal void CopyTo(SimpleBitMatrix target, MatrixPoint targetPoint)
         {
-            CopyTo(target, new Rectangle(new MatrixPoint(0,0), new MatrixSize(Width, Height)), targetPoint);
+            CopyTo(target, new MatrixRectangle(new MatrixPoint(0,0), new MatrixSize(Width, Height)), targetPoint);
         }
     }
 }

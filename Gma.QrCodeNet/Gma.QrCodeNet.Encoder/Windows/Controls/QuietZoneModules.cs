@@ -1,4 +1,4 @@
-﻿namespace Gma.QrCodeNet.Rendering
+﻿namespace Gma.QrCodeNet.Encoding.Windows.Controls
 {
 	public enum QuietZoneModules
 	{

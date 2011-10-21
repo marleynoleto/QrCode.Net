@@ -36,7 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitList.cs" />
@@ -84,10 +89,15 @@
     <Compile Include="Positioning\PositioninngPatternBuilder.cs" />
     <Compile Include="Positioning\Stencils\PositionDetectionPattern.cs" />
     <Compile Include="Positioning\TriStateMatrix.cs" />
-    <Compile Include="Rectangle.cs" />
+    <Compile Include="MatrixRectangle.cs" />
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="Version.cs" />
+    <Compile Include="Windows\Controls\QRCodeControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Controls\QuietZoneModules.cs" />
+    <Compile Include="Windows\Controls\Renderer.cs" />
     <Compile Include="_legacy\Common\CharacterSetECI.cs" />
     <Compile Include="_legacy\Common\reedsolomon\GF256.cs" />
     <Compile Include="_legacy\Common\reedsolomon\GF256Poly.cs" />
@@ -120,7 +130,15 @@
     <Compile Include="_legacy\Core\WriterException.cs" />
     <Compile Include="QrCode.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Windows" />
+    <Folder Include="Windows\Controls" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Windows\Controls\QrCodeControl.resx">
+      <DependentUpon>QRCodeControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

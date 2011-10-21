@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Gma.QrCodeNet.Encoding;
-using Gma.QrCodeNet.Rendering;
+using Gma.QrCodeNet.Encoding.Windows.Controls;
 
 namespace Gma.QrCodeNet.Demo
 {

@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using Gma.QrCodeNet.Encoding;
+using Gma.QrCodeNet.Encoding.Windows.Controls;
 
-namespace Gma.QrCodeNet.Rendering
+namespace Gma.QrCodeNet.Encoding.Windows.Controls
 {
     public class Renderer
     {

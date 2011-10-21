@@ -57,11 +57,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="QRCodeControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="QuietZoneModules.cs" />
-    <Compile Include="Renderer.cs" />
     <Compile Include="UsageSample.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -76,9 +71,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="QrCodeControl.resx">
-      <DependentUpon>QRCodeControl.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

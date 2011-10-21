@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using Gma.QrCodeNet.Encoding;
-using Gma.QrCodeNet.Rendering;
+using Gma.QrCodeNet.Encoding.Windows.Controls;
 
-namespace Gma.QrCodeNet.Demo
+namespace Gma.QrCodeNet.Encoding.Windows.Controls
 {
     [ToolboxBitmap(typeof(QrCodeControl), "QrCodeControlIcon")]
     public class QrCodeControl : Control

@@ -32,7 +32,7 @@
         	this.textBoxInput = new System.Windows.Forms.TextBox();
         	this.buttonSave = new System.Windows.Forms.Button();
         	this.checkBoxArtistic = new System.Windows.Forms.CheckBox();
-        	this.qrCodeControl1 = new Gma.QrCodeNet.Demo.QrCodeControl();
+        	this.qrCodeControl1 = new Gma.QrCodeNet.Encoding.Windows.Controls.QrCodeControl();
         	this.SuspendLayout();
         	// 
         	// textBoxInput
@@ -72,21 +72,19 @@
         	// qrCodeControl1
         	// 
         	this.qrCodeControl1.AutoSize = true;
-        	this.qrCodeControl1.Font = new System.Drawing.Font("Broadway", 8.25F);
-        	this.qrCodeControl1.Location = new System.Drawing.Point(12, 79);
+        	this.qrCodeControl1.Location = new System.Drawing.Point(13, 90);
         	this.qrCodeControl1.Name = "qrCodeControl1";
-        	this.qrCodeControl1.QuietZoneModules = Gma.QrCodeNet.Rendering.QuietZoneModules.Two;
-        	this.qrCodeControl1.Size = new System.Drawing.Size(204, 204);
-        	this.qrCodeControl1.TabIndex = 3;
-        	this.qrCodeControl1.Text = "QrCode.Net";
+        	this.qrCodeControl1.Size = new System.Drawing.Size(260, 260);
+        	this.qrCodeControl1.TabIndex = 5;
+        	this.qrCodeControl1.Text = "qrCodeControl1";
         	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.ClientSize = new System.Drawing.Size(509, 426);
-        	this.Controls.Add(this.checkBoxArtistic);
         	this.Controls.Add(this.qrCodeControl1);
+        	this.Controls.Add(this.checkBoxArtistic);
         	this.Controls.Add(this.buttonSave);
         	this.Controls.Add(this.textBoxInput);
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -95,12 +93,12 @@
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private Gma.QrCodeNet.Encoding.Windows.Controls.QrCodeControl qrCodeControl1;
 
         #endregion
 
         private System.Windows.Forms.TextBox textBoxInput;
         private System.Windows.Forms.Button buttonSave;
-        private QrCodeControl qrCodeControl1;
         private System.Windows.Forms.CheckBox checkBoxArtistic;
     }
 }
