@@ -28,72 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.textBoxInput = new System.Windows.Forms.TextBox();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.checkBoxArtistic = new System.Windows.Forms.CheckBox();
-            this.qrCodeControl1 = new Gma.QrCodeNet.Demo.QrCodeControl();
-            this.SuspendLayout();
-            // 
-            // textBoxInput
-            // 
-            this.textBoxInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxInput.Location = new System.Drawing.Point(12, 13);
-            this.textBoxInput.Multiline = true;
-            this.textBoxInput.Name = "textBoxInput";
-            this.textBoxInput.Size = new System.Drawing.Size(443, 38);
-            this.textBoxInput.TabIndex = 0;
-            this.textBoxInput.Text = "QrCode.Net";
-            this.textBoxInput.TextChanged += new System.EventHandler(this.textBoxInput_TextChanged);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Image = global::Gma.QrCodeNet.Demo.Properties.Resources.save;
-            this.buttonSave.Location = new System.Drawing.Point(461, 13);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(36, 38);
-            this.buttonSave.TabIndex = 2;
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // checkBoxArtistic
-            // 
-            this.checkBoxArtistic.AutoSize = true;
-            this.checkBoxArtistic.Location = new System.Drawing.Point(13, 56);
-            this.checkBoxArtistic.Name = "checkBoxArtistic";
-            this.checkBoxArtistic.Size = new System.Drawing.Size(57, 17);
-            this.checkBoxArtistic.TabIndex = 4;
-            this.checkBoxArtistic.Text = "Artistic";
-            this.checkBoxArtistic.UseVisualStyleBackColor = true;
-            this.checkBoxArtistic.CheckedChanged += new System.EventHandler(this.checkBoxArtistic_CheckedChanged);
-            // 
-            // qrCodeControl1
-            // 
-            this.qrCodeControl1.AutoSize = true;
-            this.qrCodeControl1.Font = new System.Drawing.Font("Broadway", 8.25F);
-            this.qrCodeControl1.Location = new System.Drawing.Point(12, 79);
-            this.qrCodeControl1.Name = "qrCodeControl1";
-            this.qrCodeControl1.Size = new System.Drawing.Size(204, 204);
-            this.qrCodeControl1.TabIndex = 3;
-            this.qrCodeControl1.Text = "QrCode.Net";
-            // 
-            // MainForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 426);
-            this.Controls.Add(this.checkBoxArtistic);
-            this.Controls.Add(this.qrCodeControl1);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.textBoxInput);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainForm";
-            this.Text = "QrCode.Net Demo";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+        	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+        	this.textBoxInput = new System.Windows.Forms.TextBox();
+        	this.buttonSave = new System.Windows.Forms.Button();
+        	this.checkBoxArtistic = new System.Windows.Forms.CheckBox();
+        	this.qrCodeControl1 = new Gma.QrCodeNet.Demo.QrCodeControl();
+        	this.SuspendLayout();
+        	// 
+        	// textBoxInput
+        	// 
+        	this.textBoxInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+        	        	        	| System.Windows.Forms.AnchorStyles.Right)));
+        	this.textBoxInput.Location = new System.Drawing.Point(12, 13);
+        	this.textBoxInput.Multiline = true;
+        	this.textBoxInput.Name = "textBoxInput";
+        	this.textBoxInput.Size = new System.Drawing.Size(443, 38);
+        	this.textBoxInput.TabIndex = 0;
+        	this.textBoxInput.Text = "QrCode.Net";
+        	this.textBoxInput.TextChanged += new System.EventHandler(this.textBoxInput_TextChanged);
+        	// 
+        	// buttonSave
+        	// 
+        	this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+        	this.buttonSave.Image = global::Gma.QrCodeNet.Demo.Properties.Resources.save;
+        	this.buttonSave.Location = new System.Drawing.Point(461, 13);
+        	this.buttonSave.Name = "buttonSave";
+        	this.buttonSave.Size = new System.Drawing.Size(36, 38);
+        	this.buttonSave.TabIndex = 2;
+        	this.buttonSave.UseVisualStyleBackColor = true;
+        	this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+        	// 
+        	// checkBoxArtistic
+        	// 
+        	this.checkBoxArtistic.AutoSize = true;
+        	this.checkBoxArtistic.Location = new System.Drawing.Point(13, 56);
+        	this.checkBoxArtistic.Name = "checkBoxArtistic";
+        	this.checkBoxArtistic.Size = new System.Drawing.Size(57, 17);
+        	this.checkBoxArtistic.TabIndex = 4;
+        	this.checkBoxArtistic.Text = "Artistic";
+        	this.checkBoxArtistic.UseVisualStyleBackColor = true;
+        	this.checkBoxArtistic.CheckedChanged += new System.EventHandler(this.checkBoxArtistic_CheckedChanged);
+        	// 
+        	// qrCodeControl1
+        	// 
+        	this.qrCodeControl1.AutoSize = true;
+        	this.qrCodeControl1.Font = new System.Drawing.Font("Broadway", 8.25F);
+        	this.qrCodeControl1.Location = new System.Drawing.Point(12, 79);
+        	this.qrCodeControl1.Name = "qrCodeControl1";
+        	this.qrCodeControl1.QuietZoneModules = Gma.QrCodeNet.Rendering.QuietZoneModules.Two;
+        	this.qrCodeControl1.Size = new System.Drawing.Size(204, 204);
+        	this.qrCodeControl1.TabIndex = 3;
+        	this.qrCodeControl1.Text = "QrCode.Net";
+        	// 
+        	// MainForm
+        	// 
+        	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+        	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        	this.ClientSize = new System.Drawing.Size(509, 426);
+        	this.Controls.Add(this.checkBoxArtistic);
+        	this.Controls.Add(this.qrCodeControl1);
+        	this.Controls.Add(this.buttonSave);
+        	this.Controls.Add(this.textBoxInput);
+        	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+        	this.Name = "MainForm";
+        	this.Text = "QrCode.Net Demo";
+        	this.ResumeLayout(false);
+        	this.PerformLayout();
         }
 
         #endregion

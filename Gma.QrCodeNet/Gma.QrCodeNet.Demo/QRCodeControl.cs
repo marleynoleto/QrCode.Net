@@ -96,14 +96,16 @@ namespace Gma.QrCodeNet.Demo
         private bool m_Artistic;
 
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(true),
-         DefaultValue(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+         DefaultValue(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
         public bool Artistic
         {
             get { return m_Artistic; }
             set
             {
                 this.AdjustSize();
-                m_Artistic = value;
+                m_Artistic = m_Encoder.ErrorCorrectionLevel != ErrorCorrectionLevel.H ? false
+                	: value;
+                
                 Invalidate();
             }
         }
@@ -147,5 +149,66 @@ namespace Gma.QrCodeNet.Demo
             return (((this.Anchor & (AnchorStyles.Right | AnchorStyles.Left)) == (AnchorStyles.Right | AnchorStyles.Left)) ||
                     ((this.Anchor & (AnchorStyles.Bottom | AnchorStyles.Top)) == (AnchorStyles.Bottom | AnchorStyles.Top)));
         }
+        
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
+         DefaultValue(QuietZoneModules.Four), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+        public QuietZoneModules QuietZoneModules
+        {
+        	get
+        	{
+        	 	return m_Renderer.QuietZoneModules;
+        	}
+        	set
+        	{
+        		m_Renderer.QuietZoneModules = value;
+        		
+        		AdjustSize();
+        		
+        		Invalidate();
+        	}
+        }
+        
+       	[Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
+         DefaultValue(7), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+        public int ModuleSize
+        {
+        	get
+        	{
+        		return m_Renderer.ModuleSize;
+        	}
+        	set
+        	{
+        		m_Renderer.ModuleSize = value;
+        		
+        		AdjustSize();
+        		
+        		Invalidate();
+        	}
+        }
+        
+        
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
+         DefaultValue(ErrorCorrectionLevel.H), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+        public ErrorCorrectionLevel ErrorCorrectionLevel
+        {
+        	get
+        	{
+        		return m_Encoder.ErrorCorrectionLevel;
+        	}
+        	set
+        	{
+        		m_Encoder.ErrorCorrectionLevel = value;
+        		m_QrCode = m_Encoder.Encode(Text);
+        		
+        		Artistic = value != ErrorCorrectionLevel.H ? false
+        			: m_Artistic;
+        		
+        		AdjustSize();
+        		
+        		Invalidate();
+        	}
+        }
+        
+        
     }
 }

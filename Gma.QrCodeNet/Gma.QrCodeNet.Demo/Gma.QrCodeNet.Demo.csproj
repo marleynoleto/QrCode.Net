@@ -60,6 +60,7 @@
     <Compile Include="QRCodeControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="QuietZoneModules.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="UsageSample.cs" />
     <EmbeddedResource Include="MainForm.resx">

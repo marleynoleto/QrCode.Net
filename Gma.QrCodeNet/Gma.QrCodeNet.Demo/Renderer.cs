@@ -6,13 +6,13 @@ namespace Gma.QrCodeNet.Rendering
 {
     public class Renderer
     {
-        private readonly int m_ModuleSize;
+        private int m_ModuleSize;
         private readonly Brush m_DarkBrush;
         private readonly Brush m_LightBrush;
         private int m_Padding;
 
-        public const int QuietZoneModules = 2;
-
+        private int quietZoneModules = 4;
+        
         public Renderer(int moduleSize)
             : this(moduleSize, Brushes.Black, Brushes.White)
         {
@@ -50,7 +50,7 @@ namespace Gma.QrCodeNet.Rendering
 
         private void DrawQuietZone(Graphics graphics, int matrixWidth, Point offset)
         {
-            int barLength = m_ModuleSize * (matrixWidth + 2);
+            int barLength = m_ModuleSize * (matrixWidth + quietZoneModules);
             graphics.FillRectangle(m_LightBrush, offset.X, offset.Y, barLength, m_Padding);
             graphics.FillRectangle(m_LightBrush, barLength + offset.X, offset.Y, m_Padding, barLength);
             graphics.FillRectangle(m_LightBrush, m_Padding + offset.X, barLength + offset.Y, barLength, m_Padding);
@@ -71,10 +71,42 @@ namespace Gma.QrCodeNet.Rendering
         public Size Measure(int matrixWidth)
         {
             int areaWidth = m_ModuleSize * matrixWidth;
-            m_Padding = QuietZoneModules * m_ModuleSize;
+            m_Padding = quietZoneModules * m_ModuleSize;
             int padding = m_Padding;
             int totalWidth = areaWidth + 2 * padding;
             return new Size(totalWidth + 1, totalWidth + 1);
         }
+        
+        public QuietZoneModules QuietZoneModules
+        {
+        	get
+        	{
+        		return (QuietZoneModules)quietZoneModules;
+        	}
+        	set
+        	{
+        		quietZoneModules = (int)value;
+        	}
+        }
+        
+        public int ModuleSize
+        {
+        	get
+        	{
+        		return m_ModuleSize;
+        	}
+        	set
+        	{
+        		if(value > 0)
+        		{
+        			m_ModuleSize = value;
+        		}
+        		else
+        			throw new System.ArgumentOutOfRangeException("ModuleSize must be bigger than Zero");
+        	}
+        }
+        
+        
+        
     }
 }
