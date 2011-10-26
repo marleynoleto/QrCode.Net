@@ -93,6 +93,11 @@
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="Version.cs" />
+    <Compile Include="VersionControl\ErrorCorrectionBlock.cs" />
+    <Compile Include="VersionControl\ErrorCorrectionBlocks.cs" />
+    <Compile Include="VersionControl\Version.cs" />
+    <Compile Include="VersionControl\VersionControl.cs" />
+    <Compile Include="VersionControl\VersionTable.cs" />
     <Compile Include="Windows\Controls\QRCodeControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -131,6 +136,7 @@
     <Compile Include="QrCode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="VersionControl" />
     <Folder Include="Windows" />
     <Folder Include="Windows\Controls" />
   </ItemGroup>
