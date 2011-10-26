@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Controls;
 
@@ -66,6 +67,17 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
             {
                 Draw(graphics, matrix);
                 bitmap.Save(fileName, imageFormat);
+            }
+        }
+
+        public void WriteToStream(BitMatrix matrix, Stream stream, ImageFormat imageFormat)
+        {
+            Size size = Measure(matrix.Width);
+            using (Bitmap bitmap = new Bitmap(size.Width, size.Height))
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Draw(graphics, matrix);
+                bitmap.Save(stream, imageFormat);
             }
         }
 
