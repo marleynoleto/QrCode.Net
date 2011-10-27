@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using com.google.zxing.qrcode.encoder;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
@@ -23,9 +24,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		/// </summary>
 		private const int KANJI_BITCOUNT = 13;
 		
-		internal override BitVector GetDataBits(string content)
+		internal override BitList GetDataBits(string content)
         {
-			BitVector dataBits = new BitVector();
+			BitList dataBits = new BitList();
 			
 			byte[] contentBytes = EncodeContent(content);
 			int contentLength = base.GetDataLength(content);
@@ -38,11 +39,11 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				for(int i = 0; i < bytesLength; i += 2)
 				{
 					int encoded = ConvertShiftJIS(contentBytes[i], contentBytes[i+1]);
-					dataBits.appendBits(encoded, KANJI_BITCOUNT);	
+					dataBits.Add(encoded, KANJI_BITCOUNT);	
 				}
 			}
 			else
-				throw new System.ArgumentOutOfRangeException("Each char must be two byte length");
+				throw new ArgumentOutOfRangeException("Each char must be two byte length");
 			
 			return dataBits;
 			

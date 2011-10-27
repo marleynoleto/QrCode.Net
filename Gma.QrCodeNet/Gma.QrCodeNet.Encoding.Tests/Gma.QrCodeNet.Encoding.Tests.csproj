@@ -99,8 +99,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="PenaltyScore" />
-    <Folder Include="PenaltyScore\TestCases" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

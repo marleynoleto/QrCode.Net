@@ -8,7 +8,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	/// </summary>
 	internal class AlphanumericTable
 	{
-		private static readonly Dictionary<char, int> ALPHANUMERIC_TABLE = 
+		private static readonly Dictionary<char, int> s_AlphanumericTable = 
 			new Dictionary<char, int>
 		{
 			{'0', 0},
@@ -66,8 +66,14 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		internal static int ConvertAlphaNumChar(char inputChar)
 		{
 	        int value;
-	        return (ALPHANUMERIC_TABLE.TryGetValue(inputChar, out value))
-	        	? value : -1;
+	        if (!s_AlphanumericTable.TryGetValue(inputChar, out value))
+	        {
+	            throw new ArgumentOutOfRangeException(
+                    "inputChar", 
+                    inputChar,
+	                "Not an alphanumeric character found. Only characters from table from chapter 8.4.3 P21 are supported in alphanumeric mode.");
+	        }
+		    return value;
 		}
 	}
 }

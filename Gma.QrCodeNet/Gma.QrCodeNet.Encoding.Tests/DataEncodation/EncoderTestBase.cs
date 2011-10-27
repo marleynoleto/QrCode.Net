@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Gma.QrCodeNet.Encoding.DataEncodation;
 using NUnit.Framework;
@@ -20,9 +21,9 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         private void TestOneDataRow(int version, string inputString, IEnumerable<bool> expected)
         {
             EncoderBase target = CreateEncoder(version);
-            IEnumerable<bool> actualResult = target.Encode(inputString);
+            IEnumerable actualResult = target.Encode(inputString);
 
-            CollectionAssert.AreEquivalent(expected.ToList(), actualResult.ToList());
+            CollectionAssert.AreEquivalent(expected.ToList(), actualResult);
         }
 
         protected abstract EncoderBase CreateEncoder(int version);

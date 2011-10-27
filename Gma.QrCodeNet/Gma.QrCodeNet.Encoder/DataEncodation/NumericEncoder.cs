@@ -1,5 +1,5 @@
 ﻿using System;
-using com.google.zxing.qrcode.encoder;
+using System.Collections;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
@@ -15,16 +15,16 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Numeric; }
         }
 
-        internal override BitVector GetDataBits(string content)
+        internal override BitList GetDataBits(string content)
         {
-        	BitVector dataBits = new BitVector();
+        	BitList dataBits = new BitList();
         	int contentLength = content.Length;
             for (int i = 0; i < contentLength; i += 3)
             {
                 int groupLength = Math.Min(3, contentLength-i);
                 int value = GetDigitGroupValue(content, i, groupLength);
                 int bitCount = GetBitCountByGroupLength(groupLength);
-                dataBits.Append(value, bitCount);
+                dataBits.Add(value, bitCount);
             }
 
             return dataBits;

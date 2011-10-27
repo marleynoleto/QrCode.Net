@@ -1,12 +1,9 @@
 ﻿using System;
-using com.google.zxing.qrcode.encoder;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
     internal class AlphanumericEncoder : EncoderBase
     {
-    	
-    	
         public AlphanumericEncoder(int version) 
             : base(version)
         {
@@ -17,16 +14,16 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
             get { return Mode.Alphanumeric; }
         }
 
-        internal override BitVector GetDataBits(string content)
+        internal override BitList GetDataBits(string content)
         {
-        	BitVector dataBits = new BitVector();
+        	BitList dataBits = new BitList();
         	int contentLength = content.Length;
             for (int i = 0; i < contentLength; i += 2)
             {
                 int groupLength = Math.Min(2, contentLength-i);
                 int value = GetAlphaNumValue(content, i, groupLength);
                 int bitCount = GetBitCountByGroupLength(groupLength);
-                dataBits.Append(value, bitCount);
+                dataBits.Add(value, bitCount);
             }
 			return dataBits;
         }
@@ -35,22 +32,20 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
     	/// <summary>
     	/// Constant from Chapter 8.4.3 Alphanumeric Mode. P.21
     	/// </summary>
-    	private const int MULTIPLY_FIRST_CHAR = 45;
+    	private const int s_MultiplyFirstChar = 45;
     	
-        private int GetAlphaNumValue(string content, int startIndex, int length)
+        private static int GetAlphaNumValue(string content, int startIndex, int length)
         {
-        	int Value = 0;
+        	int value = 0;
         	int iMultiplyValue = 1;
         	for (int i = 0 ; i < length; i++)
         	{
         		int positionFromEnd = startIndex + length - i - 1;
-        		int code = AlphanumericTable.ConvertAlphaNumChar(content[positionFromEnd]);
-        		if(code < 0)
-        			throw new ArgumentOutOfRangeException("Char inside content is not AlphaNumeric");
-        		Value += code * iMultiplyValue;
-        		iMultiplyValue *= MULTIPLY_FIRST_CHAR;
+        	    int code = AlphanumericTable.ConvertAlphaNumChar(content[positionFromEnd]);
+        	    value += code * iMultiplyValue;
+        		iMultiplyValue *= s_MultiplyFirstChar;
         	}
-        	return Value;
+        	return value;
         }
         
 
@@ -66,7 +61,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                 case 2:
                     return 13;
                 default:
-                    throw new InvalidOperationException("Unexpected Version group:" + versionGroup.ToString());
+                    throw new InvalidOperationException(string.Format("Unexpected Version group {0}.", versionGroup));
             }
         }
         
@@ -84,7 +79,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
                 case 2:
                     return 11;
                 default:
-                    throw new InvalidOperationException("Unexpected group length:" + groupLength.ToString());
+                    throw new InvalidOperationException(string.Format("Unexpected group length {0}", groupLength));
             }
         }
     }

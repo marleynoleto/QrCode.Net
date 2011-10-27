@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections;
 using com.google.zxing.qrcode.encoder;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
@@ -50,9 +51,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
 		private const int EIGHT_BIT_BYTE_BITCOUNT = 8;
 		
-		internal override BitVector GetDataBits(string content)
+		internal override BitList GetDataBits(string content)
         {
-			BitVector dataBits = new BitVector();
+			BitList dataBits = new BitList();
 			
 			byte[] contentBytes = EncodeContent(content, Encoding);
 			
@@ -61,11 +62,11 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			{
 				for(int i = 0; i < contentLength; i++)
 				{
-					dataBits.appendBits(contentBytes[i], EIGHT_BIT_BYTE_BITCOUNT);
+					dataBits.Add(contentBytes[i], EIGHT_BIT_BYTE_BITCOUNT);
 				}
 			}
 			else
-				throw new ArgumentOutOfRangeException("EightBiteByte mode will only accept char with one byte length");
+				throw new ArgumentOutOfRangeException("content", "EightBiteByte mode will only accept char with one byte length");
 			
 			return dataBits;
 			

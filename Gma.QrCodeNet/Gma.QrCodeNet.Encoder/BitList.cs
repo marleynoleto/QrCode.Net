@@ -5,13 +5,18 @@ using System.Linq;
 
 namespace Gma.QrCodeNet.Encoding
 {
-    public sealed class BitList : IList<bool>
+    public sealed class BitList : IEnumerable<bool>
     {
         private readonly BitArray m_BitArray;
 
         public BitList()
         {
             m_BitArray = new BitArray(0);
+        }
+
+        public BitList(bool[] values)
+        {
+           m_BitArray = new BitArray(values);
         }
 
         public IEnumerator<bool> GetEnumerator()
@@ -24,18 +29,62 @@ namespace Gma.QrCodeNet.Encoding
             return GetEnumerator();
         }
 
-        public void Add(bool item)
+        public BitList Add(bool item)
         {
-            m_BitArray.Length = m_BitArray.Count + 1;
-            m_BitArray[m_BitArray.Length - 1] = item;
+            this.Resize(this.Count + 1);
+            m_BitArray[this.Count - 1] = item;
+            return this;
         }
 
-        public void Add(int value, int bitCount)
+        public BitList Add(bool[] values)
         {
-            for (int i = 0; i < bitCount; i++)
+            return this.Add(values, values.Length);
+        }
+
+        public BitList Add(int value, int bitCount)
+        {
+            IEnumerable<bool> bits = GetBits(value, bitCount);
+            return this.Add(bits, bitCount);
+        }
+
+        public BitList Add(IEnumerable<bool> values)
+        {
+            return this.Add(values, values.Count());
+        }
+
+     
+        public BitList Add(IEnumerable<bool> values, int bitCount)
+        {
+            int initialCount = this.Count;
+            Resize(this.Count + bitCount);
+            int i = 0;
+            foreach (var value in values)
             {
-                int mask = 1 << i;    
-                this.Add((value & mask) != 0);
+                this[initialCount + i] = value;
+                i++;
+            }
+            return this;
+        }
+
+        private void Resize(int newLength)
+        {
+            if (m_BitArray.Length<newLength)
+            {
+                m_BitArray.Length = newLength;
+            }
+        }
+
+        private static IEnumerable<bool> GetBits(int value, int bitCount)
+        {
+            if (bitCount < 0 || bitCount > 32)
+            {
+                throw new ArgumentOutOfRangeException("bitCount", bitCount, "Number of bits must be between 0 and 32");
+            }
+
+            for (int shift = bitCount - 1; shift >= 0; shift--)
+            {
+                bool bit = ((value >> shift) & 1) != 0;
+                yield return bit;
             }
         }
 
@@ -43,50 +92,10 @@ namespace Gma.QrCodeNet.Encoding
         {
             m_BitArray.Length = 0;
         }
-
-        public bool Contains(bool item)
-        {
-            return ((IEnumerable<bool>)this).Contains(item);
-        }
-
-        public void CopyTo(bool[] array, int arrayIndex)
-        {
-            int startIndex = arrayIndex;
-            foreach (bool element in this)
-            {
-                array[startIndex] = element;
-                startIndex++;
-            }
-        }
-
-        public bool Remove(bool item)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public int Count
         {
             get { return m_BitArray.Count; }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public int IndexOf(bool item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(int index, bool item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveAt(int index)
-        {
-            throw new NotImplementedException();
         }
 
         public bool this[int index]

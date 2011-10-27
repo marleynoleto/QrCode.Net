@@ -1,4 +1,4 @@
-﻿using com.google.zxing.qrcode.encoder;
+﻿using System.Collections;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
@@ -11,12 +11,12 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 
         public int Version { get; private set; }
         internal abstract Mode Mode { get; }
-        
-        internal virtual BitVector Encode(string content)
+
+        internal virtual BitList Encode(string content)
         {
             return
-                GetModeIndicator().Append(
-                    GetCharCountIndicator(GetDataLength(content))).Append(
+                GetModeIndicator().Add(
+                    GetCharCountIndicator(GetDataLength(content))).Add(
                         GetDataBits(content));
         }
 
@@ -30,18 +30,18 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        internal abstract BitVector GetDataBits(string content);
-        
+        internal abstract BitList GetDataBits(string content);
+
 
         /// <summary>
         /// Returns bit representation of <see cref="Mode"/> value.
         /// </summary>
         /// <returns></returns>
         /// <remarks>See Chapter 8.4 Data encodation, Table 2 — Mode indicators</remarks>
-        internal BitVector GetModeIndicator()
+        internal BitList GetModeIndicator()
         {
-            BitVector modeIndicatorBits = new BitVector();
-            modeIndicatorBits.Append((int) this.Mode, 4);
+            BitList modeIndicatorBits = new BitList();
+            modeIndicatorBits.Add((int)this.Mode, 4);
             return modeIndicatorBits;
         }
 
@@ -50,11 +50,11 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <param name="characterCount"></param>
         /// <returns></returns>
-        internal BitVector GetCharCountIndicator(int characterCount)
+        internal BitList GetCharCountIndicator(int characterCount)
         {
-            BitVector characterCountBits = new BitVector();
+            BitList characterCountBits = new BitList();
             int bitCount = GetBitCountInCharCountIndicator();
-            characterCountBits.Append(characterCount, bitCount);
+            characterCountBits.Add(characterCount, bitCount);
             return characterCountBits;
         }
 

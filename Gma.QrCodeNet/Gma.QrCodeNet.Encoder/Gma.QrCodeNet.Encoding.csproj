@@ -49,6 +49,7 @@
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\AlphanumericTable.cs" />
+    <Compile Include="EncodingRegion\FormatInformation.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTree.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTreeNode.cs" />
     <Compile Include="Masking\Scoring\Penalty.cs" />
@@ -137,11 +138,7 @@
     <Compile Include="_legacy\Core\WriterException.cs" />
     <Compile Include="QrCode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="VersionControl" />
-    <Folder Include="Windows" />
-    <Folder Include="Windows\Controls" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Windows\Controls\QrCodeControl.resx">
       <DependentUpon>QRCodeControl.cs</DependentUpon>
