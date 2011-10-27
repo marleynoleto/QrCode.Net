@@ -8,7 +8,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	/// </summary>
 	internal class EightBitByteEncoder : EncoderBase
 	{
-		private const string _defaultEncoding = "Shift_JIS";
+		private const string _defaultEncoding = "iso-8859-1";
 		
 		public string Encoding {get; private set;}
 		/// <summary>
@@ -21,7 +21,11 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			Encoding = encoding ?? _defaultEncoding;
         }
 		
-		
+		public EightBitByteEncoder(int version)
+			:base(version)
+		{
+			Encoding = _defaultEncoding;
+		}
 		
 		internal override Mode Mode
         {

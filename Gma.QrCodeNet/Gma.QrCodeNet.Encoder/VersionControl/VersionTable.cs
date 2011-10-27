@@ -5,6 +5,11 @@
 		internal const int VersionNumMin = 1;
 		internal const int VersionNumMax = 40;
 		
+		/// <summary>
+		/// ISO/IEC 18004/2006 Tabler 9 Page 38
+		/// Only include non-micro QRCode
+		/// </summary>
+		/// <value versionNum>1 to 40, Non-micro QRcode</value>
 		internal Version GetVersionByNum(int versionNum)
 		{
 			if(versionNum < VersionNumMin || versionNum > VersionNumMax)
@@ -12,6 +17,11 @@
 			return version[versionNum - 1];
 		}
 		
+		/// <summary>
+		/// ISO/IEC 18004/2006 Tabler 9 Page 38
+		/// Only include non-micro QRCode
+		/// </summary>
+		/// <value matrixWidth>matrix width for non-micro QRCode</value>
 		internal Version GetVersionByWidth(int matrixWidth)
 		{
 			if((matrixWidth - 17) % 4 != 0)
@@ -23,6 +33,10 @@
 		
 		private static Version[] version = initialize();
 		
+		/// <summary>
+		/// ISO/IEC 18004/2006 Tabler 9 Page 38
+		/// Only include non-micro QRCode
+		/// </summary>
 		private static Version[] initialize()
 		{
 			return new Version[]{
