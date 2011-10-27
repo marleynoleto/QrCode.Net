@@ -1,12 +1,31 @@
 ﻿namespace Gma.QrCodeNet.Encoding.VersionControl
 {
-	internal class VersionTable
+	internal sealed class VersionTable
 	{
-		private Version[] version;
+		internal const int VersionNumMin = 1;
+		internal const int VersionNumMax = 40;
 		
-		private void initialize()
+		internal Version GetVersionByNum(int versionNum)
 		{
-			version = new Version[]{
+			if(versionNum < VersionNumMin || versionNum > VersionNumMax)
+				throw new System.ArgumentOutOfRangeException("Invalide Version Number");
+			return version[versionNum - 1];
+		}
+		
+		internal Version GetVersionByWidth(int matrixWidth)
+		{
+			if((matrixWidth - 17) % 4 != 0)
+				throw new System.ArgumentException("Incorrect matrix width");
+			else
+				return GetVersionByNum((matrixWidth - 17) / 4);
+		}
+		
+		
+		private static Version[] version = initialize();
+		
+		private static Version[] initialize()
+		{
+			return new Version[]{
 				new Version(1, 26, 
 				            new ErrorCorrectionBlocks(7, new ErrorCorrectionBlock(1, 19)),
 				            new ErrorCorrectionBlocks(10, new ErrorCorrectionBlock(1, 16)),

@@ -90,9 +90,11 @@
     <Compile Include="Positioning\Stencils\PositionDetectionPattern.cs" />
     <Compile Include="Positioning\TriStateMatrix.cs" />
     <Compile Include="MatrixRectangle.cs" />
+    <Compile Include="QRCodeBox.cs" />
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="Version.cs" />
+    <Compile Include="VersionControl\ECISet.cs" />
     <Compile Include="VersionControl\ErrorCorrectionBlock.cs" />
     <Compile Include="VersionControl\ErrorCorrectionBlocks.cs" />
     <Compile Include="VersionControl\Version.cs" />
