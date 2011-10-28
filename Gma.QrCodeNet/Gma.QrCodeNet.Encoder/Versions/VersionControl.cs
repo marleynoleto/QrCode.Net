@@ -1,4 +1,5 @@
-﻿using Gma.QrCodeNet.Encoding.DataEncodation;
+﻿using System;
+using Gma.QrCodeNet.Encoding.DataEncodation;
 
 namespace Gma.QrCodeNet.Encoding.Versions
 {
@@ -45,7 +46,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			}
 			int searchGroup = DynamicSearchIndicator(totalDataBits, level, mode);
 			
-			int[] charCountIndicator = CharCountIndicatorTable.GetCharCountIndicator(mode);
+			int[] charCountIndicator = CharCountIndicatorTable.GetCharCountIndicatorSet(mode);
 			
 			totalDataBits += (NUM_BITS_MODE_INDICATOR + charCountIndicator[searchGroup]);
 			
@@ -59,19 +60,52 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 		}
 		
+		public enum VersionCheckStatus {Efficient, LargerThanExpect, SmallerThanExpect }
 		
-//		private static int ToNumOfBytes(int numOfBits)
-//		{
-//			return numOfBits % 8 == 0 ? numOfBits / 8
-//				: (numOfBits / 8) + 1;
-//		}
-//		
+		public static VersionCheckStatus VersionCheck(int versionNum, int numDataBits, Mode mode, ErrorCorrectionLevel level, string encodingName)
+		{
+			int TotalDataBits = numDataBits;
+        	if(mode == Mode.EightBitByte)
+        	{
+        		if(encodingName != DEFAULT_ENCODING)
+        		{
+        			int eciValue = ECISet.GetECIValueByName(encodingName);
+        			TotalDataBits += ECISet.NumOfECIHeaderBits(eciValue);
+        		}
+        	}
+        	int bitCharCountIndicator = CharCountIndicatorTable.GetBitCountInCharCountIndicator(mode, versionNum);
+        	TotalDataBits += (4 + bitCharCountIndicator);
+        	
+        	int expectContainer = DataBits(versionNum, level);
+        	int lowerContainer = versionNum == 1 ? 0 : DataBits(versionNum - 1, level);
+        	
+        	if(expectContainer < TotalDataBits)
+        	{
+        		return VersionCheckStatus.SmallerThanExpect;	
+        	}
+        	else if(lowerContainer >= TotalDataBits)
+        	{
+        		return VersionCheckStatus.LargerThanExpect;	
+        	}
+        	else
+        	{
+        		return VersionCheckStatus.Efficient;
+        	}
+		}
+		
+		private static int DataBits(int version, ErrorCorrectionLevel level)
+        {
+        	int totalCodewords = versionTable.GetVersionByNum(version).TotalCodewords;
+        	int totalECCodewords = versionTable.GetVersionByNum(version).GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
+        	
+        	return (totalCodewords - totalECCodewords) * 8;
+        }
 		
 		private static QRCodeBox FillCodeBox(int versionNum, Mode mode, ErrorCorrectionLevel level, string encodingName, bool isContainECI)
 		{
 			if(versionNum < 1 || versionNum > 40)
 			{
-				throw new System.InvalidOperationException(string.Format("Unexpected version number: {0}", versionNum));
+				throw new InvalidOperationException(string.Format("Unexpected version number: {0}", versionNum));
 			}
 			
 			QRCodeBox qrCodeBox = new QRCodeBox();
@@ -102,7 +136,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 		
 		private static int DynamicSearchIndicator(int numBits, ErrorCorrectionLevel level, Mode mode)
 		{
-			int[] charCountIndicator = CharCountIndicatorTable.GetCharCountIndicator(mode);
+			int[] charCountIndicator = CharCountIndicatorTable.GetCharCountIndicatorSet(mode);
 			int totalBits = 0;
 			int loopLength = VERSION_GROUP.Length;
 			for(int i = 0; i < loopLength; i++)

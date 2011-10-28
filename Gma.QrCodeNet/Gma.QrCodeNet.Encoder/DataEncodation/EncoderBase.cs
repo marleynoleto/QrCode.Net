@@ -68,31 +68,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </remarks>
         protected abstract int GetBitCountInCharCountIndicator();
 
-        /// <summary>
-        /// Used to define length of the Character Count Indicator <see cref="GetBitCountInCharCountIndicator"/>
-        /// </summary>
-        /// <returns>Returns the 0 based index of the row from Chapter 8.4 Data encodation, Table 3 — Number of bits in Character Count Indicator. </returns>
-        protected int GetVersionGroup()
-        {
-        	if (this.Version > 40)
-        	{
-        		throw new System.InvalidOperationException(string.Format("Unexpected version: {0}", this.Version));
-        	}
-            else if (this.Version >= 27)
-            {
-                return 2;
-            }
-			else if (this.Version >= 10)
-            {
-                return 1;
-            }
-			else if (this.Version > 0)
-			{
-				return 0;
-			}
-			else
-				throw new System.InvalidOperationException(string.Format("Unexpected version: {0}", this.Version));
-
-        }
+        
     }
 }

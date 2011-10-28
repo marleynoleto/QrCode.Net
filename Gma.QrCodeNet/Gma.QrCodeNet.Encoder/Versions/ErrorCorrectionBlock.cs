@@ -1,12 +1,12 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Versions
 {
-	public struct ErrorCorrectionBlock
+	internal struct ErrorCorrectionBlock
 	{
-		public int NumErrorCorrectionBlock { get; private set;}
+		internal int NumErrorCorrectionBlock { get; private set;}
 		
-		public int NumDataCodewords { get; private set;}
+		internal int NumDataCodewords { get; private set;}
 		
-		public ErrorCorrectionBlock(int numErrorCorrectionBlock, int numDataCodewards)
+		internal ErrorCorrectionBlock(int numErrorCorrectionBlock, int numDataCodewards)
 			: this()
 		{
 			this.NumErrorCorrectionBlock = numErrorCorrectionBlock;

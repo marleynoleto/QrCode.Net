@@ -51,19 +51,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 
         protected override int GetBitCountInCharCountIndicator()
         {
-            int versionGroup = GetVersionGroup();
-            int[] charCountIndicator = CharCountIndicatorTable.GetCharCountIndicator(Mode.Alphanumeric);
-            switch (versionGroup)
-            {
-                case 0:
-            		return charCountIndicator[0];
-                case 1:
-            		return charCountIndicator[1];
-                case 2:
-            		return charCountIndicator[2];
-                default:
-                    throw new InvalidOperationException(string.Format("Unexpected Version group {0}.", versionGroup));
-            }
+            return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.Alphanumeric, base.Version);
         }
         
         /// <summary>

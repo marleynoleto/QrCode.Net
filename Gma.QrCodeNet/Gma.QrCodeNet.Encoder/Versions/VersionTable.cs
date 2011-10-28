@@ -10,7 +10,7 @@
 		/// Only include non-micro QRCode
 		/// </summary>
 		/// <value versionNum>1 to 40, Non-micro QRcode</value>
-		public Version GetVersionByNum(int versionNum)
+		internal Version GetVersionByNum(int versionNum)
 		{
 			if(versionNum < VERSION_NUM_MIN || versionNum > VERSION_NUM_MAX)
 				throw new System.InvalidOperationException(string.Format("Unexpected version number: {0}", versionNum));
@@ -22,7 +22,7 @@
 		/// Only include non-micro QRCode
 		/// </summary>
 		/// <value matrixWidth>matrix width for non-micro QRCode</value>
-		public Version GetVersionByWidth(int matrixWidth)
+		internal Version GetVersionByWidth(int matrixWidth)
 		{
 			if((matrixWidth - 17) % 4 != 0)
 				throw new System.ArgumentException("Incorrect matrix width");
