@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using com.google.zxing.qrcode.encoder;
 
-namespace Gma.QrCodeNet.Encoding.VersionControl
+namespace Gma.QrCodeNet.Encoding.Versions
 {
 	internal sealed class ECISet
 	{
-		private static Dictionary<string, int> Name_To_Value;
-		private static Dictionary<int, string> Value_To_Name;
+		private static Dictionary<string, int> s_NameToValue;
+		private static Dictionary<int, string> s_ValueToName;
 		
 		public enum AppendOption { NameToValue, ValueToName, Both }
 		
@@ -15,14 +14,14 @@ namespace Gma.QrCodeNet.Encoding.VersionControl
 			switch(option)
 			{
 				case AppendOption.NameToValue:
-					Name_To_Value.Add(name, value);
+					s_NameToValue.Add(name, value);
 					break;
 				case AppendOption.ValueToName:
-					Value_To_Name.Add(value, name);
+					s_ValueToName.Add(value, name);
 					break;
 				case AppendOption.Both:
-					Name_To_Value.Add(name, value);
-					Value_To_Name.Add(value, name);
+					s_NameToValue.Add(name, value);
+					s_ValueToName.Add(value, name);
 					break;
 				default:
 					throw new System.ArgumentOutOfRangeException("There is no such AppendOption");
@@ -39,14 +38,14 @@ namespace Gma.QrCodeNet.Encoding.VersionControl
 			switch(option)
 			{
 				case AppendOption.NameToValue:
-					Name_To_Value = new Dictionary<string, int>();
+					s_NameToValue = new Dictionary<string, int>();
 					break;
 				case AppendOption.ValueToName:
-					Value_To_Name = new Dictionary<int, string>();
+					s_ValueToName = new Dictionary<int, string>();
 					break;
 				case AppendOption.Both:
-					Name_To_Value = new Dictionary<string, int>();
-					Value_To_Name = new Dictionary<int, string>();
+					s_NameToValue = new Dictionary<string, int>();
+					s_ValueToName = new Dictionary<int, string>();
 					break;
 				default:
 					throw new System.ArgumentOutOfRangeException("There is no such AppendOption");
@@ -72,10 +71,10 @@ namespace Gma.QrCodeNet.Encoding.VersionControl
 		
 		internal static int GetECIValueByName(string encodingName)
 		{
-			if(Name_To_Value == null)
+			if(s_NameToValue == null)
 				Initialize(AppendOption.NameToValue);
 			int ECIValue;
-			if(Name_To_Value.TryGetValue(encodingName, out ECIValue))
+			if(s_NameToValue.TryGetValue(encodingName, out ECIValue))
 				return ECIValue;
 			else
 				throw new System.ArgumentOutOfRangeException(string.Format("ECI doesn't contain encoding: {0}", encodingName));
@@ -83,10 +82,10 @@ namespace Gma.QrCodeNet.Encoding.VersionControl
 		
 		internal static string GetECINameByValue(int ECIValue)
 		{
-			if(Value_To_Name == null)
+			if(s_ValueToName == null)
 				Initialize(AppendOption.ValueToName);
 			string ECIName;
-			if(Value_To_Name.TryGetValue(ECIValue, out ECIName))
+			if(s_ValueToName.TryGetValue(ECIValue, out ECIName))
 				return ECIName;
 			else
 				throw new System.ArgumentOutOfRangeException(string.Format("ECI doesn't contain value: {0}", ECIValue));
@@ -126,10 +125,10 @@ namespace Gma.QrCodeNet.Encoding.VersionControl
 		/// <returns>ECI table in Dictionary collection</returns>
 		internal static Dictionary<string, int> GetECITable()
 		{
-			if(Name_To_Value == null)
+			if(s_NameToValue == null)
 				Initialize(AppendOption.NameToValue);
 			
-			return Name_To_Value;
+			return s_NameToValue;
 		}
 		
 		
@@ -147,13 +146,13 @@ namespace Gma.QrCodeNet.Encoding.VersionControl
 		internal enum ECICodewordsLength { one = 0, two = 2, three = 6}
 		
 		/// <remarks>ISO/IEC 18004:2006 Chapter 6.4.2 Page 24.</remarks>
-		internal static BitVector GetECIHeader(string encodingName)
+		internal static BitList GetECIHeader(string encodingName)
 		{
 			int eciValue = GetECIValueByName(encodingName);
 			
-			BitVector dataBits = new BitVector();
+			BitList dataBits = new BitList();
 			
-			dataBits.appendBits(ECIMode, ECIIndicatorNumBits);
+			dataBits.Add(ECIMode, ECIIndicatorNumBits);
 			
 			int eciAssignmentByte = NumOfCodewords(eciValue);
 			//Number of bits = Num codewords indicator + codeword value = Number of codewords * 8
@@ -164,24 +163,24 @@ namespace Gma.QrCodeNet.Encoding.VersionControl
 			{
 				case 1:
 					//Indicator = 0. Page 24. Chapter 6.4.2.1
-					dataBits.appendBits((int)ECICodewordsLength.one, 1);
+					dataBits.Add((int)ECICodewordsLength.one, 1);
 					eciAssignmentBits = eciAssignmentByte * 8 - 1;
 					break;
 				case 2:
 					//Indicator = 10. Page 24. Chapter 6.4.2.1
-					dataBits.appendBits((int)ECICodewordsLength.two, 2);
+					dataBits.Add((int)ECICodewordsLength.two, 2);
 					eciAssignmentBits = eciAssignmentByte * 8 - 2;
 					break;
 				case 3:
 					//Indicator = 110. Page 24. Chapter 6.4.2.1
-					dataBits.appendBits((int)(int)ECICodewordsLength.three, 3);
+					dataBits.Add((int)(int)ECICodewordsLength.three, 3);
 					eciAssignmentBits = eciAssignmentByte * 8 - 3;
 					break;
 				default:
 					throw new System.ArgumentOutOfRangeException("Assignment Codewords should be either 1, 2 or 3");
 			}
 			
-			dataBits.appendBits(eciValue, eciAssignmentBits);
+			dataBits.Add(eciValue, eciAssignmentBits);
 			
 			return dataBits;
 			

@@ -101,14 +101,17 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         protected override int GetBitCountInCharCountIndicator()
         {
         	int versionGroup = GetVersionGroup();
+        	int[] charCountIndicator = CharCountIndicatorTable.GetCharCountIndicator(Mode.Kanji);
             switch (versionGroup)
             {
                 case 0:
-                    return 8;
+            		return charCountIndicator[0];
                 case 1:
-                    return 10;
+            		return charCountIndicator[1];
+                case 2:
+            		return charCountIndicator[2];
                 default:
-                    return 12;
+                    throw new InvalidOperationException(string.Format("Unexpected Version group {0}.", versionGroup));
             }
         }
 		

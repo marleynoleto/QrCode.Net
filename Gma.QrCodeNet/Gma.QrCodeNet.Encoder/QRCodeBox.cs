@@ -1,163 +1,162 @@
-﻿using com.google.zxing.qrcode.encoder;
-using Mode = Gma.QrCodeNet.Encoding.DataEncodation.Mode;
+﻿using Gma.QrCodeNet.Encoding.DataEncodation;
 
 namespace Gma.QrCodeNet.Encoding
 {
-	internal sealed class QRCodeBox
+	public sealed class QRCodeBox
 	{
-		private Mode mode;
+		private Mode m_mode;
 		
 		internal Mode Mode 
 		{
 			get
 			{
-				return mode;
+				return m_mode;
 			}
 			set
 			{
-				mode = value;
+				m_mode = value;
 			}
 		}
 		
-		private ErrorCorrectionLevel errorCorrectionLevel;
+		private ErrorCorrectionLevel m_errorCorrectionLevel;
 		
 		internal ErrorCorrectionLevel ErrorCorrectionLevel
 		{
 			get
 			{
-				return errorCorrectionLevel;
+				return m_errorCorrectionLevel;
 			}
 			set
 			{
-				errorCorrectionLevel = value;
+				m_errorCorrectionLevel = value;
 			}
 		}
 		
-		private int version;
+		private int m_version;
 		
-		internal int Version
+		public int Version
 		{
 			get
 			{
-				return version;
+				return m_version;
 			}
 			set
 			{
-				version = value;
+				m_version = value;
 			}
 		}
 		
-		private int matrixWidth;
+		private int m_matrixWidth;
 		
 		
 		internal int MatrixWidth
 		{
 			get
 			{
-				return matrixWidth;
+				return m_matrixWidth;
 			}
 			set
 			{
-				matrixWidth = value;
+				m_matrixWidth = value;
 			}
 		}
 		
-		private Masking.MaskPatternType maskPattern;
+		private Masking.MaskPatternType m_maskPattern;
 		
 		internal Masking.MaskPatternType MaskPattern
 		{
 			get
 			{
-				return maskPattern;
+				return m_maskPattern;
 			}
 			set
 			{
-				maskPattern = value;
+				m_maskPattern = value;
 			}
 		}
 		
-		private int numTotalBytes;
+		private int m_numTotalBytes;
 		
 		internal int NumTotalBytes
 		{
 			get
 			{
-				return numTotalBytes;
+				return m_numTotalBytes;
 			}
 			set
 			{
-				numTotalBytes = value;
+				m_numTotalBytes = value;
 			}
 		}
 		
-		private int numDataBytes;
+		private int m_numDataBytes;
 		
 		internal int NumDataBytes
 		{
 			get
 			{
-				return numDataBytes;
+				return m_numDataBytes;
 			}
 			set
 			{
-				numDataBytes = value;
+				m_numDataBytes = value;
 			}
 		}
 		
 		
-		private int numErrorCorrectionBytes;
+		private int m_numErrorCorrectionBytes;
 		
 		internal int NumErrorCorrectionBytes
 		{
 			get
 			{
-				return numErrorCorrectionBytes;
+				return m_numErrorCorrectionBytes;
 			}
 			set
 			{
-				numErrorCorrectionBytes = value;
+				m_numErrorCorrectionBytes = value;
 			}
 		}
 		
-		private int numErrorCorrectionBlocks;
+		private int m_numErrorCorrectionBlocks;
 		
 		internal int NumErrorCorrectionBlocks
 		{
 			get
 			{
-				return numErrorCorrectionBlocks;
+				return m_numErrorCorrectionBlocks;
 			}
 			set
 			{
-				numErrorCorrectionBlocks = value;
+				m_numErrorCorrectionBlocks = value;
 			}
 		}
 		
-		private BitVector eciDataBits;
+		private BitList m_eciDataBits;
 		
-		internal BitVector ECIDataBits
+		internal BitList ECIDataBits
 		{
 			get
 			{
-				return eciDataBits;
+				return m_eciDataBits;
 			}
 			set
 			{
-				eciDataBits = value;
+				m_eciDataBits = value;
 			}
 		}
 		
-		private BitVector headerDataBits;
+		private BitList m_headerDataBits;
 		
-		internal BitVector HeaderDataBits
+		internal BitList HeaderDataBits
 		{
 			get
 			{
-				return headerDataBits;
+				return m_headerDataBits;
 			}
 			set
 			{
-				headerDataBits = value;
+				m_headerDataBits = value;
 			}
 		}
 		

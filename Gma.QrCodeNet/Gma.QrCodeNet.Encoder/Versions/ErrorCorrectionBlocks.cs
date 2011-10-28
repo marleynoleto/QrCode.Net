@@ -1,29 +1,29 @@
-﻿namespace Gma.QrCodeNet.Encoding.VersionControl
+﻿namespace Gma.QrCodeNet.Encoding.Versions
 {
-	internal struct ErrorCorrectionBlocks
+	public struct ErrorCorrectionBlocks
 	{
-		internal int NumErrorCorrectionCodewards { get; private set; }
+		public int NumErrorCorrectionCodewards { get; private set; }
 		
-		internal int NumBlocks { get; private set; }
+		public int NumBlocks { get; private set; }
 		
-		internal int ErrorCorrectionCodewordsPerBlock { get; private set;}
+		public int ErrorCorrectionCodewordsPerBlock { get; private set;}
 		
-		private ErrorCorrectionBlock[] ecBlock;
+		private ErrorCorrectionBlock[] m_ECBlock;
 		
-		internal ErrorCorrectionBlocks(int numErrorCorrectionCodeWards, ErrorCorrectionBlock ecBlock)
+		public ErrorCorrectionBlocks(int numErrorCorrectionCodeWards, ErrorCorrectionBlock ecBlock)
 			: this()
 		{
 			this.NumErrorCorrectionCodewards = numErrorCorrectionCodeWards;
-			this.ecBlock = new ErrorCorrectionBlock[]{ecBlock};
+			this.m_ECBlock = new ErrorCorrectionBlock[]{ecBlock};
 			
 			this.initialize();
 		}
 		
-		internal ErrorCorrectionBlocks(int numErrorCorrectionCodeWards, ErrorCorrectionBlock ecBlock1, ErrorCorrectionBlock ecBlock2)
+		public ErrorCorrectionBlocks(int numErrorCorrectionCodeWards, ErrorCorrectionBlock ecBlock1, ErrorCorrectionBlock ecBlock2)
 			: this()
 		{
 			this.NumErrorCorrectionCodewards = numErrorCorrectionCodeWards;
-			this.ecBlock = new ErrorCorrectionBlock[]{ecBlock1, ecBlock2};
+			this.m_ECBlock = new ErrorCorrectionBlock[]{ecBlock1, ecBlock2};
 			
 			this.initialize();
 		}
@@ -33,7 +33,7 @@
 		/// </summary>
 		internal ErrorCorrectionBlock[] GetECBlocks()
 		{
-			return ecBlock;
+			return m_ECBlock;
 		}
 		
 		/// <summary>
@@ -41,14 +41,14 @@
 		/// </summary>
 		private void initialize()
 		{
-			if(ecBlock == null)
+			if(m_ECBlock == null)
 				throw new System.ArgumentNullException("ErrorCorrectionBlocks array doesn't contain any value");
 			
 			NumBlocks = 0;
-			int blockLength = ecBlock.Length;
+			int blockLength = m_ECBlock.Length;
 			for(int i = 0; i < blockLength; i++)
 			{
-				NumBlocks += ecBlock[i].NumErrorCorrectionBlock;
+				NumBlocks += m_ECBlock[i].NumErrorCorrectionBlock;
 			}
 			
 			

@@ -49,6 +49,7 @@
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\AlphanumericTable.cs" />
+    <Compile Include="DataEncodation\CharCountIndicatorTable.cs" />
     <Compile Include="EncodingRegion\FormatInformation.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTree.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTreeNode.cs" />
@@ -95,12 +96,12 @@
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="Version.cs" />
-    <Compile Include="VersionControl\ECISet.cs" />
-    <Compile Include="VersionControl\ErrorCorrectionBlock.cs" />
-    <Compile Include="VersionControl\ErrorCorrectionBlocks.cs" />
-    <Compile Include="VersionControl\Version.cs" />
-    <Compile Include="VersionControl\VersionControl.cs" />
-    <Compile Include="VersionControl\VersionTable.cs" />
+    <Compile Include="Versions\ECISet.cs" />
+    <Compile Include="Versions\ErrorCorrectionBlock.cs" />
+    <Compile Include="Versions\ErrorCorrectionBlocks.cs" />
+    <Compile Include="Versions\Version.cs" />
+    <Compile Include="Versions\VersionControl.cs" />
+    <Compile Include="Versions\VersionTable.cs" />
     <Compile Include="Windows\Controls\QRCodeControl.cs">
       <SubType>Component</SubType>
     </Compile>

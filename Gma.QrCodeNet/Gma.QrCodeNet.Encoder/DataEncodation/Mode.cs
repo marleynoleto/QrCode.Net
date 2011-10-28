@@ -1,6 +1,6 @@
 ﻿namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
-    internal enum Mode
+    public enum Mode
     {
         Numeric = 0001,
         Alphanumeric = 0001 << 1,

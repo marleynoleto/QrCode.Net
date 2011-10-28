@@ -73,6 +73,8 @@
     <Compile Include="PenaltyScore\TestCases\PenaltyScoreTestCaseFactory.cs" />
     <Compile Include="Positioning\PositioningPatternsTest.cs" />
     <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />
+    <Compile Include="Versions\TestCases\VersionControlTestCaseFactory.cs" />
+    <Compile Include="Versions\VersionControlTest.cs" />
     <Compile Include="_Helper\BitMatrixToGraphicExtensions.cs" />
     <Compile Include="_Helper\BitVectorTestExtensions.cs" />
     <Compile Include="_Helper\BitMatrixTestExtensions.cs" />
@@ -99,7 +101,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Versions" />
     <Folder Include="Properties\" />
+    <Folder Include="Versions\TestCases" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataEncodation\TestCases\AlphanumericEncoderTestDataSet.csv">

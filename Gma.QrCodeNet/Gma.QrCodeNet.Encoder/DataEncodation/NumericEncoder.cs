@@ -34,14 +34,15 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         protected override int GetBitCountInCharCountIndicator()
         {
             int versionGroup = GetVersionGroup();
+            int[] charCountIndicator = CharCountIndicatorTable.GetCharCountIndicator(Mode.Numeric);
             switch (versionGroup)
             {
                 case 0:
-                    return 10;
+            		return charCountIndicator[0];
                 case 1:
-                    return 12;
+                    return charCountIndicator[1];
                 case 2:
-                    return 14;
+                    return charCountIndicator[2];
                 default:
                     throw new InvalidOperationException("Unexpected Version group:" + versionGroup.ToString());
             }

@@ -1,19 +1,19 @@
-﻿namespace Gma.QrCodeNet.Encoding.VersionControl
+﻿namespace Gma.QrCodeNet.Encoding.Versions
 {
-	internal sealed class VersionTable
+	public sealed class VersionTable
 	{
-		internal const int VersionNumMin = 1;
-		internal const int VersionNumMax = 40;
+		internal const int VERSION_NUM_MIN = 1;
+		internal const int VERSION_NUM_MAX = 40;
 		
 		/// <summary>
 		/// ISO/IEC 18004/2006 Tabler 9 Page 38
 		/// Only include non-micro QRCode
 		/// </summary>
 		/// <value versionNum>1 to 40, Non-micro QRcode</value>
-		internal Version GetVersionByNum(int versionNum)
+		public Version GetVersionByNum(int versionNum)
 		{
-			if(versionNum < VersionNumMin || versionNum > VersionNumMax)
-				throw new System.ArgumentOutOfRangeException("Invalide Version Number");
+			if(versionNum < VERSION_NUM_MIN || versionNum > VERSION_NUM_MAX)
+				throw new System.InvalidOperationException(string.Format("Unexpected version number: {0}", versionNum));
 			return version[versionNum - 1];
 		}
 		
@@ -22,7 +22,7 @@
 		/// Only include non-micro QRCode
 		/// </summary>
 		/// <value matrixWidth>matrix width for non-micro QRCode</value>
-		internal Version GetVersionByWidth(int matrixWidth)
+		public Version GetVersionByWidth(int matrixWidth)
 		{
 			if((matrixWidth - 17) % 4 != 0)
 				throw new System.ArgumentException("Incorrect matrix width");
@@ -37,6 +37,7 @@
 		/// ISO/IEC 18004/2006 Tabler 9 Page 38
 		/// Only include non-micro QRCode
 		/// </summary>
+		/// <remarks>Sorted list</remarks>
 		private static Version[] initialize()
 		{
 			return new Version[]{

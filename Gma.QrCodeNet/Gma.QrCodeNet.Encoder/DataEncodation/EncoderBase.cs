@@ -74,17 +74,25 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// <returns>Returns the 0 based index of the row from Chapter 8.4 Data encodation, Table 3 — Number of bits in Character Count Indicator. </returns>
         protected int GetVersionGroup()
         {
-            if (this.Version >= 27)
+        	if (this.Version > 40)
+        	{
+        		throw new System.InvalidOperationException(string.Format("Unexpected version: {0}", this.Version));
+        	}
+            else if (this.Version >= 27)
             {
                 return 2;
             }
-
-            if (this.Version >= 10)
+			else if (this.Version >= 10)
             {
                 return 1;
             }
+			else if (this.Version > 0)
+			{
+				return 0;
+			}
+			else
+				throw new System.InvalidOperationException(string.Format("Unexpected version: {0}", this.Version));
 
-            return 0;
         }
     }
 }
