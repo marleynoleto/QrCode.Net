@@ -9,19 +9,12 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
 {
 	public class Penalty3TestCaseFactory : PenaltyScoreTestCaseFactory
 	{
+		protected override string TxtFileName { get { return "Penalty3TestDataSet.txt"; } }
+		
 		protected override NUnit.Framework.TestCaseData GenerateRandomTestCaseData(int matrixSize, System.Random randomizer, MaskPatternType pattern)
 		{
-			ByteMatrix matrix;
-            
-			BitMatrix bitmatrix = GetOriginal(matrixSize, randomizer, out matrix);
-			
-			ApplyPattern(matrix, (int)pattern);
-			
-			int expect = MaskUtil.applyMaskPenaltyRule3(matrix);
-			
-            BitMatrix input = matrix.ToBitMatrix();
-            
-            return new TestCaseData(input, PenaltyRules.Rule03, expect);
+			return base.GenerateRandomTestCaseData(matrixSize, randomizer, pattern, PenaltyRules.Rule03);
 		}
+		
 	}
 }

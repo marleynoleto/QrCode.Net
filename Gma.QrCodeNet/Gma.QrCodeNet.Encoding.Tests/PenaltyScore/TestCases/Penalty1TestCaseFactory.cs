@@ -1,4 +1,5 @@
-﻿using Gma.QrCodeNet.Encoding.Common;
+﻿using System;
+using Gma.QrCodeNet.Encoding.Common;
 using NUnit.Framework;
 using com.google.zxing.qrcode.encoder;
 using Gma.QrCodeNet.Encoding.Masking;
@@ -9,19 +10,12 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
 	
 	public class Penalty1TestCaseFactory : PenaltyScoreTestCaseFactory
 	{
+		protected override string TxtFileName { get { return "Penalty1TestDataSet.txt"; } }
+		
 		protected override NUnit.Framework.TestCaseData GenerateRandomTestCaseData(int matrixSize, System.Random randomizer, MaskPatternType pattern)
 		{
-			ByteMatrix matrix;
-            
-			BitMatrix bitmatrix = GetOriginal(matrixSize, randomizer, out matrix);
-			
-			ApplyPattern(matrix, (int)pattern);
-			
-			int expect = MaskUtil.applyMaskPenaltyRule1(matrix);
-			
-            BitMatrix input = matrix.ToBitMatrix();
-            
-            return new TestCaseData(input, PenaltyRules.Rule01, expect);
+			return base.GenerateRandomTestCaseData(matrixSize, randomizer, pattern, PenaltyRules.Rule01);
 		}
+		
 	}
 }

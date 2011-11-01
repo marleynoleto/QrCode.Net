@@ -4,6 +4,7 @@ using System.IO;
 using com.google.zxing.qrcode.encoder;
 using Gma.QrCodeNet.Encoding.Common;
 using Gma.QrCodeNet.Encoding.Masking;
+using Gma.QrCodeNet.Encoding.Masking.Scoring;
 using NUnit.Framework;
 
 namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
@@ -14,21 +15,21 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
         {
             get
             {
-                string path = Path.Combine("Masking\\TestCases", s_TxtFileName);
+                string path = Path.Combine("PenaltyScore\\TestCases", TxtFileName);
                 using (var file = File.OpenText(path))
                 {
                     while (!file.EndOfStream)
                     {
                         BitMatrix input = BitMatrixToGraphicExtensions.FromGraphic(file);
-                        int pattern = int.Parse(file.ReadLine());
-                        BitMatrix expected = BitMatrixToGraphicExtensions.FromGraphic(file);
-                        yield return new TestCaseData(input, pattern, expected).SetName(string.Format(s_TestNameFormat, input.Width, "?", pattern));
+                        int penaltyRule = int.Parse(file.ReadLine());
+                        int expectValue = int.Parse(file.ReadLine());
+                        yield return new TestCaseData(input, penaltyRule, expectValue).SetName(string.Format(s_TestNameFormat, input.Width, penaltyRule, expectValue));
                     }
                 }
             }
         }
 
-        const string s_TestNameFormat = "Size: {0}, Content: {1}, Pattern: {2}";
+        const string s_TestNameFormat = "Size: {0}, Rule: {1}, Expect: {2}";
 
         public IEnumerable<TestCaseData> TestCasesFromReferenceImplementation
         {
@@ -43,22 +44,50 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
                 {
                     foreach (int matrixSize in matrixSizes)
                     {   
-                        yield return GenerateRandomTestCaseData(matrixSize, zerosOnly, pattern).SetName(string.Format(s_TestNameFormat, matrixSize, "ALL 0", pattern));
-                        yield return GenerateRandomTestCaseData(matrixSize, onesOnly, pattern).SetName(string.Format(s_TestNameFormat, matrixSize, "ALL 1", pattern));
-                        yield return GenerateRandomTestCaseData(matrixSize, realRandom, pattern).SetName(string.Format(s_TestNameFormat, matrixSize, "RANDOM", pattern));
+                        yield return GenerateRandomTestCaseData(matrixSize, zerosOnly, pattern);
+                        yield return GenerateRandomTestCaseData(matrixSize, onesOnly, pattern);
+                        yield return GenerateRandomTestCaseData(matrixSize, realRandom, pattern);
                     }
                 }
             }
         }
 
         protected abstract TestCaseData GenerateRandomTestCaseData(int matrixSize, Random randomizer, MaskPatternType pattern);
-//        {
-//            ByteMatrix matrix;
-//            BitMatrix input = (matrixSize, randomizer, out matrix);
-//            ApplyPattern(matrix, pattern);
-//            BitMatrix expected = matrix.ToBitMatrix();
-//            return new TestCaseData(input, pattern, expected);
-//        }
+
+        
+        protected virtual TestCaseData GenerateRandomTestCaseData(int matrixSize, Random randomizer, MaskPatternType pattern, PenaltyRules rules)
+        {
+        	ByteMatrix matrix;
+            
+			BitMatrix bitmatrix = GetOriginal(matrixSize, randomizer, out matrix);
+			
+			ApplyPattern(matrix, (int)pattern);
+			
+			int expect;
+			
+			switch(rules)
+			{
+				case PenaltyRules.Rule01:
+					expect = MaskUtil.applyMaskPenaltyRule1(matrix);
+					break;
+				case PenaltyRules.Rule02:
+					expect = MaskUtil.applyMaskPenaltyRule2(matrix);
+					break;
+				case PenaltyRules.Rule03:
+					expect = MaskUtil.applyMaskPenaltyRule3(matrix);
+					break;
+				case PenaltyRules.Rule04:
+					expect = MaskUtil.applyMaskPenaltyRule4(matrix);
+					break;
+				default:
+					throw new InvalidOperationException(string.Format("Unsupport Rules {0}", rules.ToString()));
+			}
+			
+			
+            BitMatrix input = matrix.ToBitMatrix();
+            
+            return new TestCaseData(input, (int)rules, expect).SetName(string.Format(s_TestNameFormat, input.Width, rules.ToString(), expect));
+        }
 
 
         private class ZeroRandomizer : Random
@@ -81,19 +110,21 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
         private const string s_OriginalMatrixColumnName = "OriginalMatrix";
         private const string s_MaskPatternColumnName = "MaskPattern";
         private const string s_ResultingMatrixColumnName = "ResultingMatrix";
-        private const string s_TxtFileName = "MaskPatternTestDataSet.txt";
+        
+        protected abstract string TxtFileName { get; }
 
-        public void GenerateMaskPatternTestDataSet()
+        public virtual void GenerateTestDataSet()
         {
-            string path = Path.Combine(Path.GetTempPath(), s_TxtFileName);
+            string path = Path.Combine(Path.GetTempPath(), TxtFileName);
             using (var file = File.CreateText(path))
             {
                 foreach (TestCaseData testCaseData in TestCasesFromReferenceImplementation)
                 {
                     ((BitMatrix)testCaseData.Arguments[0]).ToGraphic(file);
-                    string maskPattern = testCaseData.Arguments[1].ToString();
-                    file.WriteLine(maskPattern);
-                    ((BitMatrix)testCaseData.Arguments[2]).ToGraphic(file);
+                    string penaltyRule = testCaseData.Arguments[1].ToString();
+                    file.WriteLine(penaltyRule);
+                    string expectValue = testCaseData.Arguments[2].ToString();
+                    file.WriteLine(expectValue);
 
                 }
                 file.Close();

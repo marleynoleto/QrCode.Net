@@ -119,6 +119,18 @@
     <None Include="EndToEnd\TestCases\DataSet1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="PenaltyScore\TestCases\Penalty1TestDataSet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PenaltyScore\TestCases\Penalty2TestDataSet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PenaltyScore\TestCases\Penalty3TestDataSet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PenaltyScore\TestCases\Penalty4TestDataSet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Masking\TestCases\MaskPatternTestDataSet.txt">
