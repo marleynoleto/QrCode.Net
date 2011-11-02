@@ -7,7 +7,8 @@ using NUnit.Framework;
 
 
 namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
-{public class VersionControlTestCaseFactory
+{
+	public class VersionControlTestCaseFactory
 	{
 		public IEnumerable<TestCaseData> TestCasesFromCsvFile
 		{
@@ -26,7 +27,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 						int levelValue = int.Parse(parts[2]);
 						string encodingName = parts[3];
 						int expectVersionNum = int.Parse(parts[4]);
-						yield return new TestCaseData(numBits, modeValue, levelValue, encodingName, expectVersionNum);
+						yield return new TestCaseData(numBits, modeValue, levelValue, encodingName, expectVersionNum)
+							.SetName(string.Format(s_VersionTestNameSet, numBits, (Mode)modeValue, (ErrorCorrectionLevel)levelValue, encodingName));
 					}
 				}
 			}

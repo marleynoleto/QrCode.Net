@@ -106,10 +106,6 @@ namespace Gma.QrCodeNet.Encoding.Tests.PenaltyScore
             }
         }
 
-        private const string s_DataRowIdColumnName = "DataRowId";
-        private const string s_OriginalMatrixColumnName = "OriginalMatrix";
-        private const string s_MaskPatternColumnName = "MaskPattern";
-        private const string s_ResultingMatrixColumnName = "ResultingMatrix";
         
         protected abstract string TxtFileName { get; }
 

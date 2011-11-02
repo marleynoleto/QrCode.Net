@@ -74,7 +74,9 @@
     <Compile Include="Positioning\PositioningPatternsTest.cs" />
     <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />
     <Compile Include="Versions\TestCases\VersionControlTestCaseFactory.cs" />
+    <Compile Include="Versions\TestCases\VersionTableTestCaseFactory.cs" />
     <Compile Include="Versions\VersionControlTest.cs" />
+    <Compile Include="Versions\VersionTableTests.cs" />
     <Compile Include="_Helper\BitMatrixToGraphicExtensions.cs" />
     <Compile Include="_Helper\BitVectorTestExtensions.cs" />
     <Compile Include="_Helper\BitMatrixTestExtensions.cs" />
@@ -132,6 +134,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Versions\TestCases\VersionControlTest.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Versions\TestCases\VersionTableTest.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
