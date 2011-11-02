@@ -131,6 +131,9 @@
     <None Include="PenaltyScore\TestCases\Penalty4TestDataSet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Versions\TestCases\VersionControlTest.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Masking\TestCases\MaskPatternTestDataSet.txt">

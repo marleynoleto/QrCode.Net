@@ -99,6 +99,9 @@
     <Compile Include="Versions\ECISet.cs" />
     <Compile Include="Versions\ErrorCorrectionBlock.cs" />
     <Compile Include="Versions\ErrorCorrectionBlocks.cs" />
+    <Compile Include="Versions\TestMethod\VersionCheckStatus.cs" />
+    <Compile Include="Versions\TestMethod\VersionTest.cs" />
+    <Compile Include="Versions\TestMethod\VersionTestProperties.cs" />
     <Compile Include="Versions\Version.cs" />
     <Compile Include="Versions\VersionControl.cs" />
     <Compile Include="Versions\VersionTable.cs" />
@@ -139,7 +142,9 @@
     <Compile Include="_legacy\Core\WriterException.cs" />
     <Compile Include="QrCode.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Versions\TestMethod" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Windows\Controls\QrCodeControl.resx">
       <DependentUpon>QRCodeControl.cs</DependentUpon>

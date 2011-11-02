@@ -60,46 +60,46 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 		}
 		
-		public enum VersionCheckStatus {Efficient, LargerThanExpect, SmallerThanExpect }
-		
-		public static VersionCheckStatus VersionCheck(int versionNum, int numDataBits, Mode mode, ErrorCorrectionLevel level, string encodingName)
-		{
-			int TotalDataBits = numDataBits;
-        	if(mode == Mode.EightBitByte)
-        	{
-        		if(encodingName != DEFAULT_ENCODING)
-        		{
-        			int eciValue = ECISet.GetECIValueByName(encodingName);
-        			TotalDataBits += ECISet.NumOfECIHeaderBits(eciValue);
-        		}
-        	}
-        	int bitCharCountIndicator = CharCountIndicatorTable.GetBitCountInCharCountIndicator(mode, versionNum);
-        	TotalDataBits += (4 + bitCharCountIndicator);
-        	
-        	int expectContainer = DataBits(versionNum, level);
-        	int lowerContainer = versionNum == 1 ? 0 : DataBits(versionNum - 1, level);
-        	
-        	if(expectContainer < TotalDataBits)
-        	{
-        		return VersionCheckStatus.SmallerThanExpect;	
-        	}
-        	else if(lowerContainer >= TotalDataBits)
-        	{
-        		return VersionCheckStatus.LargerThanExpect;	
-        	}
-        	else
-        	{
-        		return VersionCheckStatus.Efficient;
-        	}
-		}
-		
-		private static int DataBits(int version, ErrorCorrectionLevel level)
-        {
-        	int totalCodewords = versionTable.GetVersionByNum(version).TotalCodewords;
-        	int totalECCodewords = versionTable.GetVersionByNum(version).GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
-        	
-        	return (totalCodewords - totalECCodewords) * 8;
-        }
+//		public enum VersionCheckStatus {Efficient, LargerThanExpect, SmallerThanExpect }
+//		
+//		public static VersionCheckStatus VersionCheck(int versionNum, int numDataBits, Mode mode, ErrorCorrectionLevel level, string encodingName)
+//		{
+//			int TotalDataBits = numDataBits;
+//        	if(mode == Mode.EightBitByte)
+//        	{
+//        		if(encodingName != DEFAULT_ENCODING)
+//        		{
+//        			int eciValue = ECISet.GetECIValueByName(encodingName);
+//        			TotalDataBits += ECISet.NumOfECIHeaderBits(eciValue);
+//        		}
+//        	}
+//        	int bitCharCountIndicator = CharCountIndicatorTable.GetBitCountInCharCountIndicator(mode, versionNum);
+//        	TotalDataBits += (4 + bitCharCountIndicator);
+//        	
+//        	int expectContainer = DataBits(versionNum, level);
+//        	int lowerContainer = versionNum == 1 ? 0 : DataBits(versionNum - 1, level);
+//        	
+//        	if(expectContainer < TotalDataBits)
+//        	{
+//        		return VersionCheckStatus.SmallerThanExpect;	
+//        	}
+//        	else if(lowerContainer >= TotalDataBits)
+//        	{
+//        		return VersionCheckStatus.LargerThanExpect;	
+//        	}
+//        	else
+//        	{
+//        		return VersionCheckStatus.Efficient;
+//        	}
+//		}
+//		
+//		private static int DataBits(int version, ErrorCorrectionLevel level)
+//        {
+//        	int totalCodewords = versionTable.GetVersionByNum(version).TotalCodewords;
+//        	int totalECCodewords = versionTable.GetVersionByNum(version).GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
+//        	
+//        	return (totalCodewords - totalECCodewords) * 8;
+//        }
 		
 		private static QRCodeBox FillCodeBox(int versionNum, Mode mode, ErrorCorrectionLevel level, string encodingName, bool isContainECI)
 		{

@@ -16,20 +16,37 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions
         {
         	QRCodeBox qrCodeBox = VersionControl.InitialSetup(numDataBits, mode, level, encodingName);
         	
-        	VersionControl.VersionCheckStatus checkStatus = VersionControl.VersionCheck(qrCodeBox.Version, numDataBits, mode, level, encodingName);
+        	VersionCheckStatus checkStatus = VersionTest.VersionCheck(qrCodeBox.Version, numDataBits, mode, level, encodingName);
         	
         	switch(checkStatus)
         	{
-        		case VersionControl.VersionCheckStatus.LargerThanExpect:
+        		case VersionCheckStatus.LargerThanExpect:
         			Assert.Fail("Version {0} size not enough", qrCodeBox.Version);
         			break;
-        		case VersionControl.VersionCheckStatus.SmallerThanExpect:
+        		case VersionCheckStatus.SmallerThanExpect:
         			Assert.Fail("Version{0}'s size too big", qrCodeBox.Version);
         			break;
         		default:
         			break;
         	}
        
+        }
+        
+        
+        [Test]
+        [TestCaseSource(typeof(VersionControlTestCaseFactory), "TestCasesFromCsvFile")]
+        public void Test_against_CSV_Dataset(int numDataBits,  Mode mode, ErrorCorrectionLevel level, string encodingName, int expectVersionNum)
+        {
+        	QRCodeBox qrCodeBox = VersionControl.InitialSetup(numDataBits, mode, level, encodingName);
+        	
+        	if(qrCodeBox.Version != expectVersionNum)
+        		Assert.Fail("Method return version number: {0} Expect value: {1}", qrCodeBox.Version, expectVersionNum);
+        }
+        
+        //[Test]
+        public void Generate()
+        {
+        	new VersionControlTestCaseFactory().GenerateTestDataSet();
         }
         
 	}
