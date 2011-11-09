@@ -34,7 +34,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			if(ModeEncodeCheck.isModeEncodeValid(Mode.Kanji, encodingName, content))
 				return Mode.Kanji;
 			
-			throw new ArgumentException("Can not find proper mode for input content");
+			return Mode.None;
 			
 		}
 		
@@ -70,7 +70,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				}
 			}
 			
-			throw new ArgumentException("Can not find proper mode for input content");
+			return Mode.None;
 			
 		}
 		

@@ -71,11 +71,15 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			char[] currentChar = new char[1];
 			byte[] bytes;
 			
+			
 			for(int index = 0; index < content.Length; index++)
 			{
 				currentChar[0] = content[index];
 				bytes = encoding.GetBytes(currentChar);
-				if(currentChar[0] != '?' && bytes.Length == 1 && (int)bytes[0] == QUESTION_MARK_CHAR)
+				int length = bytes.Length;
+				if(currentChar[0] != '?' && length == 1 && (int)bytes[0] == QUESTION_MARK_CHAR)
+					return false;
+				else if(length > 1)
 					return false;
 			}
 			
