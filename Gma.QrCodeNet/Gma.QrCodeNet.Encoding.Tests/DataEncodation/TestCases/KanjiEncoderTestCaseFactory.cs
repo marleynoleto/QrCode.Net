@@ -85,14 +85,18 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         }
         
         
-        
+        /*
+         * Shift_JIS double byte char Specification
+         * ISO/IEC 18004-2006 Annex H Page 93
+         */
 		private const int TABLE_LOWER_BOUNDARY = 0x40;
 		private const int TABLE_UPPER_BOUNDARY = 0xFC;
+		private const int TABLE_EXCEPT_CHAR = 0x7F;
 		
         private bool isCharOutsideTableRange(int RandomChar)
         {
         	int LeastSignificantByte = RandomChar & 0xFF;
-        	return (LeastSignificantByte < TABLE_LOWER_BOUNDARY || LeastSignificantByte > TABLE_UPPER_BOUNDARY);
+        	return (LeastSignificantByte < TABLE_LOWER_BOUNDARY || LeastSignificantByte > TABLE_UPPER_BOUNDARY || LeastSignificantByte == TABLE_EXCEPT_CHAR);
         }
 		
 	}

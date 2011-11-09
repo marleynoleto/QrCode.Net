@@ -49,7 +49,9 @@
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\AlphanumericTable.cs" />
+    <Compile Include="DataEncodation\AutoSelectMode.cs" />
     <Compile Include="DataEncodation\CharCountIndicatorTable.cs" />
+    <Compile Include="DataEncodation\ModeEncodeCheck.cs" />
     <Compile Include="EncodingRegion\FormatInformation.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTree.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTreeNode.cs" />

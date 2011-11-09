@@ -75,5 +75,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	        }
 		    return value;
 		}
+		
+		internal static bool Contains(char inputChar)
+		{
+			return s_AlphanumericTable.ContainsKey(inputChar);
+		}
 	}
 }

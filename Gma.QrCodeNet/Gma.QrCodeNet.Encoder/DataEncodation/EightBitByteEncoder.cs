@@ -15,7 +15,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		/// <summary>
 		/// EightBitByte encoder's encoding will change according to different region
 		/// </summary>
-		/// <param name="encoding">Default encoding is "Shift_JIS"</param>
+		/// <param name="encoding">Default encoding is "iso-8859-1"</param>
 		public EightBitByteEncoder(int version, string encoding)
 			:base(version)
         {
@@ -53,23 +53,28 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		
 		internal override BitList GetDataBits(string content)
         {
-			BitList dataBits = new BitList();
-			
 			byte[] contentBytes = EncodeContent(content, Encoding);
 			
 			int contentLength = base.GetDataLength(content);
-			if(contentBytes.Length == contentLength)
+			
+			return GetDataBitsByByteArray(contentBytes, contentLength);
+		}
+		
+		internal BitList GetDataBitsByByteArray(byte[] encodeContent, int contentLength)
+		{
+			BitList dataBits = new BitList();
+			
+			if(encodeContent.Length == contentLength)
 			{
 				for(int i = 0; i < contentLength; i++)
 				{
-					dataBits.Add(contentBytes[i], EIGHT_BIT_BYTE_BITCOUNT);
+					dataBits.Add(encodeContent[i], EIGHT_BIT_BYTE_BITCOUNT);
 				}
 			}
 			else
 				throw new ArgumentOutOfRangeException("content", "EightBiteByte mode will only accept char with one byte length");
 			
 			return dataBits;
-			
 		}
 		
         protected override int GetBitCountInCharCountIndicator()

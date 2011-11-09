@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Gma.QrCodeNet.Encoding.Versions
 {
@@ -24,7 +25,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 					s_ValueToName.Add(value, name);
 					break;
 				default:
-					throw new System.ArgumentOutOfRangeException("There is no such AppendOption");
+					throw new InvalidOperationException("There is no such AppendOption");
 			}
 		}
 		
@@ -48,7 +49,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 					s_ValueToName = new Dictionary<int, string>();
 					break;
 				default:
-					throw new System.ArgumentOutOfRangeException("There is no such AppendOption");
+					throw new InvalidOperationException("There is no such AppendOption");
 			}
 			
 			//ECI table. Source 01 URL: http://strokescribe.com/en/ECI.html
@@ -77,7 +78,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			if(s_NameToValue.TryGetValue(encodingName, out ECIValue))
 				return ECIValue;
 			else
-				throw new System.ArgumentOutOfRangeException(string.Format("ECI doesn't contain encoding: {0}", encodingName));
+				throw new ArgumentOutOfRangeException(string.Format("ECI doesn't contain encoding: {0}", encodingName));
 		}
 		
 		internal static string GetECINameByValue(int ECIValue)
@@ -88,7 +89,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			if(s_ValueToName.TryGetValue(ECIValue, out ECIName))
 				return ECIName;
 			else
-				throw new System.ArgumentOutOfRangeException(string.Format("ECI doesn't contain value: {0}", ECIValue));
+				throw new ArgumentOutOfRangeException(string.Format("ECI doesn't contain value: {0}", ECIValue));
 		}
 		
 		/// <remarks>ISO/IEC 18004:2006E ECI Designator Page 24</remarks>
@@ -103,7 +104,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			else if(ECIValue > 16383 && ECIValue <= 999999)
 				return 3;
 			else
-				throw new System.ArgumentOutOfRangeException("ECIValue should be in range: 0 to 999999");
+				throw new ArgumentOutOfRangeException("ECIValue should be in range: 0 to 999999");
 		}
 		
 		/// <remarks>ISO/IEC 18004:2006E ECI Designator Page 24</remarks>
@@ -143,6 +144,8 @@ namespace Gma.QrCodeNet.Encoding.Versions
 		/// </summary>
 		/// <remarks>ISO/IEC 18004:2006 Chapter 6.4.2 Page 24.
 		/// 1 codeword length = 0. Any additional codeword add 1 to front. Eg: 3 = 110</remarks>
+		/// <description>Bits required for each one is:
+		/// one = 1, two = 2, three = 3</description>
 		internal enum ECICodewordsLength { one = 0, two = 2, three = 6}
 		
 		/// <remarks>ISO/IEC 18004:2006 Chapter 6.4.2 Page 24.</remarks>
@@ -173,11 +176,11 @@ namespace Gma.QrCodeNet.Encoding.Versions
 					break;
 				case 3:
 					//Indicator = 110. Page 24. Chapter 6.4.2.1
-					dataBits.Add((int)(int)ECICodewordsLength.three, 3);
+					dataBits.Add((int)ECICodewordsLength.three, 3);
 					eciAssignmentBits = eciAssignmentByte * 8 - 3;
 					break;
 				default:
-					throw new System.ArgumentOutOfRangeException("Assignment Codewords should be either 1, 2 or 3");
+					throw new InvalidOperationException("Assignment Codewords should be either 1, 2 or 3");
 			}
 			
 			dataBits.Add(eciValue, eciAssignmentBits);

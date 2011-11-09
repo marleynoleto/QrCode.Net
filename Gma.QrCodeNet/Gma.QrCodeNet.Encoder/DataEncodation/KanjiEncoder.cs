@@ -26,19 +26,24 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		
 		internal override BitList GetDataBits(string content)
         {
-			BitList dataBits = new BitList();
 			
 			byte[] contentBytes = EncodeContent(content);
 			int contentLength = base.GetDataLength(content);
 			
+			return GetDataBitsByByteArray(contentBytes, contentLength);
+		}
+		
+		internal BitList GetDataBitsByByteArray(byte[] encodeContent, int contentLength)
+		{
+			BitList dataBits = new BitList();
 			
-			int bytesLength = contentBytes.Length;
+			int bytesLength = encodeContent.Length;
 			
 			if(bytesLength == contentLength*2)
 			{
 				for(int i = 0; i < bytesLength; i += 2)
 				{
-					int encoded = ConvertShiftJIS(contentBytes[i], contentBytes[i+1]);
+					int encoded = ConvertShiftJIS(encodeContent[i], encodeContent[i+1]);
 					dataBits.Add(encoded, KANJI_BITCOUNT);	
 				}
 			}
@@ -46,7 +51,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				throw new ArgumentOutOfRangeException("Each char must be two byte length");
 			
 			return dataBits;
-			
 		}
 		
         protected byte[] EncodeContent(string content)

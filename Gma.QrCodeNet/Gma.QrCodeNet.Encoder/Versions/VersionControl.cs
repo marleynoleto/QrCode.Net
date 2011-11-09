@@ -115,7 +115,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 				}
 			}
 			
-			throw new System.ArgumentOutOfRangeException(string.Format("QRCode do not have enough space for {0} bits"), (numBits + NUM_BITS_MODE_INDICATOR + charCountIndicator[2]).ToString());
+			throw new ArgumentOutOfRangeException(string.Format("QRCode do not have enough space for {0} bits"), (numBits + NUM_BITS_MODE_INDICATOR + charCountIndicator[2]).ToString());
 			
 		}
 		

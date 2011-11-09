@@ -61,6 +61,7 @@
     <Compile Include="DataEncodation\TestCases\EightBitByteEncoderTestCaseFactory.cs" />
     <Compile Include="DataEncodation\TestCases\KanjiEncoderTestCaseFactory.cs" />
     <Compile Include="Masking\TestCases\MaskPatternTestCaseFactory.cs" />
+    <Compile Include="ModeAutoSelectTest.cs" />
     <Compile Include="PenaltyScore\Penalty1Test.cs" />
     <Compile Include="PenaltyScore\Penalty2Test.cs" />
     <Compile Include="PenaltyScore\Penalty3Test.cs" />
