@@ -1,6 +1,6 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Versions
 {
-	internal struct Version
+	internal struct QRCodeVersion
 	{
 		internal int VersionNum { get; private set;}
 		
@@ -14,7 +14,7 @@
 		/// <param name="ecblocks2">M</param>
 		/// <param name="ecblocks3">Q</param>
 		/// <param name="ecblocks4">H</param>
-		internal Version(int versionNum, int totalCodewords, ErrorCorrectionBlocks ecblocksL, ErrorCorrectionBlocks ecblocksM, ErrorCorrectionBlocks ecblocksQ, ErrorCorrectionBlocks ecblocksH)
+		internal QRCodeVersion(int versionNum, int totalCodewords, ErrorCorrectionBlocks ecblocksL, ErrorCorrectionBlocks ecblocksM, ErrorCorrectionBlocks ecblocksQ, ErrorCorrectionBlocks ecblocksH)
 			: this()
 		{
 			this.VersionNum = versionNum;

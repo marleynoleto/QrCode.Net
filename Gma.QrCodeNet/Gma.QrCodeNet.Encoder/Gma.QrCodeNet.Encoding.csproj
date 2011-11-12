@@ -95,19 +95,16 @@
     <Compile Include="Positioning\TriStateMatrix.cs" />
     <Compile Include="MatrixRectangle.cs" />
     <Compile Include="QRCodeBox.cs" />
+    <Compile Include="ReedSolomon\GaloisField256.cs" />
+    <Compile Include="ReedSolomon\Polynomial.cs" />
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
-    <Compile Include="Version.cs" />
     <Compile Include="Versions\ECISet.cs" />
     <Compile Include="Versions\ErrorCorrectionBlock.cs" />
     <Compile Include="Versions\ErrorCorrectionBlocks.cs" />
-    <Compile Include="Versions\TestMethod\VersionCheckStatus.cs" />
-    <Compile Include="Versions\TestMethod\VersionTableTest.cs" />
-    <Compile Include="Versions\TestMethod\VersionTableTestProperties.cs" />
-    <Compile Include="Versions\TestMethod\VersionTest.cs" />
-    <Compile Include="Versions\TestMethod\VersionTestProperties.cs" />
-    <Compile Include="Versions\Version.cs" />
+    <Compile Include="Versions\QRCodeVersion.cs" />
     <Compile Include="Versions\VersionControl.cs" />
+    <Compile Include="Versions\VersionRange.cs" />
     <Compile Include="Versions\VersionTable.cs" />
     <Compile Include="Windows\Controls\QRCodeControl.cs">
       <SubType>Component</SubType>
@@ -147,7 +144,7 @@
     <Compile Include="QrCode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Versions\TestMethod" />
+    <Folder Include="ReedSolomon" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Windows\Controls\QrCodeControl.resx">

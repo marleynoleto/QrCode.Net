@@ -53,7 +53,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				throw new ArgumentNullException();
 			Mode mode = CheckALphaNumAndNum(content);
 			
-			if(mode != Mode.EightBitByte)
+			if(mode != Mode.None)
 				return mode;
 			
 			if(ModeEncodeCheck.isModeEncodeValid(Mode.Kanji, "", content))
@@ -97,7 +97,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			if(isAlphaNum)
 				return Mode.Alphanumeric;
 			
-			return Mode.EightBitByte;
+			return Mode.None;
 		}
 		
 		

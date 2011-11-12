@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using com.google.zxing.qrcode.decoder;
 using VersionZX = com.google.zxing.qrcode.decoder.Version;
-using Version = Gma.QrCodeNet.Encoding.Versions.Version;
+using Version = Gma.QrCodeNet.Encoding.Versions.QRCodeVersion;
+using Gma.QrCodeNet.Encoding.Versions;
 
-namespace Gma.QrCodeNet.Encoding.Versions
+namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 {
 	public class VersionTableTest
 	{

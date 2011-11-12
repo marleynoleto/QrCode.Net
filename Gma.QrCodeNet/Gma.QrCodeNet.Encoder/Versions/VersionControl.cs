@@ -72,7 +72,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 			qrCodeBox.Version = versionNum;
 			
-			Version versionData = versionTable.GetVersionByNum(qrCodeBox.Version);
+			QRCodeVersion versionData = versionTable.GetVersionByNum(qrCodeBox.Version);
 			qrCodeBox.Mode = mode;
 			qrCodeBox.ErrorCorrectionLevel = level;
 			qrCodeBox.MatrixWidth = versionData.DimensionForVersion;
@@ -103,7 +103,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			{
 				totalBits = numBits + NUM_BITS_MODE_INDICATOR + charCountIndicator[i];
 				
-				Version version = versionTable.GetVersionByNum(VERSION_GROUP[i]);
+				QRCodeVersion version = versionTable.GetVersionByNum(VERSION_GROUP[i]);
 				int totalCodewords = version.TotalCodewords;
 				int numECCodewords = version.GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
 			
@@ -132,7 +132,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			}
 			
 			middleVersionNumber = (lowerVersionNum + higherVersionNum) / 2;
-			Version version = versionTable.GetVersionByNum(middleVersionNumber);
+			QRCodeVersion version = versionTable.GetVersionByNum(middleVersionNumber);
 			int totalCodewords = version.TotalCodewords;
 			int numECCodewords = version.GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
 			

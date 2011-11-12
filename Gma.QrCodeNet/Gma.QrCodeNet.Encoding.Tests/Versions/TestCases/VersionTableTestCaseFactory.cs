@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Gma.QrCodeNet.Encoding.Versions;
 
-namespace Gma.QrCodeNet.Encoding.Tests.Versions
+namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 {
 	public class VersionTableTestCaseFactory
 	{

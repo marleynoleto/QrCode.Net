@@ -1,8 +1,9 @@
 ﻿using Gma.QrCodeNet.Encoding.DataEncodation;
+using Gma.QrCodeNet.Encoding.Versions;
 using System.Collections.Generic;
 using System;
 
-namespace Gma.QrCodeNet.Encoding.Versions
+namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 {
 	public class VersionTest
 	{
@@ -59,7 +60,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			{
 				for(int versionNum = 1; versionNum < 33; versionNum++)
 				{
-					Version version = versionTable.GetVersionByNum(versionNum);
+					QRCodeVersion version = versionTable.GetVersionByNum(versionNum);
 					
 					int totalCodewordsBits = version.TotalCodewords * 8;
 					

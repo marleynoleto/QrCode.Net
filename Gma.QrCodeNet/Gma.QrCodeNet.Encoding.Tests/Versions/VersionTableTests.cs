@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Gma.QrCodeNet.Encoding.Versions;
+using Gma.QrCodeNet.Encoding.Tests.Versions.TestCases;
 
 namespace Gma.QrCodeNet.Encoding.Tests.Versions
 {

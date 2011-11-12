@@ -74,6 +74,11 @@
     <Compile Include="PenaltyScore\TestCases\PenaltyScoreTestCaseFactory.cs" />
     <Compile Include="Positioning\PositioningPatternsTest.cs" />
     <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />
+    <Compile Include="Versions\TestCases\TestMethod\VersionCheckStatus.cs" />
+    <Compile Include="Versions\TestCases\TestMethod\VersionTableTest.cs" />
+    <Compile Include="Versions\TestCases\TestMethod\VersionTableTestProperties.cs" />
+    <Compile Include="Versions\TestCases\TestMethod\VersionTest.cs" />
+    <Compile Include="Versions\TestCases\TestMethod\VersionTestProperties.cs" />
     <Compile Include="Versions\TestCases\VersionControlTestCaseFactory.cs" />
     <Compile Include="Versions\TestCases\VersionTableTestCaseFactory.cs" />
     <Compile Include="Versions\VersionControlTest.cs" />
@@ -107,6 +112,7 @@
     <Folder Include="Versions" />
     <Folder Include="Properties\" />
     <Folder Include="Versions\TestCases" />
+    <Folder Include="Versions\TestCases\TestMethod" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataEncodation\TestCases\AlphanumericEncoderTestDataSet.csv">

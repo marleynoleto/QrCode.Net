@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Gma.QrCodeNet.Encoding.Versions
 {
-	internal sealed class ECISet
+	public sealed class ECISet
 	{
 		private static Dictionary<string, int> s_NameToValue;
 		private static Dictionary<int, string> s_ValueToName;
@@ -124,7 +124,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 		}
 		
 		/// <returns>ECI table in Dictionary collection</returns>
-		internal static Dictionary<string, int> GetECITable()
+		public static Dictionary<string, int> GetECITable()
 		{
 			if(s_NameToValue == null)
 				Initialize(AppendOption.NameToValue);

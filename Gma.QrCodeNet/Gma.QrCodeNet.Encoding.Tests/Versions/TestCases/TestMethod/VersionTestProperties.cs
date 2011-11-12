@@ -1,6 +1,7 @@
 ﻿using Gma.QrCodeNet.Encoding.DataEncodation;
+using Gma.QrCodeNet.Encoding.Versions;
 
-namespace Gma.QrCodeNet.Encoding.Versions
+namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 {
 	public struct VersionTestProperties
 	{
