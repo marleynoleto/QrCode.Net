@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Gma.QrCodeNet.Encoding.Versions
+namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
 	public sealed class ECISet
 	{
@@ -68,6 +68,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			AppendECI("iso-8859-13", 15, option);
 			AppendECI("iso-8859-15", 17, option);
 			AppendECI("shift_jis", 20, option);
+			AppendECI("utf-8", 26, option);
 		}
 		
 		internal static int GetECIValueByName(string encodingName)
@@ -132,6 +133,19 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			return s_NameToValue;
 		}
 		
+		public static bool ContainsECIName(string encodingName)
+		{
+			if(s_NameToValue == null)
+				Initialize(AppendOption.NameToValue);
+			return s_NameToValue.ContainsKey(encodingName);
+		}
+		
+		public static bool ContainsECIValue(int eciValue)
+		{
+			if(s_ValueToName == null)
+				Initialize(AppendOption.ValueToName);
+			return s_ValueToName.ContainsKey(eciValue);
+		}
 		
 		/// <summary>
 		/// ISO/IEC 18004:2006 Chapter 6.4.2 Mode indicator = 0111 Page 23
@@ -146,7 +160,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 		/// 1 codeword length = 0. Any additional codeword add 1 to front. Eg: 3 = 110</remarks>
 		/// <description>Bits required for each one is:
 		/// one = 1, two = 2, three = 3</description>
-		internal enum ECICodewordsLength { one = 0, two = 2, three = 6}
+		private enum ECICodewordsLength { one = 0, two = 2, three = 6}
 		
 		/// <remarks>ISO/IEC 18004:2006 Chapter 6.4.2 Page 24.</remarks>
 		internal static BitList GetECIHeader(string encodingName)

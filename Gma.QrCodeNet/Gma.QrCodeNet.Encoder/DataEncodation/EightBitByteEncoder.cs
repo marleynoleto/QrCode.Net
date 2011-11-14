@@ -9,7 +9,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	/// </summary>
 	internal class EightBitByteEncoder : EncoderBase
 	{
-		private const string _defaultEncoding = "iso-8859-1";
+		private const string _defaultEncoding = QRCodeConstantVariable.DefaultEncoding;
 		
 		public string Encoding {get; private set;}
 		/// <summary>
@@ -53,27 +53,42 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		
 		internal override BitList GetDataBits(string content)
         {
+			if(!ECISet.ContainsECIName(Encoding.ToLower()))
+			{
+				throw new ArgumentOutOfRangeException("Encoding", 
+				                                      Encoding, 
+				                                      "Current ECI table does not support this encoding. Please check ECISet class for more info");
+			}
+			
 			byte[] contentBytes = EncodeContent(content, Encoding);
 			
 			int contentLength = base.GetDataLength(content);
 			
-			return GetDataBitsByByteArray(contentBytes, contentLength);
+			return GetDataBitsByByteArray(contentBytes, Encoding);
 		}
 		
-		internal BitList GetDataBitsByByteArray(byte[] encodeContent, int contentLength)
+		internal BitList GetDataBitsByByteArray(byte[] encodeContent, string encodingName)
 		{
 			BitList dataBits = new BitList();
-			
-			if(encodeContent.Length == contentLength)
+			//Current plan for UTF8 support is put Byte order Mark in front of content byte. 
+			//Also include ECI header before encoding header. Which will be add with encoding header.
+			if(encodingName == "utf-8")
 			{
-				for(int i = 0; i < contentLength; i++)
+				byte[] utf8BOM = QRCodeConstantVariable.UTF8ByteOrderMark;
+				int utf8BOMLength = utf8BOM.Length;
+				for(int index = 0; index < utf8BOMLength; index++)
 				{
-					dataBits.Add(encodeContent[i], EIGHT_BIT_BYTE_BITCOUNT);
+					dataBits.Add(utf8BOM[index], EIGHT_BIT_BYTE_BITCOUNT);
 				}
+				
 			}
-			else
-				throw new ArgumentOutOfRangeException("content", "EightBiteByte mode will only accept char with one byte length");
 			
+			int encodeContentLength = encodeContent.Length;
+			
+			for(int index = 0; index < encodeContentLength; index++)
+			{
+				dataBits.Add(encodeContent[index], EIGHT_BIT_BYTE_BITCOUNT);
+			}
 			return dataBits;
 		}
 		

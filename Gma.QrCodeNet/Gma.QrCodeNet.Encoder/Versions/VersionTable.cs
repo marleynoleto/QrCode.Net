@@ -9,7 +9,7 @@
 		/// <value versionNum>1 to 40, Non-micro QRcode</value>
 		internal QRCodeVersion GetVersionByNum(int versionNum)
 		{
-			if(versionNum < VersionRange.MinVersion || versionNum > VersionRange.MaxVersion)
+			if(versionNum < QRCodeConstantVariable.MinVersion || versionNum > QRCodeConstantVariable.MaxVersion)
 				throw new System.InvalidOperationException(string.Format("Unexpected version number: {0}", versionNum));
 			return version[versionNum - 1];
 		}

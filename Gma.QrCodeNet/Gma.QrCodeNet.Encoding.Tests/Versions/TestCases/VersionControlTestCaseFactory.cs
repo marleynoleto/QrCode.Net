@@ -50,22 +50,21 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 				
 				foreach(int modeValue in Enum.GetValues(typeof(Mode)))
 				{
-					if((Mode)modeValue != Mode.None)
+					
+					foreach(int levelValue in Enum.GetValues(typeof(ErrorCorrectionLevel)))
 					{
-						foreach(int levelValue in Enum.GetValues(typeof(ErrorCorrectionLevel)))
+						foreach(string encodingName in encodingNames)
 						{
-							foreach(string encodingName in encodingNames)
+							for(int i = 0; i < 15; i++)
 							{
-								for(int i = 0; i < 15; i++)
-								{
-									int numDataBits = randomizer.Next(1, maxNumDataBits);
+								int numDataBits = randomizer.Next(1, maxNumDataBits);
 								
-									yield return new TestCaseData(numDataBits, (Mode)modeValue, (ErrorCorrectionLevel)levelValue, encodingName)
-										.SetName(string.Format(s_VersionTestNameSet, numDataBits, (Mode)modeValue, (ErrorCorrectionLevel)levelValue, encodingName));
-								}
+								yield return new TestCaseData(numDataBits, (Mode)modeValue, (ErrorCorrectionLevel)levelValue, encodingName)
+									.SetName(string.Format(s_VersionTestNameSet, numDataBits, (Mode)modeValue, (ErrorCorrectionLevel)levelValue, encodingName));
 							}
 						}
 					}
+					
 				}
 			}
 		}

@@ -6,7 +6,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 	public static class VersionControl
 	{
 		private const int NUM_BITS_MODE_INDICATOR = 4;
-		private const string DEFAULT_ENCODING = "iso-8859-1";
+		private const string DEFAULT_ENCODING = QRCodeConstantVariable.DefaultEncoding;
 		
 		private static VersionTable versionTable = new VersionTable();
 		

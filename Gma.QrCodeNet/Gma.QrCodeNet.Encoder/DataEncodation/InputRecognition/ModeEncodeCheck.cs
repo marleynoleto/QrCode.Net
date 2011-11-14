@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Gma.QrCodeNet.Encoding.DataEncodation
+namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 {
 	public static class ModeEncodeCheck
 	{
@@ -63,7 +63,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			try
 			{
 				encoding = System.Text.Encoding.GetEncoding(encodingName);
-			} catch
+			} catch(ArgumentException)
 			{
 				return false;
 			}

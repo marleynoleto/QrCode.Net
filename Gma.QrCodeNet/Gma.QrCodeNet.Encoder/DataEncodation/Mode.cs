@@ -6,6 +6,5 @@
         Alphanumeric = 0001 << 1,
         EightBitByte = 0001 << 2,
         Kanji = 0001 << 3,
-        None = -1
     }
 }

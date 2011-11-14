@@ -101,14 +101,14 @@
 
             if (isOutsideMatrix(size, position, indexJumpValue, isHorizontal))
                 return ExceedNumber;
-
+			bool startPosition = matrix[position];
             do
             {
                 MatrixPoint checkIndex;
                 checkIndex = isHorizontal ? position.Offset(indexJumpValue, 0)
                        : position.Offset(0, indexJumpValue);
 
-                if (matrix[position] == matrix[checkIndex])
+                if (startPosition == matrix[checkIndex])
                     ExceedNumber++;
                 else
                     break;  //First non same module. Stop loop

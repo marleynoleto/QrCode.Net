@@ -58,7 +58,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         	byte[] contentBytes;
         	try 
         	{
-				contentBytes = System.Text.Encoding.GetEncoding("Shift_JIS").GetBytes(content);
+				contentBytes = System.Text.Encoding.GetEncoding("shift_jis").GetBytes(content);
 			} catch (ArgumentException ex) {
 				
 				throw ex;
