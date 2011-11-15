@@ -14,22 +14,16 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		/// <param name="encodingName">Encoding name 
 		/// (It will use iso-8859-1 as default encoding name if variable is null or empty string)</param>
 		/// <returns>Mode that will be use to encode content</returns>
-		/// <exception cref="ArgumentException">If can not find proper Mode</exception>
 		public static EncodationStruct Recognise(string content, string encodingName)
 		{
-			if(content == null || content == string.Empty)
-				throw new ArgumentNullException();
 			
 			if(encodingName == null || encodingName == string.Empty)
 				encodingName = QRCodeConstantVariable.DefaultEncoding;
 			
-			Mode mode = CheckALphaNumAndNum(content);
+			Mode mode = CheckModeOtherThanEightBitByte(content);
 			
 			if(mode != Mode.EightBitByte)
 				return new EncodationStruct(mode, QRCodeConstantVariable.DefaultEncoding);
-			
-			if(ModeEncodeCheck.isModeEncodeValid(Mode.Kanji, encodingName, content))
-				return new EncodationStruct(Mode.Kanji, "Shift_JIS");
 			
 			if(ModeEncodeCheck.isModeEncodeValid(Mode.EightBitByte, encodingName, content))
 				return new EncodationStruct(Mode.EightBitByte, encodingName);
@@ -45,22 +39,18 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		/// <param name="content">input string content</param>
 		/// <param name="encodingName">Output encoding name</param>
 		/// <returns>Mode that will be use to encode content</returns>
-		/// <exception cref="ArgumentException">If can not find proper Mode</exception>
 		public static EncodationStruct Recognise(string content)
 		{
-			string encodingName = "";
 			
-			if(content == null || content.Length == 0)
-				throw new ArgumentNullException();
-			Mode mode = CheckALphaNumAndNum(content);
+			
+			Mode mode = CheckModeOtherThanEightBitByte(content);
 			
 			if(mode != Mode.EightBitByte)
 				return new EncodationStruct(mode, QRCodeConstantVariable.DefaultEncoding);
 			
-			if(ModeEncodeCheck.isModeEncodeValid(Mode.Kanji, "", content))
-				return new EncodationStruct(Mode.Kanji, "Shift_JIS");
-			
 			Dictionary<string, int> eciSet = ECISet.GetECITable();
+			
+			string encodingName = "";
 			
 			foreach(KeyValuePair<string, int> kvp in eciSet)
 			{
@@ -76,6 +66,21 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 			
 			return new EncodationStruct(Mode.EightBitByte, QRCodeConstantVariable.UTF8Encoding);
 			
+		}
+		
+		private static Mode CheckModeOtherThanEightBitByte(string content)
+		{
+			if(content == null || content.Length == 0)
+				throw new ArgumentNullException();
+			Mode mode = CheckALphaNumAndNum(content);
+			
+			if(mode != Mode.EightBitByte)
+				return mode;
+			
+			if(ModeEncodeCheck.isModeEncodeValid(Mode.Kanji, "", content))
+				return Mode.Kanji;
+			
+			return Mode.EightBitByte;
 		}
 		
 		private static Mode CheckALphaNumAndNum(string content)
