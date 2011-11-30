@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
+    <Compile Include="common\BitListExtensions.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\AlphanumericTable.cs" />
@@ -98,7 +99,10 @@
     <Compile Include="MatrixRectangle.cs" />
     <Compile Include="QRCodeBox.cs" />
     <Compile Include="ReedSolomon\GaloisField256.cs" />
+    <Compile Include="ReedSolomon\GeneratorPolynomial.cs" />
+    <Compile Include="ReedSolomon\PolyDivideStruct.cs" />
     <Compile Include="ReedSolomon\Polynomial.cs" />
+    <Compile Include="ReedSolomon\ReedSolomonEncoder.cs" />
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="QRCodeConstantVariable.cs" />

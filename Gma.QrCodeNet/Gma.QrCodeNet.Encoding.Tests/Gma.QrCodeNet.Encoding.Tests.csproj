@@ -74,6 +74,16 @@
     <Compile Include="PenaltyScore\TestCases\PenaltyScoreTestCaseFactory.cs" />
     <Compile Include="Positioning\PositioningPatternsTest.cs" />
     <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />
+    <Compile Include="ReedSolomon\ByteConvertTest.cs" />
+    <Compile Include="ReedSolomon\GaloisField256Test.cs" />
+    <Compile Include="ReedSolomon\PolyDivideTest.cs" />
+    <Compile Include="ReedSolomon\PolyXorMultyTest.cs" />
+    <Compile Include="ReedSolomon\RSTest.cs" />
+    <Compile Include="ReedSolomon\TestCase\ByteConvertTestCaseFactory.cs" />
+    <Compile Include="ReedSolomon\TestCase\GaloisField256TestCaseFactory.cs" />
+    <Compile Include="ReedSolomon\TestCase\PolyDivideTestCaseFactory.cs" />
+    <Compile Include="ReedSolomon\TestCase\PolyXorMultyTestCaseFactory.cs" />
+    <Compile Include="ReedSolomon\TestCase\RSEncoderTestCaseFactory.cs" />
     <Compile Include="Versions\TestCases\TestMethod\VersionCheckStatus.cs" />
     <Compile Include="Versions\TestCases\TestMethod\VersionTableTest.cs" />
     <Compile Include="Versions\TestCases\TestMethod\VersionTableTestProperties.cs" />
@@ -96,6 +106,7 @@
     <Compile Include="EndToEnd\EndToEndSmokeTests.cs" />
     <Compile Include="Masking\MaskPatternTest.cs" />
     <Compile Include="_Helper\ByteMatrixToGraphicExtensions.cs" />
+    <Compile Include="_Helper\PolynomialExtensions.cs" />
     <Compile Include="_Helper\TriStateMatrixToGraphicExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +120,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ReedSolomon" />
+    <Folder Include="ReedSolomon\TestCase" />
     <Folder Include="Versions" />
     <Folder Include="Properties\" />
     <Folder Include="Versions\TestCases" />
@@ -138,6 +151,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="PenaltyScore\TestCases\Penalty4TestDataSet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReedSolomon\TestCase\ByteConvertTestCase.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReedSolomon\TestCase\GaloisField256TestCase.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReedSolomon\TestCase\PolyDivideTestCase.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReedSolomon\TestCase\PolyXorMultyTestCase.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReedSolomon\TestCase\RSEncoderTestCase.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Versions\TestCases\VersionControlTest.csv">

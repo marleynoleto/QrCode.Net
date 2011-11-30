@@ -4,6 +4,8 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
     public abstract class EncoderBase
     {
+    	//FIXME Change encoderbase structure. And its' test
+    	//We can not determine version until we encode input data.
         internal EncoderBase(int version)
         {
             Version = version;

@@ -10,18 +10,23 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 		private int[] antiLogTable;
 		private int[] logTable;
 		
-		private const int s_a = 2;
+		private readonly int m_primitive;
 		
-		/// <summary>
-		/// ISO/IEC 18004:2006(E) Page 45 Chapter Generating the error correction codewords
-		/// Primative Polynomial = Bin 100011101 = Dec 285
-		/// </summary>
-		private const int s_PrimitivePolynomial_QRCode = 285;
+		internal int Primitive
+		{
+			get
+			{
+				return m_primitive;
+			}
+		}
+		
 		
 		internal GaloisField256(int primitive)
 		{
 			antiLogTable = new int[256];
 			logTable = new int[256];
+			
+			m_primitive = primitive;
 			
 			int gfx = 1;
 			
@@ -29,7 +34,7 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 			{
 				antiLogTable[powers] = gfx;
 				logTable[gfx] = powers;
-				gfx *= s_a;
+				gfx <<= 1;		//gfx = gfx * 2 where alpha is 2.
 				
 				if(gfx > 255)
 				{
@@ -38,11 +43,11 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 			}
 		}
 		
-		internal GaloisField256 QRCodeGaloisField
+		internal static GaloisField256 QRCodeGaloisField
 		{
 			get
 			{
-				return new GaloisField256(s_PrimitivePolynomial_QRCode);
+				return new GaloisField256(QRCodeConstantVariable.QRCodePrimitive);
 			}
 		}
 		
@@ -59,7 +64,16 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 		/// </returns>
 		internal int Log(int gfValue)
 		{
+			if( gfValue == 0)
+				throw new ArgumentException("GaloisField value will not equal to 0, Log method");
 			return logTable[gfValue];
+		}
+		
+		internal int inverse(int gfValue)
+		{
+			if( gfValue == 0 )
+				throw new ArgumentException("GaloisField value will not equal to 0, Inverse method");
+			return this.Exponent(255 - this.Log(gfValue));
 		}
 		
 		internal int Addition(int gfValueA, int gfValueB)
@@ -79,7 +93,20 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 		/// </returns>
 		internal int Product(int gfValueA, int gfValueB)
 		{
-			return Exponent((Log(gfValueB) + Log(gfValueB)) % 255);
+			if (gfValueA == 0 || gfValueB == 0)
+			{
+				return 0;
+			}
+			if (gfValueA == 1)
+			{
+				return gfValueB;
+			}
+			if (gfValueB == 1)
+			{
+				return gfValueA;
+			}
+			
+			return Exponent((Log(gfValueA) + Log(gfValueB)) % 255);
 		}
 		
 		/// <returns>
@@ -88,6 +115,12 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 		/// </returns>
 		internal int Quotient(int gfValueA, int gfValueB)
 		{
+			if(gfValueA == 0)
+				return 0;
+			if(gfValueB == 0)
+				throw new ArgumentException("gfValueB can not be zero");
+			if(gfValueB == 1)
+				return gfValueA;
 			return Exponent(Math.Abs(Log(gfValueA) - Log(gfValueB)) % 255);
 		}
 		

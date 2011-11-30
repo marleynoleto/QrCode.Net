@@ -83,7 +83,7 @@ namespace com.google.zxing.common.reedsolomon
 					x ^= primitive;
 				}
 			}
-			for (int i = 0; i < 255; i++)
+			for (int i = 0; i < 256; i++)
 			{
 				logTable[expTable[i]] = i;
 			}

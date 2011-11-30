@@ -9,6 +9,12 @@
         public const string UTF8Encoding = "utf-8";
         
         /// <summary>
+		/// ISO/IEC 18004:2006(E) Page 45 Chapter Generating the error correction codewords
+		/// Primative Polynomial = Bin 100011101 = Dec 285
+		/// </summary>
+        public const int QRCodePrimitive = 285;
+        
+        /// <summary>
         /// URL:http://en.wikipedia.org/wiki/Byte-order_mark
         /// </summary>
         public static byte[] UTF8ByteOrderMark

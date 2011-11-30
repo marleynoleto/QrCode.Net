@@ -18,7 +18,7 @@ namespace Gma.QrCodeNet.Encoding
         {
            m_BitArray = new BitArray(values);
         }
-
+        
         public IEnumerator<bool> GetEnumerator()
         {
             return m_BitArray.Cast<bool>().GetEnumerator();
