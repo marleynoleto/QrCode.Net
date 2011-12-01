@@ -84,6 +84,8 @@
     <Compile Include="ReedSolomon\TestCase\PolyDivideTestCaseFactory.cs" />
     <Compile Include="ReedSolomon\TestCase\PolyXorMultyTestCaseFactory.cs" />
     <Compile Include="ReedSolomon\TestCase\RSEncoderTestCaseFactory.cs" />
+    <Compile Include="Terminate\TerminatorTest.cs" />
+    <Compile Include="Terminate\TestCases\TerminatorTestCaseFactory.cs" />
     <Compile Include="Versions\TestCases\TestMethod\VersionCheckStatus.cs" />
     <Compile Include="Versions\TestCases\TestMethod\VersionTableTest.cs" />
     <Compile Include="Versions\TestCases\TestMethod\VersionTableTestProperties.cs" />
@@ -120,8 +122,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Terminate" />
     <Folder Include="ReedSolomon" />
     <Folder Include="ReedSolomon\TestCase" />
+    <Folder Include="Terminate\TestCases" />
     <Folder Include="Versions" />
     <Folder Include="Properties\" />
     <Folder Include="Versions\TestCases" />
@@ -166,6 +170,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ReedSolomon\TestCase\RSEncoderTestCase.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Terminate\TestCases\TerminatorTestCase.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Versions\TestCases\VersionControlTest.csv">

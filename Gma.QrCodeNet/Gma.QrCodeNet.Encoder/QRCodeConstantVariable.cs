@@ -14,6 +14,20 @@
 		/// </summary>
         public const int QRCodePrimitive = 285;
         
+        internal const int TerminatorNPaddingBit = 0;
+        
+        internal const int TerminatorLength = 4;
+        
+        /// <summary>
+        /// 0xEC
+        /// </summary>
+        internal const int PadeCodewordsOdd = 0xec;
+        
+        /// <summary>
+        /// 0x11
+        /// </summary>
+        internal const int PadeCodewordsEven = 0x11;
+        
         /// <summary>
         /// URL:http://en.wikipedia.org/wiki/Byte-order_mark
         /// </summary>

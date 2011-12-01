@@ -106,6 +106,7 @@
     <Compile Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="QRCodeConstantVariable.cs" />
+    <Compile Include="Terminate\Terminator.cs" />
     <Compile Include="Versions\ErrorCorrectionBlock.cs" />
     <Compile Include="Versions\ErrorCorrectionBlocks.cs" />
     <Compile Include="Versions\QRCodeVersion.cs" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataEncodation\InputRecognition" />
+    <Folder Include="Terminate" />
     <Folder Include="ReedSolomon" />
   </ItemGroup>
   <ItemGroup>
