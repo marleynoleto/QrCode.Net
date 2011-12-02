@@ -8,23 +8,23 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 	public class KanjiEncoderTest : EncoderTestBase
 	{
 		[Test, TestCaseSource(typeof(KanjiEncoderTestCaseFactory), "TestCasesFromReferenceImplementation")]
-        public override void Test_against_reference_implementation(string inputString, int version, IEnumerable<bool> expected)
+        public override void Test_against_reference_implementation(string inputString, IEnumerable<bool> expected)
         {
-            base.Test_against_reference_implementation(inputString, version, expected);
+            base.Test_against_reference_implementation(inputString, expected);
         }
 
         [Test, TestCaseSource(typeof(KanjiEncoderTestCaseFactory), "TestCasesFromCsvFile")]
-        public override void Test_against_csv_DataSet(string inputString, int version, IEnumerable<bool> expected)
+        public override void Test_against_csv_DataSet(string inputString, IEnumerable<bool> expected)
         {
-            base.Test_against_csv_DataSet(inputString, version, expected);
+            base.Test_against_csv_DataSet(inputString, expected);
         }
 
-        protected override EncoderBase CreateEncoder(int version)
+        protected override EncoderBase CreateEncoder()
         {
-            return new KanjiEncoder(version);
+            return new KanjiEncoder();
         }
         
-        //[Test]
+        [Test]
         public void Generate()
         {
             new KanjiEncoderTestCaseFactory().GenerateTestDataSet();

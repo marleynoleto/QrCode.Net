@@ -16,14 +16,14 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		/// EightBitByte encoder's encoding will change according to different region
 		/// </summary>
 		/// <param name="encoding">Default encoding is "iso-8859-1"</param>
-		public EightBitByteEncoder(int version, string encoding)
-			:base(version)
+		public EightBitByteEncoder(string encoding)
+			:base()
         {
 			Encoding = encoding ?? _defaultEncoding;
         }
 		
-		public EightBitByteEncoder(int version)
-			:base(version)
+		public EightBitByteEncoder()
+			:base()
 		{
 			Encoding = _defaultEncoding;
 		}
@@ -92,9 +92,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			return dataBits;
 		}
 		
-        protected override int GetBitCountInCharCountIndicator()
+        protected override int GetBitCountInCharCountIndicator(int version)
         {
-            return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.EightBitByte, base.Version);
+            return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.EightBitByte, version);
         }
         
         

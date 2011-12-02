@@ -14,9 +14,9 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 			return GenerateRandomKanjiString(inputSize, randomizer);
         }
 		
-		protected override IEnumerable<bool> EncodeUsingReferenceImplementation(string content, int version)
+		protected override IEnumerable<bool> EncodeUsingReferenceImplementation(string content)
         {
-            return EncodeUsingReferenceImplementation(content, version, Mode.KANJI);
+            return EncodeUsingReferenceImplementation(content, Mode.KANJI);
         }
 		
 		

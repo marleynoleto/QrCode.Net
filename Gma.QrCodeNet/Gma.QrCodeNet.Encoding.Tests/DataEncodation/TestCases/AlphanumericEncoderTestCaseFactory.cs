@@ -14,9 +14,9 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
             return GenerateRandomAlphaNumInputString(inputSize, randomizer);
         }
 
-        protected override IEnumerable<bool> EncodeUsingReferenceImplementation(string content, int version)
+        protected override IEnumerable<bool> EncodeUsingReferenceImplementation(string content)
         {
-            return EncodeUsingReferenceImplementation(content, version, Mode.ALPHANUMERIC);
+            return EncodeUsingReferenceImplementation(content, Mode.ALPHANUMERIC);
         }
         
         /// <summary>

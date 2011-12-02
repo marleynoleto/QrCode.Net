@@ -25,9 +25,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
                         string line = reader.ReadLine();
                         string[] parts = line.Split(s_Semicolon[0]);
                         string input = parts[0];
-                        int version = int.Parse(parts[1]);
-                        IEnumerable<bool> expected = BitVectorTestExtensions.From01String(parts[2]);
-                        yield return new TestCaseData(input, version, expected);
+                        IEnumerable<bool> expected = BitVectorTestExtensions.From01String(parts[1]);
+                        yield return new TestCaseData(input, expected);
                     }
                 }
             }
@@ -40,15 +39,13 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
                 Random randomizer = new Random();
                 int[] testInputSizes = new[] { 0, 1, 10, 25, 36, 73, 111, 174, 255 };
 
-                for (int version = 1; version < 40; version++)
+                foreach (int inputSize in testInputSizes)
                 {
-                    foreach (int inputSize in testInputSizes)
-                    {
-                        string inputString = GenerateRandomInputString(inputSize, randomizer);
-                        IEnumerable<bool> result = EncodeUsingReferenceImplementation(inputString, version);
-                        yield return new TestCaseData(inputString, version, result);
-                    }
+                    string inputString = GenerateRandomInputString(inputSize, randomizer);
+                    IEnumerable<bool> result = EncodeUsingReferenceImplementation(inputString);
+                    yield return new TestCaseData(inputString, result);
                 }
+                
             }
         }
 
@@ -70,9 +67,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
                 foreach (TestCaseData testCaseData in TestCasesFromReferenceImplementation)
                 {
                     string inputString = testCaseData.Arguments[0].ToString();
-                    int version = int.Parse(testCaseData.Arguments[1].ToString());
-                    IEnumerable<bool> result = (IEnumerable<bool>)testCaseData.Arguments[2];
-                    csvFile.WriteLine(string.Join(s_Semicolon, inputString, version, result.To01String()));
+                    IEnumerable<bool> result = (IEnumerable<bool>)testCaseData.Arguments[1];
+                    csvFile.WriteLine(string.Join(s_Semicolon, inputString, result.To01String()));
                 }
                 csvFile.Close();
             }
@@ -97,24 +93,16 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         }
         
 
-        protected abstract IEnumerable<bool> EncodeUsingReferenceImplementation(string content, int version);
+        protected abstract IEnumerable<bool> EncodeUsingReferenceImplementation(string content);
 
-        protected virtual IEnumerable<bool> EncodeUsingReferenceImplementation(string content, int version, Mode mode)
+        protected virtual IEnumerable<bool> EncodeUsingReferenceImplementation(string content, Mode mode)
         {
             // Step 2: Append "bytes" into "dataBits" in appropriate encoding.
             BitVector dataBits = new BitVector();
             EncoderInternal.appendBytes(content, mode, dataBits, null);
 
-            // Step 4: Build another bit vector that contains header and data.
-            BitVector headerAndDataBits = new BitVector();
 
-            EncoderInternal.appendModeInfo(mode, headerAndDataBits);
-
-            int numLetters = content.Length;
-            EncoderInternal.appendLengthInfo(numLetters, version, mode, headerAndDataBits);
-            headerAndDataBits.appendBitVector(dataBits);
-
-            return headerAndDataBits;
+            return dataBits;
         }
 
     }

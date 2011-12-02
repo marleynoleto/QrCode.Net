@@ -14,9 +14,9 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
             return GenerateRandomInputString(inputSize, randomizer, '0', '9');
         }
 
-        protected override IEnumerable<bool> EncodeUsingReferenceImplementation(string content, int version)
+        protected override IEnumerable<bool> EncodeUsingReferenceImplementation(string content)
         {
-            return EncodeUsingReferenceImplementation(content, version, Mode.NUMERIC);
+            return EncodeUsingReferenceImplementation(content, Mode.NUMERIC);
         }
     }
 }

@@ -9,8 +9,8 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	/// </summary>
 	internal class KanjiEncoder : EncoderBase
 	{
-		public KanjiEncoder(int version)
-			:base(version)
+		public KanjiEncoder()
+			:base()
 		{
 		}
 		
@@ -102,9 +102,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			return ((Subtracted >> 8) * MULTIPLY_FOR_msb) + (Subtracted & 0xFF);
 		}
 		
-        protected override int GetBitCountInCharCountIndicator()
+        protected override int GetBitCountInCharCountIndicator(int version)
         {
-        	return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.Kanji, base.Version);
+        	return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.Kanji, version);
         }
 		
 	}

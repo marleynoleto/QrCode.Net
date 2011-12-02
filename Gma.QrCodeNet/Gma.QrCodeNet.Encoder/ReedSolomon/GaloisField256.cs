@@ -29,8 +29,9 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 			m_primitive = primitive;
 			
 			int gfx = 1;
-			
-			for(int powers = 0; powers < 256; powers++)
+			//Power cycle is from 0 to 254. 2^255 = 1 = 2^0 
+			//Value cycle is from 1 to 255. Thus there should not have Log(0).			
+			for(int powers = 0; powers < 255; powers++)
 			{
 				antiLogTable[powers] = gfx;
 				logTable[gfx] = powers;

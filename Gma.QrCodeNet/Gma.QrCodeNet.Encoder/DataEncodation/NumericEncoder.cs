@@ -5,8 +5,8 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
     internal class NumericEncoder : EncoderBase
     {
-        internal NumericEncoder(int version) 
-            : base(version)
+        internal NumericEncoder() 
+            : base()
         {
         }
 
@@ -31,9 +31,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         }
         
         
-        protected override int GetBitCountInCharCountIndicator()
+        protected override int GetBitCountInCharCountIndicator(int version)
         {
-            return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.Numeric, base.Version);
+            return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.Numeric, version);
         }
 
         private int GetDigitGroupValue(string content, int startIndex, int length)

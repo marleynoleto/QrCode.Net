@@ -4,8 +4,8 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
     internal class AlphanumericEncoder : EncoderBase
     {
-        public AlphanumericEncoder(int version) 
-            : base(version)
+        public AlphanumericEncoder() 
+            : base()
         {
         }
 
@@ -49,9 +49,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         }
         
 
-        protected override int GetBitCountInCharCountIndicator()
+        protected override int GetBitCountInCharCountIndicator(int version)
         {
-            return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.Alphanumeric, base.Version);
+            return CharCountIndicatorTable.GetBitCountInCharCountIndicator(Mode.Alphanumeric, version);
         }
         
         /// <summary>

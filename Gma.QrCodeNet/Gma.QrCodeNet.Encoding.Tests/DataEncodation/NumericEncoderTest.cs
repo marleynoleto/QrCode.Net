@@ -8,20 +8,26 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
     public class NumericEncoderTest : EncoderTestBase
     {
         [Test, TestCaseSource(typeof(NumericEncoderTestCaseFactory), "TestCasesFromReferenceImplementation")]
-        public override void Test_against_reference_implementation(string inputString, int version, IEnumerable<bool> expected)
+        public override void Test_against_reference_implementation(string inputString, IEnumerable<bool> expected)
         {
-            base.Test_against_reference_implementation(inputString, version, expected);
+            base.Test_against_reference_implementation(inputString, expected);
         }
 
         [Test, TestCaseSource(typeof(NumericEncoderTestCaseFactory), "TestCasesFromCsvFile")]
-        public override void Test_against_csv_DataSet(string inputString, int version, IEnumerable<bool> expected)
+        public override void Test_against_csv_DataSet(string inputString, IEnumerable<bool> expected)
         {
-            base.Test_against_csv_DataSet(inputString, version, expected);
+            base.Test_against_csv_DataSet(inputString, expected);
         }
 
-        protected override EncoderBase CreateEncoder(int version)
+        protected override EncoderBase CreateEncoder()
         {
-            return new NumericEncoder(version);
+            return new NumericEncoder();
+        }
+        
+        [Test]
+        public void Generate()
+        {
+            new NumericEncoderTestCaseFactory().GenerateTestDataSet();
         }
     }
 }

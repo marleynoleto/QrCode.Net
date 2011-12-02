@@ -6,20 +6,15 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
     {
     	//FIXME Change encoderbase structure. And its' test
     	//We can not determine version until we encode input data.
-        internal EncoderBase(int version)
+        internal EncoderBase()
         {
-            Version = version;
         }
 
-        public int Version { get; private set; }
         internal abstract Mode Mode { get; }
 
         internal virtual BitList Encode(string content)
         {
-            return
-                GetModeIndicator().Add(
-                    GetCharCountIndicator(GetDataLength(content))).Add(
-                        GetDataBits(content));
+            return GetDataBits(content);
         }
 
         protected virtual int GetDataLength(string content)
@@ -52,10 +47,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// </summary>
         /// <param name="characterCount"></param>
         /// <returns></returns>
-        internal BitList GetCharCountIndicator(int characterCount)
+        internal BitList GetCharCountIndicator(int characterCount, int version)
         {
             BitList characterCountBits = new BitList();
-            int bitCount = GetBitCountInCharCountIndicator();
+            int bitCount = GetBitCountInCharCountIndicator(version);
             characterCountBits.Add(characterCount, bitCount);
             return characterCountBits;
         }
@@ -68,7 +63,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
         /// <remarks>
         /// See Chapter 8.4 Data encodation, Table 3 — Number of bits in Character Count Indicator.
         /// </remarks>
-        protected abstract int GetBitCountInCharCountIndicator();
+        protected abstract int GetBitCountInCharCountIndicator(int version);
 
         
     }

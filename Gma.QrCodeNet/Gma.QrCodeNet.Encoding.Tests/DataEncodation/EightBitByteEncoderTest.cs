@@ -8,23 +8,23 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 	public class EightBitByteEncoderTest : EncoderTestBase
 	{
         [Test, TestCaseSource(typeof(EightBitByteEncoderTestCaseFactory), "TestCasesFromReferenceImplementation")]
-		public override void Test_against_reference_implementation(string inputString, int version, IEnumerable<bool> expected)
+		public override void Test_against_reference_implementation(string inputString, IEnumerable<bool> expected)
         {
-            base.Test_against_reference_implementation(inputString, version, expected);
+            base.Test_against_reference_implementation(inputString, expected);
         }
 		
 		[Test, TestCaseSource(typeof(EightBitByteEncoderTestCaseFactory), "TestCasesFromCsvFile")]
-		public override void Test_against_csv_DataSet(string inputString, int version, IEnumerable<bool> expected)
+		public override void Test_against_csv_DataSet(string inputString, IEnumerable<bool> expected)
         {
-            base.Test_against_csv_DataSet(inputString, version, expected);
+            base.Test_against_csv_DataSet(inputString, expected);
         }
 		
-		protected override EncoderBase CreateEncoder(int version)
+		protected override EncoderBase CreateEncoder()
         {
-            return new EightBitByteEncoder(version, "shift_jis");
+            return new EightBitByteEncoder("shift_jis");
         }
 
-        //[Test]
+        [Test]
         public void Generate()
         {
             new EightBitByteEncoderTestCaseFactory().GenerateTestDataSet();
