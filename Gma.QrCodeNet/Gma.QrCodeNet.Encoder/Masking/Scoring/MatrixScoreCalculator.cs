@@ -11,7 +11,7 @@ namespace Gma.QrCodeNet.Encoding.Masking.Scoring
                 patternFactory
                     .AllPatterns()
                     .Select(pattern => matrix.Apply(pattern))
-                    .OrderByDescending(PenaltyScore)
+            		.OrderByDescending(patternedMatrix => patternedMatrix.PenaltyScore())
                     .First();
         }
 

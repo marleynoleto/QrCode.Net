@@ -40,7 +40,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
 
         private void DrawText(Graphics graphics)
         {
-            if (string.IsNullOrWhiteSpace(this.Text))
+        	if (string.IsNullOrEmpty(this.Text) || this.Text.Trim() == string.Empty)
             {
                 return;
             }
