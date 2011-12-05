@@ -3,7 +3,7 @@ using Gma.QrCodeNet.Encoding.DataEncodation;
 
 namespace Gma.QrCodeNet.Encoding.Versions
 {
-	public static class VersionControl
+	internal static class VersionControl
 	{
 		private const int NUM_BITS_MODE_INDICATOR = 4;
 		private const string DEFAULT_ENCODING = QRCodeConstantVariable.DefaultEncoding;
@@ -16,7 +16,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 		/// Default Encoding = iso-8859-1
 		/// </summary>
 		/// <param name="dataBitsLength">Number of bits for encoded content</param>
-		public static QRCodeBox InitialSetup(int dataBitsLength, Mode mode, ErrorCorrectionLevel level)
+		internal static VersionControlStruct InitialSetup(int dataBitsLength, Mode mode, ErrorCorrectionLevel level)
 		{
 			string encodingName = "";
 			
@@ -27,17 +27,19 @@ namespace Gma.QrCodeNet.Encoding.Versions
 		
 		/// <param name="dataBitsLength">Number of bits for encoded content</param>
 		/// <param name="encodingName">Encoding name for EightBitByte</param>
-		public static QRCodeBox InitialSetup(int dataBitsLength,  Mode mode, ErrorCorrectionLevel level, string encodingName)
+		internal static VersionControlStruct InitialSetup(int dataBitsLength,  Mode mode, ErrorCorrectionLevel level, string encodingName)
 		{
 			int totalDataBits = dataBitsLength;
 			
 			bool containECI = false;
 			
+			ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
+			
 			if(mode == Mode.EightBitByte)
 			{
 				if(encodingName != DEFAULT_ENCODING)
 				{
-					int eciValue = ECISet.GetECIValueByName(encodingName);
+					int eciValue = eciSet.GetECIValueByName(encodingName);
 				
 					totalDataBits += ECISet.NumOfECIHeaderBits(eciValue);
 					
@@ -56,39 +58,39 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 			int versionNum = BinarySearch(totalDataBits, level, lowerSearchBoundary, higherSearchBoundary);
 			
-			return FillCodeBox(versionNum, mode, level, encodingName, containECI);
+			VersionControlStruct vcStruct = FillVCStruct(versionNum, level, encodingName);
+			
+			vcStruct.isContainECI = containECI;
+			
+			if(containECI)
+			{
+				vcStruct.ECIHeader = eciSet.GetECIHeader(encodingName);
+			}
+			return vcStruct;
 			
 		}
 		
-		
-		private static QRCodeBox FillCodeBox(int versionNum, Mode mode, ErrorCorrectionLevel level, string encodingName, bool isContainECI)
+		private static VersionControlStruct FillVCStruct(int versionNum, ErrorCorrectionLevel level, string encodingName)
 		{
 			if(versionNum < 1 || versionNum > 40)
 			{
 				throw new InvalidOperationException(string.Format("Unexpected version number: {0}", versionNum));
 			}
 			
-			QRCodeBox qrCodeBox = new QRCodeBox();
+			VersionControlStruct vcStruct = new VersionControlStruct();
 			
-			qrCodeBox.Version = versionNum;
+			vcStruct.Version = versionNum;
 			
-			QRCodeVersion versionData = versionTable.GetVersionByNum(qrCodeBox.Version);
-			qrCodeBox.Mode = mode;
-			qrCodeBox.ErrorCorrectionLevel = level;
-			qrCodeBox.MatrixWidth = versionData.DimensionForVersion;
-			qrCodeBox.NumTotalBytes = versionData.TotalCodewords;
+			QRCodeVersion versionData = versionTable.GetVersionByNum(versionNum);
+			
+			vcStruct.MatrixWidth = versionData.DimensionForVersion;
+			vcStruct.NumTotalBytes = versionData.TotalCodewords;
 			
 			ErrorCorrectionBlocks ecBlocks = versionData.GetECBlocksByLevel(level);
-			qrCodeBox.NumErrorCorrectionBytes = ecBlocks.NumErrorCorrectionCodewards;
-			qrCodeBox.NumDataBytes = qrCodeBox.NumTotalBytes - qrCodeBox.NumErrorCorrectionBytes;
-			qrCodeBox.NumErrorCorrectionBlocks = ecBlocks.NumBlocks;
+			vcStruct.NumDataBytes = vcStruct.NumTotalBytes - ecBlocks.NumErrorCorrectionCodewards;
+			vcStruct.NumECBlocks = ecBlocks.NumBlocks;
 			
-			if(isContainECI)
-			{
-				qrCodeBox.ECIDataBits = ECISet.GetECIHeader(encodingName);
-			}
-			
-			return qrCodeBox;
+			return vcStruct;
 		}
 		
 		

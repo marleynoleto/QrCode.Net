@@ -1,18 +1,25 @@
-﻿using System;
+﻿using Gma.QrCodeNet.Encoding.Versions;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
-	public struct EncodationStruct
+	internal struct EncodationStruct
 	{
-		public Mode Mode{get; private set;}
+		internal int Version { get; set; }
+		internal Mode Mode { get; set; }
+		internal int MatrixWidth { get; set; }
+		internal int NumTotalBytes { get; set; }
+		internal int NumDataBytes { get; set; }
+		internal int NumECBlocks { get; set; }
+		internal BitList DataCodewords { get; set;}
 		
-		public string EncodingName{get; private set;}
-		
-		public EncodationStruct(Mode mode, string encodingName)
+		internal EncodationStruct(VersionControlStruct vcStruct)
 			: this()
 		{
-			this.Mode = mode;
-			this.EncodingName = encodingName;
+			this.Version = vcStruct.Version;
+			this.MatrixWidth = vcStruct.MatrixWidth;
+			this.NumTotalBytes = vcStruct.NumTotalBytes;
+			this.NumDataBytes = vcStruct.NumDataBytes;
+			this.NumECBlocks = vcStruct.NumECBlocks;
 		}
 	}
 }

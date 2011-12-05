@@ -13,17 +13,17 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		/// <param name="content">input string content</param>
 		/// <param name="encodingName">Output encoding name</param>
 		/// <returns>Mode and Encoding name</returns>
-		public static EncodationStruct Recognise(string content)
+		public static RecognitionStruct Recognise(string content)
 		{
 			
 			
 			Mode mode = CheckModeOtherThanEightBitByte(content);
 			
 			if(mode != Mode.EightBitByte)
-				return new EncodationStruct(mode, QRCodeConstantVariable.DefaultEncoding);
+				return new RecognitionStruct(mode, QRCodeConstantVariable.DefaultEncoding);
 			
 			string encodingName = EightBitByteRecognision(content);
-			return new EncodationStruct(Mode.EightBitByte, encodingName);
+			return new RecognitionStruct(Mode.EightBitByte, encodingName);
 		}
 		
 		private static string EightBitByteRecognision(string content)
@@ -31,7 +31,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 			if(string.IsNullOrEmpty(content))
 				throw new ArgumentNullException("content", "Input content is null or empty");
 			
-			Dictionary<string, int> eciSet = ECISet.GetECITable();
+			ECISet eciSets = new ECISet(ECISet.AppendOption.NameToValue);
+			
+			Dictionary<string, int> eciSet = eciSets.GetECITable();
 			
 			int scanPos = 0;
 			

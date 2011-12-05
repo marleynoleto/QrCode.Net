@@ -4,7 +4,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
     internal class AlphanumericEncoder : EncoderBase
     {
-        public AlphanumericEncoder() 
+        internal AlphanumericEncoder() 
             : base()
         {
         }

@@ -9,7 +9,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	/// </summary>
 	internal class KanjiEncoder : EncoderBase
 	{
-		public KanjiEncoder()
+		internal KanjiEncoder()
 			:base()
 		{
 		}

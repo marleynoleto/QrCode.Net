@@ -51,8 +51,10 @@
     <Compile Include="Common\ByteMatrixExtensions.cs" />
     <Compile Include="DataEncodation\AlphanumericTable.cs" />
     <Compile Include="DataEncodation\CharCountIndicatorTable.cs" />
+    <Compile Include="DataEncodation\DataEncode.cs" />
     <Compile Include="DataEncodation\ECISet.cs" />
     <Compile Include="DataEncodation\EncodationStruct.cs" />
+    <Compile Include="DataEncodation\InputRecognition\RecognitionStruct.cs" />
     <Compile Include="DataEncodation\InputRecognition\InputRecognise.cs" />
     <Compile Include="DataEncodation\InputRecognition\ModeEncodeCheck.cs" />
     <Compile Include="EncodingRegion\FormatInformation.cs" />
@@ -97,7 +99,6 @@
     <Compile Include="Positioning\Stencils\PositionDetectionPattern.cs" />
     <Compile Include="Positioning\TriStateMatrix.cs" />
     <Compile Include="MatrixRectangle.cs" />
-    <Compile Include="QRCodeBox.cs" />
     <Compile Include="ReedSolomon\GaloisField256.cs" />
     <Compile Include="ReedSolomon\GeneratorPolynomial.cs" />
     <Compile Include="ReedSolomon\PolyDivideStruct.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Versions\ErrorCorrectionBlocks.cs" />
     <Compile Include="Versions\QRCodeVersion.cs" />
     <Compile Include="Versions\VersionControl.cs" />
+    <Compile Include="Versions\VersionControlStruct.cs" />
     <Compile Include="Versions\VersionTable.cs" />
     <Compile Include="Windows\Controls\QRCodeControl.cs">
       <SubType>Component</SubType>

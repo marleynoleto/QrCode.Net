@@ -17,11 +17,12 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 		public static VersionCheckStatus VersionCheck(int versionNum, int numDataBits, Mode mode, ErrorCorrectionLevel level, string encodingName)
 		{
 			int TotalDataBits = numDataBits;
+			ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
         	if(mode == Mode.EightBitByte)
         	{
         		if(encodingName != DEFAULT_ENCODING)
         		{
-        			int eciValue = ECISet.GetECIValueByName(encodingName);
+        			int eciValue = eciSet.GetECIValueByName(encodingName);
         			TotalDataBits += ECISet.NumOfECIHeaderBits(eciValue);
         		}
         	}
@@ -58,6 +59,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 		{
 			get
 			{
+				ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
 				for(int versionNum = 1; versionNum < 33; versionNum++)
 				{
 					QRCodeVersion version = versionTable.GetVersionByNum(versionNum);
@@ -79,7 +81,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 								int eciHeaderBits = 0;
 								if((Mode)modeValue == Mode.EightBitByte && encodingName != DEFAULT_ENCODING)
 								{
-									int eciValue = ECISet.GetECIValueByName(encodingName);
+									int eciValue = eciSet.GetECIValueByName(encodingName);
         							eciHeaderBits += ECISet.NumOfECIHeaderBits(eciValue);
 								}
 								int numBitsDataContents = dataCodewordsBits - eciHeaderBits - normalHeaderBits;

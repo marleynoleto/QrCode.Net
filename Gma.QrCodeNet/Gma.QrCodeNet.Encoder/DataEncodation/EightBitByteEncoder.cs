@@ -11,18 +11,18 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 	{
 		private const string _defaultEncoding = QRCodeConstantVariable.DefaultEncoding;
 		
-		public string Encoding {get; private set;}
+		internal string Encoding {get; private set;}
 		/// <summary>
 		/// EightBitByte encoder's encoding will change according to different region
 		/// </summary>
 		/// <param name="encoding">Default encoding is "iso-8859-1"</param>
-		public EightBitByteEncoder(string encoding)
+		internal EightBitByteEncoder(string encoding)
 			:base()
         {
 			Encoding = encoding ?? _defaultEncoding;
         }
 		
-		public EightBitByteEncoder()
+		internal EightBitByteEncoder()
 			:base()
 		{
 			Encoding = _defaultEncoding;
@@ -53,7 +53,8 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		
 		internal override BitList GetDataBits(string content)
         {
-			if(!ECISet.ContainsECIName(Encoding.ToLower()))
+			ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
+			if(!eciSet.ContainsECIName(Encoding.ToLower()))
 			{
 				throw new ArgumentOutOfRangeException("Encoding", 
 				                                      Encoding, 

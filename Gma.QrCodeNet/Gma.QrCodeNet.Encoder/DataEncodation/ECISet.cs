@@ -10,7 +10,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		
 		public enum AppendOption { NameToValue, ValueToName, Both }
 		
-		private static void AppendECI(string name, int value, AppendOption option)
+		private void AppendECI(string name, int value, AppendOption option)
 		{
 			switch(option)
 			{
@@ -29,12 +29,17 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			}
 		}
 		
+		/// <summary>
+		/// Initialize ECI Set. 
+		/// </summary>
+		/// <param name="option">AppendOption is enum under ECISet
+		/// Use NameToValue during Encode. ValueToName during Decode</param>
 		internal ECISet(AppendOption option)
 		{
 			Initialize(option);
 		}
 		
-		private static void Initialize(AppendOption option)
+		private void Initialize(AppendOption option)
 		{
 			switch(option)
 			{
@@ -71,7 +76,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			AppendECI("utf-8", 26, option);
 		}
 		
-		internal static int GetECIValueByName(string encodingName)
+		internal int GetECIValueByName(string encodingName)
 		{
 			if(s_NameToValue == null)
 				Initialize(AppendOption.NameToValue);
@@ -82,7 +87,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				throw new ArgumentOutOfRangeException(string.Format("ECI doesn't contain encoding: {0}", encodingName));
 		}
 		
-		internal static string GetECINameByValue(int ECIValue)
+		internal string GetECINameByValue(int ECIValue)
 		{
 			if(s_ValueToName == null)
 				Initialize(AppendOption.ValueToName);
@@ -125,7 +130,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		}
 		
 		/// <returns>ECI table in Dictionary collection</returns>
-		public static Dictionary<string, int> GetECITable()
+		public Dictionary<string, int> GetECITable()
 		{
 			if(s_NameToValue == null)
 				Initialize(AppendOption.NameToValue);
@@ -133,14 +138,14 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			return s_NameToValue;
 		}
 		
-		public static bool ContainsECIName(string encodingName)
+		public bool ContainsECIName(string encodingName)
 		{
 			if(s_NameToValue == null)
 				Initialize(AppendOption.NameToValue);
 			return s_NameToValue.ContainsKey(encodingName);
 		}
 		
-		public static bool ContainsECIValue(int eciValue)
+		public bool ContainsECIValue(int eciValue)
 		{
 			if(s_ValueToName == null)
 				Initialize(AppendOption.ValueToName);
@@ -163,7 +168,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		private enum ECICodewordsLength { one = 0, two = 2, three = 6}
 		
 		/// <remarks>ISO/IEC 18004:2006 Chapter 6.4.2 Page 24.</remarks>
-		internal static BitList GetECIHeader(string encodingName)
+		internal BitList GetECIHeader(string encodingName)
 		{
 			int eciValue = GetECIValueByName(encodingName);
 			

@@ -32,7 +32,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
 		[TestCase("ｦｦｦｦｦﾝﾝﾝﾝﾝสสส◌์◌์", QRCodeConstantVariable.UTF8Encoding, (int)(Mode.EightBitByte))]
 		public void AutoSelectTestTwo(string content, string expectEncodingName, int expectMode)
 		{
-			EncodationStruct structValue = InputRecognise.Recognise(content);
+			RecognitionStruct structValue = InputRecognise.Recognise(content);
 				
 			if(structValue.Mode != (Mode)expectMode)
 				Assert.Fail("Mode return as {0}. But it should be {1}", structValue.Mode, (Mode)expectMode);

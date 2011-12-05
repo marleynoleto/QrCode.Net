@@ -4,17 +4,16 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
     public abstract class EncoderBase
     {
-    	//FIXME Change encoderbase structure. And its' test
-    	//We can not determine version until we encode input data.
         internal EncoderBase()
         {
         }
 
         internal abstract Mode Mode { get; }
 
-        internal virtual BitList Encode(string content)
+        internal virtual BitList Encode(string content, ErrorCorrectionLevel ecLevel)
         {
             return GetDataBits(content);
+            
         }
 
         protected virtual int GetDataLength(string content)
