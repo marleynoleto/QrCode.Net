@@ -59,31 +59,49 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		
 		private static bool EightBitByteCheck(string encodingName, string content)
 		{
+			int tryEncodePos = TryEncodeEightBitByte(content, encodingName, 0);
+			return tryEncodePos == -1 ? true : false;
+		}
+		
+		/// <summary>
+		/// Use given encoding to check input string from starting position. If encoding table is suitable solution.
+		/// it will return -1. Else it will return failed encoding position. 
+		/// </summary>
+		/// <param name="content">input string</param>
+		/// <param name="encodingName">encoding name. Check ECI table</param>
+		/// <param name="startPos">starting position</param>
+		/// <returns>-1 if from starting position to end encoding success. Else return fail position</returns>
+		internal static int TryEncodeEightBitByte(string content, string encodingName, int startPos)
+		{
+			int contentLength = content.Length;
+			if(startPos >= contentLength)
+				throw new IndexOutOfRangeException("startPos greater or equal to content length");
+			
 			System.Text.Encoding encoding;
 			try
 			{
 				encoding = System.Text.Encoding.GetEncoding(encodingName);
 			} catch(ArgumentException)
 			{
-				return false;
+				return startPos;
 			}
 			
 			char[] currentChar = new char[1];
 			byte[] bytes;
 			
 			
-			for(int index = 0; index < content.Length; index++)
+			for(int index = startPos; index < contentLength; index++)
 			{
 				currentChar[0] = content[index];
 				bytes = encoding.GetBytes(currentChar);
 				int length = bytes.Length;
 				if(currentChar[0] != '?' && length == 1 && (int)bytes[0] == QUESTION_MARK_CHAR)
-					return false;
+					return index;
 				else if(length > 1)
-					return false;
+					return index;
 			}
 			
-			return true;
+			return -1;
 		}
 		
 		private static bool KanjiCheck(string content)
