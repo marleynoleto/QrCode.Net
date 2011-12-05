@@ -31,10 +31,11 @@ namespace Gma.QrCodeNet.Encoding.ReedSolomon
 			int gfx = 1;
 			//Power cycle is from 0 to 254. 2^255 = 1 = 2^0 
 			//Value cycle is from 1 to 255. Thus there should not have Log(0).			
-			for(int powers = 0; powers < 255; powers++)
+			for(int powers = 0; powers < 256; powers++)
 			{
 				antiLogTable[powers] = gfx;
-				logTable[gfx] = powers;
+				if(powers != 255)
+					logTable[gfx] = powers;
 				gfx <<= 1;		//gfx = gfx * 2 where alpha is 2.
 				
 				if(gfx > 255)
