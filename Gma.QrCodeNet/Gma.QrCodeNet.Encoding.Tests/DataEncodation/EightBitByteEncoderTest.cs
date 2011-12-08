@@ -19,12 +19,18 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
             base.Test_against_csv_DataSet(inputString, expected);
         }
 		
+		[Test, TestCaseSource(typeof(EightBitByteEncoderTestCaseFactory), "TestCasesDataEncodeReferenceImplementation")]
+        public override void DataEncode_Test_against_reference_DataSet(string inputString, IEnumerable<bool> expected)
+        {
+            base.DataEncode_Test_against_reference_DataSet(inputString, expected);
+        }
+		
 		protected override EncoderBase CreateEncoder()
         {
             return new EightBitByteEncoder("shift_jis");
         }
 
-        [Test]
+        //[Test]
         public void Generate()
         {
             new EightBitByteEncoderTestCaseFactory().GenerateTestDataSet();

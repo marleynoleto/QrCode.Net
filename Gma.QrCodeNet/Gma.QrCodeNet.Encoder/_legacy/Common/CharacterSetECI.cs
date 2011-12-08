@@ -62,7 +62,7 @@ namespace com.google.zxing.common
 			addCharacterSet(16, "ISO8859_14");
 			addCharacterSet(17, "ISO8859_15");
 			addCharacterSet(18, "ISO8859_16");
-			addCharacterSet(20, new System.String[]{"SJIS", "Shift_JIS"});
+			addCharacterSet(20, new System.String[]{"SJIS", "shift_jis"});
 		}
 		
 		//UPGRADE_NOTE: Final was removed from the declaration of 'encodingName '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"

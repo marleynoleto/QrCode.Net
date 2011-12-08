@@ -633,7 +633,7 @@ namespace com.google.zxing.qrcode.encoder
 			}
 		}
 		
-		private static void  appendECI(CharacterSetECI eci, BitVector bits)
+		internal static void  appendECI(CharacterSetECI eci, BitVector bits)
 		{
 			bits.appendBits(Mode.ECI.Bits, 4);
 			// This is correct for values up to 127, which is all we need now.

@@ -25,11 +25,12 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 				dataCodewords.Add(vcStruct.ECIHeader);
 			//Header
 			dataCodewords.Add(encoderBase.GetModeIndicator());
-			dataCodewords.Add(encoderBase.GetCharCountIndicator(encodeContentLength, vcStruct.Version));
+			int numLetter = recognitionResult.Mode == Mode.EightBitByte ? encodeContentLength >> 3 : content.Length;
+			dataCodewords.Add(encoderBase.GetCharCountIndicator(numLetter, vcStruct.Version));
 			//Data
 			dataCodewords.Add(encodeContent);
 			//Terminator Padding
-			BitList terminator = Terminator.TerminateBites(encodeContent, vcStruct.NumDataBytes);
+			BitList terminator = Terminator.TerminateBites(dataCodewords, vcStruct.NumDataBytes);
 			dataCodewords.Add(terminator);
 			
 			EncodationStruct encStruct = new EncodationStruct(vcStruct);

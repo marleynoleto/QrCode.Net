@@ -18,13 +18,19 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         {
             base.Test_against_csv_DataSet(inputString, expected);
         }
+        
+        [Test, TestCaseSource(typeof(KanjiEncoderTestCaseFactory), "TestCasesDataEncodeReferenceImplementation")]
+        public override void DataEncode_Test_against_reference_DataSet(string inputString, IEnumerable<bool> expected)
+        {
+            base.DataEncode_Test_against_reference_DataSet(inputString, expected);
+        }
 
         protected override EncoderBase CreateEncoder()
         {
             return new KanjiEncoder();
         }
         
-        [Test]
+        //[Test]
         public void Generate()
         {
             new KanjiEncoderTestCaseFactory().GenerateTestDataSet();
