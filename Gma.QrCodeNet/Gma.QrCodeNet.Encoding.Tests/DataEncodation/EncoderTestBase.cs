@@ -28,6 +28,16 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         
         public virtual void DataEncode_Test_against_reference_DataSet(string inputString, IEnumerable<bool> expected)
         {
+        	DataEncodeTestOneDataRow(inputString, expected);
+        }
+        
+        public virtual void DataEncode_Test_against_csv_DataSet(string inputString, IEnumerable<bool> expected)
+        {
+        	DataEncodeTestOneDataRow(inputString, expected);
+        }
+        
+        private void DataEncodeTestOneDataRow(string inputString, IEnumerable<bool> expected)
+        {
         	EncodationStruct eStruct = DataEncode.Encode(inputString, ErrorCorrectionLevel.H);
         	IEnumerable<bool> actualResult = eStruct.DataCodewords;
         	string expectStr = BitVectorTestExtensions.To01String(expected);

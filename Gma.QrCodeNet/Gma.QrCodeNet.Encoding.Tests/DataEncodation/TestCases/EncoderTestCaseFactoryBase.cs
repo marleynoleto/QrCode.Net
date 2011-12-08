@@ -37,6 +37,26 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
                 }
             }
         }
+        
+        public IEnumerable<TestCaseData> TestCasesDataEncodeFromCsvFile
+        {
+            get
+            {
+                string path = Path.Combine("DataEncodation\\TestCases", DataEncodeCsvFile);
+                using (var reader = File.OpenText(path))
+                {
+                    string header = reader.ReadLine();
+                    while (!reader.EndOfStream)
+                    {
+                        string line = reader.ReadLine();
+                        string[] parts = line.Split(s_Semicolon[0]);
+                        string input = parts[0];
+                        IEnumerable<bool> expected = BitVectorTestExtensions.From01String(parts[1]);
+                        yield return new TestCaseData(input, expected);
+                    }
+                }
+            }
+        }
 
         public IEnumerable<TestCaseData> TestCasesFromReferenceImplementation
         {
@@ -75,26 +95,60 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 
         private const string s_Semicolon = ";";
         private const string s_InputStringColumnName = "InputString";
-        private const string s_VersionColumnName = "Version";
         private const string s_ExpectedResultColumnName = "ExpectedResult";
         protected abstract string CsvFileName { get; }
+        protected abstract string DataEncodeCsvFile { get; }
 
-        public virtual void GenerateTestDataSet()
+        public virtual void GenerateTestDataSet(string stroption)
         {
          
-            string path = Path.Combine(Path.GetTempPath(), CsvFileName);
+        	string fileName = "";
+        	switch(stroption)
+        	{
+        		case "encoder":
+        			fileName = CsvFileName;
+        			break;
+        		case "dataencode":
+        			fileName = DataEncodeCsvFile;
+        			break;
+        		default:
+        			throw new ArgumentOutOfRangeException("option", stroption, string.Format("No such option: {0}", stroption));
+        	}
+            string path = Path.Combine(Path.GetTempPath(), fileName);
             using (var csvFile = File.CreateText(path))
             {
-                string columnHeader = string.Join(s_Semicolon, s_InputStringColumnName, s_VersionColumnName, s_ExpectedResultColumnName);
+                string columnHeader = string.Join(s_Semicolon, s_InputStringColumnName, s_ExpectedResultColumnName);
                 csvFile.WriteLine(columnHeader);
 
-                foreach (TestCaseData testCaseData in TestCasesFromReferenceImplementation)
-                {
-                    string inputString = testCaseData.Arguments[0].ToString();
-                    IEnumerable<bool> result = (IEnumerable<bool>)testCaseData.Arguments[1];
-                    csvFile.WriteLine(string.Join(s_Semicolon, inputString, result.To01String()));
-                }
+//                foreach (TestCaseData testCaseData in TestCasesFromReferenceImplementation)
+//                {
+//                    string inputString = testCaseData.Arguments[0].ToString();
+//                    IEnumerable<bool> result = (IEnumerable<bool>)testCaseData.Arguments[1];
+//                    csvFile.WriteLine(string.Join(s_Semicolon, inputString, result.To01String()));
+//                }
+				switch(stroption)
+        		{
+        			case "encoder":
+						InputDataSetToFile(TestCasesFromReferenceImplementation, csvFile);
+        				break;
+        			case "dataencode":
+        				InputDataSetToFile(TestCasesDataEncodeReferenceImplementation, csvFile);
+        				break;
+        			default:
+        				throw new ArgumentOutOfRangeException("option", stroption, string.Format("No such option: {0}", stroption));
+        		}
+				
                 csvFile.Close();
+            }
+        }
+        
+        private void InputDataSetToFile(IEnumerable<TestCaseData> testCases, TextWriter output)
+        {
+        	foreach (TestCaseData testCaseData in testCases)
+            {
+                string inputString = testCaseData.Arguments[0].ToString();
+                IEnumerable<bool> result = (IEnumerable<bool>)testCaseData.Arguments[1];
+                output.WriteLine(string.Join(s_Semicolon, inputString, result.To01String()));
             }
         }
 
@@ -116,6 +170,14 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
             return result.ToString();
         }
         
+        /// <summary>
+        /// Combine Gma.QrCodeNet.Encoding input recognition method and version control method
+        /// with legacy code. To create expected answer. 
+        /// This is base on assume Gma.QrCodeNet.Encoding input recognition and version control sometime
+        /// give different result as legacy code. 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         private IEnumerable<bool> DataEncodeUsingReferenceImplementation(string content)
         {
         	//Choose mode

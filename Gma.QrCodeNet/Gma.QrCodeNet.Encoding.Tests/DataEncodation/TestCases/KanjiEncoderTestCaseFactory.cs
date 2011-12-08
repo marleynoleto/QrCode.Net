@@ -9,6 +9,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
 	{
 		protected override string CsvFileName { get { return "KanjiEncoderTestDataSet.csv"; } }
 		
+		protected override string DataEncodeCsvFile { get { return "KanjiDataEncodeTestDataSet.csv"; } }
+		
 		protected override string GenerateRandomInputString(int inputSize, Random randomizer)
         {
 			return GenerateRandomKanjiString(inputSize, randomizer);

@@ -24,6 +24,12 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         {
             base.DataEncode_Test_against_reference_DataSet(inputString, expected);
         }
+        
+        [Test, TestCaseSource(typeof(EightBitByteEncoderTestCaseFactory), "TestCasesDataEncodeFromCsvFile")]
+        public override void DataEncode_Test_against_csv_DataSet(string inputString, IEnumerable<bool> expected)
+        {
+            base.DataEncode_Test_against_reference_DataSet(inputString, expected);
+        }
 		
 		protected override EncoderBase CreateEncoder()
         {
@@ -33,7 +39,13 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         //[Test]
         public void Generate()
         {
-            new EightBitByteEncoderTestCaseFactory().GenerateTestDataSet();
+            new EightBitByteEncoderTestCaseFactory().GenerateTestDataSet("encoder");
+        }
+        
+        //[Test]
+        public void DataEncodeGenerate()
+        {
+            new EightBitByteEncoderTestCaseFactory().GenerateTestDataSet("dataencode");
         }
 	}
 }

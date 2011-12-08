@@ -8,6 +8,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
     {
         protected override string CsvFileName { get { return "NumericEncoderTestDataSet.csv"; }}
 
+        protected override string DataEncodeCsvFile { get { return "NumericDataEncodeTestDataSet.csv"; } }
         
         protected override string GenerateRandomInputString(int inputSize, Random randomizer)
         {

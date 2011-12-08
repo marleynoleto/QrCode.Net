@@ -33,6 +33,14 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			BitList terminator = Terminator.TerminateBites(dataCodewords, vcStruct.NumDataBytes);
 			dataCodewords.Add(terminator);
 			
+			int dataCodewordsCount = dataCodewords.Count;
+			if((dataCodewordsCount & 0x7) != 0)
+				throw new ArgumentException("data codewords is not byte sized.");
+			else if(dataCodewordsCount >> 3 != vcStruct.NumDataBytes)
+			{
+				throw new ArgumentException("datacodewords num of bytes not equal to NumDataBytes for current version");
+			}
+			
 			EncodationStruct encStruct = new EncodationStruct(vcStruct);
 			encStruct.Mode = recognitionResult.Mode;
 			encStruct.DataCodewords = dataCodewords;

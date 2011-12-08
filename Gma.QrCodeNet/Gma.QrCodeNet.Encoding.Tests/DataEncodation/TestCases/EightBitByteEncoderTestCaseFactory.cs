@@ -17,6 +17,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
                 return "EightBitByteEncoderTestDataSet.csv";
             }
         }
+        
+        protected override string DataEncodeCsvFile { get { return "EightBitByteDataEncodeTestDataSet.csv"; } }
 
         protected override string GenerateRandomInputString(int inputSize, Random randomizer)
         {

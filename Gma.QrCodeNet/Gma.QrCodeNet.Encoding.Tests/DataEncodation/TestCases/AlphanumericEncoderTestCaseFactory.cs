@@ -8,6 +8,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
     public class AlphanumericEncoderTestCaseFactory : EncoderTestCaseFactoryBase
     {
         protected override string CsvFileName { get { return "AlphanumericEncoderTestDataSet.csv"; } }
+        
+        protected override string DataEncodeCsvFile { get { return "AlphanumericDataEncodeTestDataSet.csv"; } }
 
         protected override string GenerateRandomInputString(int inputSize, Random randomizer)
         {

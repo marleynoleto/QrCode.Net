@@ -132,13 +132,25 @@
     <Folder Include="Versions\TestCases\TestMethod" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DataEncodation\TestCases\AlphanumericDataEncodeTestDataSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="DataEncodation\TestCases\AlphanumericEncoderTestDataSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="DataEncodation\TestCases\EightBitByteDataEncodeTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="DataEncodation\TestCases\EightBitByteEncoderTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="DataEncodation\TestCases\KanjiDataEncodeTestDataSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="DataEncodation\TestCases\KanjiEncoderTestDataSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="DataEncodation\TestCases\NumericDataEncodeTestDataSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="DataEncodation\TestCases\NumericEncoderTestDataSet.csv">
