@@ -108,6 +108,7 @@
     <Compile Include="EndToEnd\EndToEndSmokeTests.cs" />
     <Compile Include="Masking\MaskPatternTest.cs" />
     <Compile Include="_Helper\ByteMatrixToGraphicExtensions.cs" />
+    <Compile Include="_Helper\DataEncodeExtensions.cs" />
     <Compile Include="_Helper\PolynomialExtensions.cs" />
     <Compile Include="_Helper\TriStateMatrixToGraphicExtensions.cs">
       <SubType>Code</SubType>
@@ -122,6 +123,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ErrorCorrection" />
     <Folder Include="Terminate" />
     <Folder Include="ReedSolomon" />
     <Folder Include="ReedSolomon\TestCase" />
