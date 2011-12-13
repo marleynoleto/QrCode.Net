@@ -15,18 +15,28 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		/// <returns>Mode and Encoding name</returns>
 		public static RecognitionStruct Recognise(string content)
 		{
+			int contentLength = content.Length;
+			
+			int tryEncodePos = ModeEncodeCheck.TryEncodeKanji(content, contentLength);
+			
+			if(tryEncodePos == -2)
+				return new RecognitionStruct(Mode.EightBitByte, QRCodeConstantVariable.UTF8Encoding);
+			else if(tryEncodePos == -1)
+				return new RecognitionStruct(Mode.Kanji, QRCodeConstantVariable.DefaultEncoding);
+			
+			tryEncodePos = ModeEncodeCheck.TryEncodeAlphaNum(content, 0, contentLength);
+			
+			if(tryEncodePos == -2)
+				return new RecognitionStruct(Mode.Numeric, QRCodeConstantVariable.DefaultEncoding);
+			else if(tryEncodePos == -1)
+				return new RecognitionStruct(Mode.Alphanumeric, QRCodeConstantVariable.DefaultEncoding);
 			
 			
-			Mode mode = CheckModeOtherThanEightBitByte(content);
-			
-			if(mode != Mode.EightBitByte)
-				return new RecognitionStruct(mode, QRCodeConstantVariable.DefaultEncoding);
-			
-			string encodingName = EightBitByteRecognision(content);
+			string encodingName = EightBitByteRecognision(content, tryEncodePos, contentLength);
 			return new RecognitionStruct(Mode.EightBitByte, encodingName);
 		}
 		
-		private static string EightBitByteRecognision(string content)
+		private static string EightBitByteRecognision(string content, int startPos, int contentLength)
 		{
 			if(string.IsNullOrEmpty(content))
 				throw new ArgumentNullException("content", "Input content is null or empty");
@@ -35,18 +45,18 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 			
 			Dictionary<string, int> eciSet = eciSets.GetECITable();
 			
-			int scanPos = 0;
+			int scanPos = startPos;
 			
 			foreach(KeyValuePair<string, int> kvp in eciSet)
 			{
 				string encodingName = kvp.Key;
 				if(encodingName != QRCodeConstantVariable.UTF8Encoding)
 				{
-					scanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, scanPos);
+					scanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, scanPos, contentLength);
 					if(scanPos == -1)
 					{
 						int reScanPos = 0;
-						reScanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, 0);
+						reScanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, 0, contentLength);
 						if(reScanPos == -1)
 						{
 							return encodingName;
@@ -63,51 +73,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 				return QRCodeConstantVariable.UTF8Encoding;
 			
 		}
-		
-		
-		
-		private static Mode CheckModeOtherThanEightBitByte(string content)
-		{
-			if(content == null || content.Length == 0)
-				throw new ArgumentNullException();
-			Mode mode = CheckALphaNumAndNum(content);
-			
-			if(mode != Mode.EightBitByte)
-				return mode;
-			
-			if(ModeEncodeCheck.isModeEncodeValid(Mode.Kanji, "", content))
-				return Mode.Kanji;
-			
-			return Mode.EightBitByte;
-		}
-		
-		private static Mode CheckALphaNumAndNum(string content)
-		{
-			bool isNumeric = true;
-			bool isAlphaNum = true;
-			
-			for(int index = 0; index < content.Length; index++)
-			{
-				char CurrentChar = content[index];
-				if(CurrentChar < '0' || CurrentChar > '9')
-				{
-					isNumeric = false;
-				}
-				if(!AlphanumericTable.Contains(CurrentChar))
-				{
-					isAlphaNum = false;
-				}
-			}
-			
-			if(isNumeric)
-				return Mode.Numeric;
-			if(isAlphaNum)
-				return Mode.Alphanumeric;
-			
-			return Mode.EightBitByte;
-		}
-		
-		
 		
 	}
 }

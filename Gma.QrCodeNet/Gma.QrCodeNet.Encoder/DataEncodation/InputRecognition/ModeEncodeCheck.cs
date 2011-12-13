@@ -26,29 +26,54 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		
 		private static bool NumericCheck(string content)
 		{
-			int num = new int();
-			for(int index = 0; index < content.Length; index++)
-			{
-				num = content[index] - '0';
-				if(num < 0 || num > 9)
-					return false;
-			}
 			
-			return true;
+			int tryEncodePos = TryEncodeAlphaNum(content, 0, content.Length);
+			return tryEncodePos == -2 ? true : false;
 		}
+		
 		
 		
 		private static bool AlphaNumCheck(string content)
 		{
-			for(int index = 0; index < content.Length; index++)
-			{
-				if(!AlphanumericTable.Contains(content[index]))
-				{
-					return false;
-				}
-			}
 			
-			return true;
+			int tryEncodePos = TryEncodeAlphaNum(content, 0, content.Length);
+			return tryEncodePos == -1 ? true : false;
+		}
+		
+		/// <summary>
+		/// Check char from startPos for string content. 
+		/// </summary>
+		/// <param name="content">input string content</param>
+		/// <param name="startPos">start check position</param>
+		/// <returns>-2 Numeric encode, -1 AlphaNum encode, Index of failed check pos</returns>
+		internal static int TryEncodeAlphaNum(string content, int startPos, int contentLength)
+		{
+			if(string.IsNullOrEmpty(content))
+				throw new IndexOutOfRangeException("Input content should not be Null or empty");
+			
+			//True numeric check, False alphaNum check
+			bool checkOption = true;
+			
+			int num = new int();
+			
+			for(int index = startPos; index < contentLength; index++)
+			{
+				if(checkOption)
+				{
+					num = content[index] - '0';
+					if(num < 0 || num > 9)
+						checkOption = false;
+				}
+				if(!checkOption)
+				{
+					if(!AlphanumericTable.Contains(content[index]))
+					{
+						return index;
+					}
+				}
+				
+			}
+			return checkOption ? -2 : -1;
 		}
 		
 		/// <summary>
@@ -59,7 +84,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		
 		private static bool EightBitByteCheck(string encodingName, string content)
 		{
-			int tryEncodePos = TryEncodeEightBitByte(content, encodingName, 0);
+			int tryEncodePos = TryEncodeEightBitByte(content, encodingName, 0, content.Length);
 			return tryEncodePos == -1 ? true : false;
 		}
 		
@@ -71,11 +96,10 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		/// <param name="encodingName">encoding name. Check ECI table</param>
 		/// <param name="startPos">starting position</param>
 		/// <returns>-1 if from starting position to end encoding success. Else return fail position</returns>
-		internal static int TryEncodeEightBitByte(string content, string encodingName, int startPos)
+		internal static int TryEncodeEightBitByte(string content, string encodingName, int startPos, int contentLength)
 		{
-			int contentLength = content.Length;
-			if(startPos >= contentLength)
-				throw new IndexOutOfRangeException("startPos greater or equal to content length");
+			if(string.IsNullOrEmpty(content))
+				throw new IndexOutOfRangeException("Input content should not be Null or empty");
 			
 			System.Text.Encoding encoding;
 			try
@@ -106,24 +130,50 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 		
 		private static bool KanjiCheck(string content)
 		{
-			byte[] bytes = System.Text.Encoding.GetEncoding("Shift_JIS").GetBytes(content);
-			int bytesLength = bytes.Length;
-			
-			if(bytesLength / 2 == content.Length)
-			{
-				for(int index = 0; index < bytesLength; index += 2)
-				{
-					byte mostSignificantByte = bytes[index];
-					if ((mostSignificantByte < 0x81 || mostSignificantByte > 0x9F) && (mostSignificantByte < 0xE0 || mostSignificantByte > 0xEB))
-					{
-						return false;
-					}
-				}
-			}
-			else
-				return false;
-			
-			return true;
+			int tryEncodePos = TryEncodeKanji(content, content.Length);
+			return tryEncodePos == -1 ? true : false;
 		}
+		
+		/// <summary>
+		/// Check input string content. Whether it can apply Kanji encode or not. 
+		/// </summary>
+		/// <param name="content">String input content</param>
+		/// <returns>-1 if it can apply Kanji encode, -2 should use utf8 encode, 0 check for other encode.</returns>
+		internal static int TryEncodeKanji(string content, int contentLength)
+		{
+			if(string.IsNullOrEmpty(content))
+				throw new IndexOutOfRangeException("Input content should not be Null or empty");
+			System.Text.Encoding encoding;
+			try
+			{
+				encoding = System.Text.Encoding.GetEncoding("Shift_JIS");
+			} catch(ArgumentException)
+			{
+				return 0;
+			}
+			
+			char[] currentChar = new char[1];
+			byte[] bytes;
+			
+			for(int index = 0; index < contentLength; index++)
+			{
+				currentChar[0] = content[index];
+				bytes = encoding.GetBytes(currentChar);
+				int length = bytes.Length;
+				byte mostSignificantByte = bytes[0];
+				
+				if(length != 2)
+					return index == 0 ? 0 : -2;
+				else if((mostSignificantByte < 0x81 || mostSignificantByte > 0x9F) && (mostSignificantByte < 0xE0 || mostSignificantByte > 0xEB))
+				{
+					return index == 0 ? 0 : -2;
+				}
+				
+			}
+			
+			return -1;
+		}
+		
+		
 	}
 }
