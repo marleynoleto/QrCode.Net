@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using com.google.zxing.qrcode.encoder;
 using NUnit.Framework;
@@ -49,6 +50,63 @@ namespace Gma.QrCodeNet.Encoding.Tests.ErrorCorrection
 				return result;
 			else
 				throw new Exception("Auto generate data codewords fail");
+		}
+		
+		
+		private const string s_TxtFileName = "ECTestCase.txt";
+		
+		public void GenerateTestDataSet()
+		{
+			string path = Path.Combine(Path.GetTempPath(), s_TxtFileName);
+			using(var txtFile = File.CreateText(path))
+			{
+				foreach(TestCaseData testCase in TestCasesFromReferenceImplementation)
+				{
+					for(int index = 0; index < 3; index++)
+					{
+						if(index == 1)
+						{
+							VersionCodewordsInfo vc = (VersionCodewordsInfo)testCase.Arguments[index];
+							txtFile.WriteLine(vc.ToString());
+						}
+						else
+						{
+							IEnumerable<bool> ienumBool = (IEnumerable<bool>)testCase.Arguments[index];
+							txtFile.WriteLine(ienumBool.To01String());
+						}
+						
+					}
+				}
+				txtFile.Close();
+			}
+		}
+		
+		
+		public IEnumerable<TestCaseData> TestCaseFromTxtFile
+		{
+			get
+			{
+				string path = Path.Combine(@"ErrorCorrection\TestCases", s_TxtFileName);
+				using(var txtFile = File.OpenText(path))
+				{
+					while (!txtFile.EndOfStream)
+					{
+						List<IEnumerable<bool>> testCase = new List<IEnumerable<bool>>();
+						VersionCodewordsInfo vcInfo = new VersionCodewordsInfo();
+						for(int numElement = 0; numElement < 3; numElement++)
+						{
+							string line = txtFile.ReadLine();
+							if(numElement == 1)
+								vcInfo = new VersionCodewordsInfo(line);
+							else
+							{
+								testCase.Add(BitVectorTestExtensions.From01String(line));
+							}
+						}
+						yield return new TestCaseData(testCase[0], vcInfo, testCase[1]);
+					}
+				}
+			}
 		}
 		
 		

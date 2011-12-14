@@ -21,9 +21,9 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         private void TestOneDataRow(string inputString, IEnumerable<bool> expected)
         {
             EncoderBase target = CreateEncoder();
-            IEnumerable actualResult = target.GetDataBits(inputString);
+            IEnumerable<bool> actualResult = target.GetDataBits(inputString);
 
-            CollectionAssert.AreEquivalent(expected.ToList(), actualResult);
+            BitVectorTestExtensions.CompareIEnumerable(actualResult, expected, "Nunit");
         }
         
         public virtual void DataEncode_Test_against_reference_DataSet(string inputString, IEnumerable<bool> expected)
@@ -40,10 +40,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         {
         	EncodationStruct eStruct = DataEncode.Encode(inputString, ErrorCorrectionLevel.H);
         	IEnumerable<bool> actualResult = eStruct.DataCodewords;
-        	string expectStr = BitVectorTestExtensions.To01String(expected);
-        	string actualStr = BitVectorTestExtensions.To01String(actualResult);
-        	if(!actualStr.Equals(expectStr))
-        		Assert.Fail("actual: {0} Expect: {1}", actualStr, expectStr);
+        	BitVectorTestExtensions.CompareIEnumerable(actualResult, expected, "string");
         }
 
         protected abstract EncoderBase CreateEncoder();

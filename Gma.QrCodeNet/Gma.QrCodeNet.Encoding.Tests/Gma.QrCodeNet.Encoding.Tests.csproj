@@ -165,6 +165,9 @@
     <None Include="EndToEnd\TestCases\DataSet1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="ErrorCorrection\TestCases\ECTestCase.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="PenaltyScore\TestCases\Penalty1TestDataSet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

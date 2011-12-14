@@ -12,15 +12,29 @@ namespace Gma.QrCodeNet.Encoding.Tests.ErrorCorrection
         [TestCaseSource(typeof(ECTestCaseFactory), "TestCasesFromReferenceImplementation")]
         public void Test_against_reference_implementation(IEnumerable<bool> dataCodewords, VersionCodewordsInfo vc, IEnumerable<bool> expected)
         {
+        	TestOneCase(dataCodewords, vc, expected);
+        }
+        
+        [Test]
+        [TestCaseSource(typeof(ECTestCaseFactory), "TestCaseFromTxtFile")]
+        public void Test_against_TXT_Dataset(IEnumerable<bool> dataCodewords, VersionCodewordsInfo vc, IEnumerable<bool> expected)
+        {
+        	TestOneCase(dataCodewords, vc, expected);
+        }
+        
+        private void TestOneCase(IEnumerable<bool> dataCodewords, VersionCodewordsInfo vc, IEnumerable<bool> expected)
+        {
         	BitList dcList = new BitList();
         	dcList.Add(dataCodewords);
         	
         	IEnumerable<bool> actualResult = ECGenerator.FillECCodewords(dcList, vc.NumTotalBytes, vc.NumDataBytes, vc.NumECBlocks);
-        	string strResult = actualResult.To01String();
-        	string strExpected = expected.To01String();
-        	
-        	if(!strResult.Equals(strExpected))
-        		Assert.Fail("actual: {0} Expect: {1}", strResult, strExpected);
+        	BitVectorTestExtensions.CompareIEnumerable(actualResult, expected, "string");
+        }
+        
+        //[Test]
+        public void Generate()
+        {
+        	new ECTestCaseFactory().GenerateTestDataSet();
         }
 	}
 }

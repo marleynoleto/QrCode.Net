@@ -40,16 +40,14 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 			{
 				if(blockID < ecBlockGroup1)
 				{
-					byte[] dataBytesArray = new byte[numDataBytesGroup1];
-					Array.Copy(dataCodewordsByte, dataBytesOffset, dataBytesArray, 0, numDataBytesGroup1);
-					dByteJArray[blockID] = dataBytesArray;
+					dByteJArray[blockID] = new byte[numDataBytesGroup1];
+					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup1);
 					dataBytesOffset += numDataBytesGroup1;
 				}
 				else
 				{
-					byte[] dataBytesArray = new byte[numDataBytesGroup2];
-					Array.Copy(dataCodewordsByte, dataBytesOffset, dataBytesArray, 0, numDataBytesGroup2);
-					dByteJArray[blockID] = dataBytesArray;
+					dByteJArray[blockID] = new byte[numDataBytesGroup2];
+					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup2);
 					dataBytesOffset += numDataBytesGroup2;
 				}
 				
