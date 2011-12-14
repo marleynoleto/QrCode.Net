@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using com.google.zxing.qrcode.decoder;
 using com.google.zxing.qrcode.encoder;
 using com.google.zxing.common;
 using Gma.QrCodeNet.Encoding.DataEncodation;
@@ -24,6 +23,9 @@ namespace Gma.QrCodeNet.Encoding.Tests._Helper
         /// <returns></returns>
         public static IEnumerable<bool> DataEncodeUsingReferenceImplementation(string content)
         {
+        	if(string.IsNullOrEmpty(content))
+        		throw new ArgumentException("input string content can not be null or empty");
+        	
         	//Choose mode
         	RecognitionStruct recognitionResult = InputRecognise.Recognise(content);
         	string encodingName = recognitionResult.EncodingName;

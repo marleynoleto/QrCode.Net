@@ -22,7 +22,7 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 		{
 			byte[] dataCodewordsByte = BitListExtensions.ToByteArray(dataCodewords);
 			
-			int ecBlockGroup2 = numTotalBytes % 5;
+			int ecBlockGroup2 = numTotalBytes % numECBlocks;
 			int ecBlockGroup1 = numECBlocks - ecBlockGroup2;
 			int numDataBytesGroup1 = numDataBytes / numECBlocks;
 			int numDataBytesGroup2 = numDataBytesGroup1 + 1;
@@ -40,12 +40,16 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 			{
 				if(blockID < ecBlockGroup1)
 				{
-					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup1);
+					byte[] dataBytesArray = new byte[numDataBytesGroup1];
+					Array.Copy(dataCodewordsByte, dataBytesOffset, dataBytesArray, 0, numDataBytesGroup1);
+					dByteJArray[blockID] = dataBytesArray;
 					dataBytesOffset += numDataBytesGroup1;
 				}
 				else
 				{
-					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup2);
+					byte[] dataBytesArray = new byte[numDataBytesGroup2];
+					Array.Copy(dataCodewordsByte, dataBytesOffset, dataBytesArray, 0, numDataBytesGroup2);
+					dByteJArray[blockID] = dataBytesArray;
 					dataBytesOffset += numDataBytesGroup2;
 				}
 				
