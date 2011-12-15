@@ -53,12 +53,12 @@ namespace Gma.QrCodeNet.Encoding.Tests._Helper
 			EncoderInternal.appendModeInfo(mode, headerAndDataBits);
 			//Char info
 			int numLetters = mode.Equals(Mode.BYTE)?dataBits.sizeInBytes():content.Length;
-			EncoderInternal.appendLengthInfo(numLetters, vcStruct.Version, mode, headerAndDataBits);
+			EncoderInternal.appendLengthInfo(numLetters, vcStruct.VersionDetail.Version, mode, headerAndDataBits);
 			//Combine with dataBits
 			headerAndDataBits.appendBitVector(dataBits);
 			
 			// Terminate the bits properly.
-			EncoderInternal.terminateBits(vcStruct.NumDataBytes, headerAndDataBits);
+			EncoderInternal.terminateBits(vcStruct.VersionDetail.NumDataBytes, headerAndDataBits);
 			
 			return headerAndDataBits;
         }

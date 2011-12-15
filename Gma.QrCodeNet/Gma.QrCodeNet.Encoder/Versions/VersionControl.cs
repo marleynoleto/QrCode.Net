@@ -79,17 +79,19 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 			VersionControlStruct vcStruct = new VersionControlStruct();
 			
-			vcStruct.Version = versionNum;
+			int version = versionNum;
 			
 			QRCodeVersion versionData = versionTable.GetVersionByNum(versionNum);
 			
-			vcStruct.MatrixWidth = versionData.DimensionForVersion;
-			vcStruct.NumTotalBytes = versionData.TotalCodewords;
+			int numTotalBytes = versionData.TotalCodewords;
 			
 			ErrorCorrectionBlocks ecBlocks = versionData.GetECBlocksByLevel(level);
-			vcStruct.NumDataBytes = vcStruct.NumTotalBytes - ecBlocks.NumErrorCorrectionCodewards;
-			vcStruct.NumECBlocks = ecBlocks.NumBlocks;
+			int numDataBytes = numTotalBytes - ecBlocks.NumErrorCorrectionCodewards;
+			int numECBlocks = ecBlocks.NumBlocks;
 			
+			VersionDetail vcDetail = new VersionDetail(version, numTotalBytes, numDataBytes, numECBlocks);
+			
+			vcStruct.VersionDetail = vcDetail;
 			return vcStruct;
 		}
 		

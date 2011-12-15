@@ -13,15 +13,14 @@ namespace Gma.QrCodeNet.Encoding.Terminate
 		/// </summary>
 		/// <remarks>ISO/IEC 18004:2006 P. 32 33. 
 		/// Terminator / Bit stream to codeword conversion</remarks>
-		/// <param name="dataCodewords">It should include ECI header follow by mode indicator, 
-		/// char count indicator, databits.</param>
+		/// <param name="dataCount">Num of bits for datacodewords without terminator</param>
 		/// <param name="numTotalDataCodewords">Total number of datacodewords for specific version.
 		/// Receive it under Version/VersionTable</param>
 		/// <returns>Bitlist that contain Terminator, padding and padcodewords</returns>
-		internal static BitList TerminateBites(BitList dataCodewords, int numTotalDataCodewords)
+		internal static BitList TerminateBites(int dataCount, int numTotalDataCodewords)
 		{
 			int numTotalDataBits = numTotalDataCodewords << 3;
-			int numDataBits = dataCodewords.Count;
+			int numDataBits = dataCount;
 			
 			int numFillerBits = numTotalDataBits - numDataBits;
 			int numBitsNeedForLastByte = numFillerBits & 0x7;

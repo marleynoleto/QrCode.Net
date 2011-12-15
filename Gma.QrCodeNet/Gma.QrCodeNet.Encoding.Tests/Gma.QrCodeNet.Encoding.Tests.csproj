@@ -62,7 +62,7 @@
     <Compile Include="DataEncodation\TestCases\KanjiEncoderTestCaseFactory.cs" />
     <Compile Include="ErrorCorrection\ECTest.cs" />
     <Compile Include="ErrorCorrection\TestCases\ECTestCaseFactory.cs" />
-    <Compile Include="ErrorCorrection\TestCases\VersionCodewordsInfo.cs" />
+    <Compile Include="ErrorCorrection\TestCases\VersionDetailExtension.cs" />
     <Compile Include="Masking\TestCases\MaskPatternTestCaseFactory.cs" />
     <Compile Include="ModeAutoSelectTest.cs" />
     <Compile Include="PenaltyScore\Penalty1Test.cs" />

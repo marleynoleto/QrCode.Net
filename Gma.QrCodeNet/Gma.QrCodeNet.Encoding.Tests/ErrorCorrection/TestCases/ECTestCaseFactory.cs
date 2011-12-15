@@ -8,14 +8,14 @@ namespace Gma.QrCodeNet.Encoding.Tests.ErrorCorrection
 {
 	public sealed class ECTestCaseFactory
 	{
-		private static VersionCodewordsInfo[] s_vcInfo = new VersionCodewordsInfo[]{
-			new VersionCodewordsInfo(26, 19, 1),
-			new VersionCodewordsInfo(44, 16, 1),
-			new VersionCodewordsInfo(100, 36, 4),
-			new VersionCodewordsInfo(196, 88, 6),
-			new VersionCodewordsInfo(292, 182, 5),
-			new VersionCodewordsInfo(1706, 596, 37),
-			new VersionCodewordsInfo(3706, 1276, 81)
+		private static VersionDetail[] s_vcInfo = new VersionDetail[]{
+			new VersionDetail(1, 26, 19, 1),
+			new VersionDetail(2, 44, 16, 1),
+			new VersionDetail(4, 100, 36, 4),
+			new VersionDetail(7, 196, 88, 6),
+			new VersionDetail(9, 292, 182, 5),
+			new VersionDetail(26, 1706, 596, 37),
+			new VersionDetail(40, 3706, 1276, 81)
 		};
 		
 		private const int s_bitLengthForByte = 8;
@@ -25,7 +25,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.ErrorCorrection
 			get
 			{
 				Random randomizer = new Random();
-				foreach(VersionCodewordsInfo vc in s_vcInfo)
+				foreach(VersionDetail vc in s_vcInfo)
 				{
 					for(int numTimes = 0; numTimes < 5; numTimes++)
 					{
@@ -66,7 +66,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.ErrorCorrection
 					{
 						if(index == 1)
 						{
-							VersionCodewordsInfo vc = (VersionCodewordsInfo)testCase.Arguments[index];
+							VersionDetail vc = (VersionDetail)testCase.Arguments[index];
 							txtFile.WriteLine(vc.ToString());
 						}
 						else
@@ -92,12 +92,12 @@ namespace Gma.QrCodeNet.Encoding.Tests.ErrorCorrection
 					while (!txtFile.EndOfStream)
 					{
 						List<IEnumerable<bool>> testCase = new List<IEnumerable<bool>>();
-						VersionCodewordsInfo vcInfo = new VersionCodewordsInfo();
+						VersionDetail vcInfo = new VersionDetail();
 						for(int numElement = 0; numElement < 3; numElement++)
 						{
 							string line = txtFile.ReadLine();
 							if(numElement == 1)
-								vcInfo = new VersionCodewordsInfo(line);
+								vcInfo = VersionDetailExtension.FromString(line);
 							else
 							{
 								testCase.Add(BitVectorTestExtensions.From01String(line));

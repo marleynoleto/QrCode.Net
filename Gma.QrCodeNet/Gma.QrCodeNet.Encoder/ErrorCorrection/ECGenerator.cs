@@ -18,25 +18,25 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 		/// <param name="numDataBytes">Number of data bytes</param>
 		/// <param name="numECBlocks">Number of Error Correction blocks</param>
 		/// <returns>codewords BitList contain datacodewords and ECCodewords</returns>
-		internal static BitList FillECCodewords(BitList dataCodewords, int numTotalBytes, int numDataBytes, int numECBlocks)
+		internal static BitList FillECCodewords(BitList dataCodewords, VersionDetail vd)
 		{
 			byte[] dataCodewordsByte = BitListExtensions.ToByteArray(dataCodewords);
 			
-			int ecBlockGroup2 = numTotalBytes % numECBlocks;
-			int ecBlockGroup1 = numECBlocks - ecBlockGroup2;
-			int numDataBytesGroup1 = numDataBytes / numECBlocks;
-			int numDataBytesGroup2 = numDataBytesGroup1 + 1;
+			int ecBlockGroup2 = vd.ECBlockGroup2;
+			int ecBlockGroup1 = vd.ECBlockGroup1;
+			int numDataBytesGroup1 = vd.NumDataBytesGroup1;
+			int numDataBytesGroup2 = vd.NumDataBytesGroup2;
 			
-			int ecBytesPerBlock = (numTotalBytes - numDataBytes) / numECBlocks;
+			int ecBytesPerBlock = vd.NumECBytesPerBlock;
 			
 			int dataBytesOffset = 0;
-			byte[][] dByteJArray = new byte[numECBlocks][];
-			byte[][] ecByteJArray = new byte[numECBlocks][];
+			byte[][] dByteJArray = new byte[vd.NumECBlocks][];
+			byte[][] ecByteJArray = new byte[vd.NumECBlocks][];
 			
 			GaloisField256 gf256 = GaloisField256.QRCodeGaloisField;
 			GeneratorPolynomial generator = new GeneratorPolynomial(gf256);
 			
-			for(int blockID = 0; blockID < numECBlocks; blockID++)
+			for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)
 			{
 				if(blockID < ecBlockGroup1)
 				{
@@ -53,16 +53,16 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 				
 				ecByteJArray[blockID] = ReedSolomonEncoder.Encode(dByteJArray[blockID], ecBytesPerBlock, generator);
 			}
-			if(numDataBytes != dataBytesOffset)
+			if(vd.NumDataBytes != dataBytesOffset)
 				throw new ArgumentException("Data bytes does not match offset");
 			
 			BitList codewords = new BitList();
 			
-			int maxDataLength = ecBlockGroup1 == numECBlocks ? numDataBytesGroup1 : numDataBytesGroup2;
+			int maxDataLength = ecBlockGroup1 == vd.NumECBlocks ? numDataBytesGroup1 : numDataBytesGroup2;
 			
 			for(int dataID = 0; dataID < maxDataLength; dataID++)
 			{
-				for(int blockID = 0; blockID < numECBlocks; blockID++)
+				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)
 				{
 					if( !(dataID == numDataBytesGroup1 && blockID < ecBlockGroup1) )
 						codewords.Add((int)dByteJArray[blockID][dataID], 8);
@@ -71,14 +71,14 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 			
 			for(int ECID = 0; ECID < ecBytesPerBlock; ECID++)
 			{
-				for(int blockID = 0; blockID < numECBlocks; blockID++)
+				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)
 				{
 					codewords.Add((int)ecByteJArray[blockID][ECID], 8);
 				}
 			}
 			
-			if( numTotalBytes != codewords.Count >> 3)
-				throw new ArgumentException(string.Format("total bytes: {0}, actual bits: {1}", numTotalBytes, codewords.Count));
+			if( vd.NumTotalBytes != codewords.Count >> 3)
+				throw new ArgumentException(string.Format("total bytes: {0}, actual bits: {1}", vd.NumTotalBytes, codewords.Count));
 			
 			return codewords;
 			

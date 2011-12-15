@@ -109,6 +109,7 @@
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="QRCodeConstantVariable.cs" />
     <Compile Include="Terminate\Terminator.cs" />
+    <Compile Include="VersionDetail.cs" />
     <Compile Include="Versions\ErrorCorrectionBlock.cs" />
     <Compile Include="Versions\ErrorCorrectionBlocks.cs" />
     <Compile Include="Versions\QRCodeVersion.cs" />

@@ -15,15 +15,15 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions
         public void Test_against_reference_implementation(int numDataBits,  Mode mode, ErrorCorrectionLevel level, string encodingName)
         {
         	VersionControlStruct vcStruct = VersionControl.InitialSetup(numDataBits, mode, level, encodingName);
-        	VersionCheckStatus checkStatus = VersionTest.VersionCheck(vcStruct.Version, numDataBits, mode, level, encodingName);
+        	VersionCheckStatus checkStatus = VersionTest.VersionCheck(vcStruct.VersionDetail.Version, numDataBits, mode, level, encodingName);
         	
         	switch(checkStatus)
         	{
         		case VersionCheckStatus.LargerThanExpect:
-        			Assert.Fail("Version {0} size not enough", vcStruct.Version);
+        			Assert.Fail("Version {0} size not enough", vcStruct.VersionDetail.Version);
         			break;
         		case VersionCheckStatus.SmallerThanExpect:
-        			Assert.Fail("Version{0}'s size too big", vcStruct.Version);
+        			Assert.Fail("Version{0}'s size too big", vcStruct.VersionDetail.Version);
         			break;
         		default:
         			break;
@@ -38,8 +38,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions
         {
         	VersionControlStruct vcStruct = VersionControl.InitialSetup(numDataBits, mode, level, encodingName);
         	
-        	if(vcStruct.Version != expectVersionNum)
-        		Assert.Fail("Method return version number: {0} Expect value: {1}", vcStruct.Version, expectVersionNum);
+        	if(vcStruct.VersionDetail.Version != expectVersionNum)
+        		Assert.Fail("Method return version number: {0} Expect value: {1}", vcStruct.VersionDetail.Version, expectVersionNum);
         }
         
         //[Test]

@@ -26,17 +26,16 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			//Header
 			dataCodewords.Add(encoderBase.GetModeIndicator());
 			int numLetter = recognitionResult.Mode == Mode.EightBitByte ? encodeContentLength >> 3 : content.Length;
-			dataCodewords.Add(encoderBase.GetCharCountIndicator(numLetter, vcStruct.Version));
+			dataCodewords.Add(encoderBase.GetCharCountIndicator(numLetter, vcStruct.VersionDetail.Version));
 			//Data
 			dataCodewords.Add(encodeContent);
 			//Terminator Padding
-			BitList terminator = Terminator.TerminateBites(dataCodewords, vcStruct.NumDataBytes);
-			dataCodewords.Add(terminator);
+			dataCodewords.Add(Terminator.TerminateBites(dataCodewords.Count, vcStruct.VersionDetail.NumDataBytes));
 			
 			int dataCodewordsCount = dataCodewords.Count;
 			if((dataCodewordsCount & 0x7) != 0)
 				throw new ArgumentException("data codewords is not byte sized.");
-			else if(dataCodewordsCount >> 3 != vcStruct.NumDataBytes)
+			else if(dataCodewordsCount >> 3 != vcStruct.VersionDetail.NumDataBytes)
 			{
 				throw new ArgumentException("datacodewords num of bytes not equal to NumDataBytes for current version");
 			}
