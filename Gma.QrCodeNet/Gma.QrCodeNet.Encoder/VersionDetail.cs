@@ -23,9 +23,15 @@
 		{
 			get
 			{
-				return 17 + 4 * Version;
+				return Width(this.Version);
 			}
 		}
+		
+		internal static int Width(int version)
+		{
+			return 17 + 4 * version;
+		}
+		
 		/// <summary>
 		/// number of Error correction blocks for group 1
 		/// </summary>
