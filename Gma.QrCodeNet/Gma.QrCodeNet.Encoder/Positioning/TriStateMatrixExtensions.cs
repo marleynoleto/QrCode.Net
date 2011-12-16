@@ -6,7 +6,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning
     {
         internal static TriStateMatrix Embed(this TriStateMatrix matrix,BitMatrix stencil, MatrixPoint location)
         {
-            stencil.CopyTo(matrix, location);
+            stencil.CopyTo(matrix, location, MatrixStatus.NoMask);
             return matrix;
         }
 

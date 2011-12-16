@@ -29,7 +29,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning.Stencils
         {
             foreach (MatrixPoint coordinatePair in GetNonColidingCoordinatePairs(matrix))
             {
-                this.CopyTo(matrix, coordinatePair);
+                this.CopyTo(matrix, coordinatePair, MatrixStatus.NoMask);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning.Stencils
         {
             return
                 GetAllCoordinatePairs()
-                    .Where(point => !matrix.IsUsed(point.Offset(2, 2)));
+                    .Where(point => matrix.MStatus(point.Offset(2, 2)) == MatrixStatus.None);
         }
 
         private IEnumerable<MatrixPoint> GetAllCoordinatePairs()

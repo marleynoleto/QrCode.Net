@@ -4,19 +4,19 @@ namespace Gma.QrCodeNet.Encoding.Positioning
 {
     public class TriStateMatrix : SimpleBitMatrix
     {
-        private readonly SimpleBitMatrix m_IsUsed;
+        private readonly StateMatrix m_stateMatrix;
 
         public TriStateMatrix(int width)
             : base(width)
         {
-            m_IsUsed = new SimpleBitMatrix(width);
+            m_stateMatrix = new StateMatrix(width);
         }
 
         public override bool this[int i, int j]
         {
             get
             {
-                if (!IsUsed(i, j))
+            	if (MStatus(i, j) == MatrixStatus.None)
                 {
                     throw new InvalidOperationException(string.Format("The value of cell [{0},{1}] is not set.", i, j));
                 }
@@ -24,19 +24,31 @@ namespace Gma.QrCodeNet.Encoding.Positioning
             }
             set
             {
-                m_IsUsed[i, j] = true;
+            	if (MStatus(i, j) == MatrixStatus.None || MStatus(i, j) == MatrixStatus.NoMask)
+            	{
+            		throw new InvalidOperationException(string.Format("The value of cell [{0},{1}] is not set or is Stencil.", i, j));
+            	}
                 base[i, j] = value;
             }
         }
-
-        internal bool IsUsed(int i, int j)
+        
+        public bool this[int i, int j, MatrixStatus mstatus]
         {
-            return m_IsUsed[i, j];
+        	set
+        	{
+        		m_stateMatrix[i, j] = mstatus;
+        		base[i, j] = value;
+        	}
         }
 
-        internal bool IsUsed(MatrixPoint point)
+        internal MatrixStatus MStatus(int i, int j)
         {
-            return IsUsed(point.X, point.Y);
+            return m_stateMatrix[i, j];
+        }
+
+        internal MatrixStatus MStatus(MatrixPoint point)
+        {
+            return MStatus(point.X, point.Y);
         }
     }
 }

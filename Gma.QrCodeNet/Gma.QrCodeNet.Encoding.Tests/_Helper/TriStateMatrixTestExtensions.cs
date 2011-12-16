@@ -25,15 +25,18 @@ namespace Gma.QrCodeNet.Encoding.Tests
             for (int i = 0; i < expected.Width; i++)
                 for (int j = 0; j < expected.Width; j++)
                 {
-                    if (expected.IsUsed(i, j) && actual.IsUsed(i, j) && expected[i, j] != actual[i, j])
+                    if (expected.MStatus(i, j) != MatrixStatus.None && actual.MStatus(i, j) != MatrixStatus.None && expected[i, j] != actual[i, j])
                     {
                         Assert.Fail("Matrces are different.\nExpected:{0}Actual:{1}.", TriStateMatrixToGraphicExtensions.ToGraphicString(expected), TriStateMatrixToGraphicExtensions.ToGraphicString(actual));
                     }
 
-                    if (expected.IsUsed(i, j) != actual.IsUsed(i, j))
+                    if (expected.MStatus(i, j) == MatrixStatus.None && actual.MStatus(i, j) != MatrixStatus.None)
                     {
                         Assert.Fail("Matrces are different.\nExpected:{0}Actual:{1}.", TriStateMatrixToGraphicExtensions.ToGraphicString(expected), TriStateMatrixToGraphicExtensions.ToGraphicString(actual));
-                        
+                    }
+                    if (expected.MStatus(i, j) != MatrixStatus.None && actual.MStatus(i, j) == MatrixStatus.None)
+                    {
+                        Assert.Fail("Matrces are different.\nExpected:{0}Actual:{1}.", TriStateMatrixToGraphicExtensions.ToGraphicString(expected), TriStateMatrixToGraphicExtensions.ToGraphicString(actual));
                     }
                 }
         }

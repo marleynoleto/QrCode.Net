@@ -29,7 +29,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
                 for (int i = 0; i < matrix.Width; i++)
                 {
                     char charToPrint;
-                    if (!matrix.IsUsed(i,j))
+                    if (matrix.MStatus(i, j) == MatrixStatus.None)
                     {
                         charToPrint = s_EmptyChar;
                     }
@@ -66,11 +66,11 @@ namespace Gma.QrCodeNet.Encoding.Tests
                 {
                     if (lines[j][i]==s_0Char)
                     {
-                        matrix[i, j] = false;
+                        matrix[i, j, MatrixStatus.NoMask] = false;
                     }
                     else if (lines[j][i]==s_1Char)
                     {
-                        matrix[i, j] = true;
+                        matrix[i, j, MatrixStatus.NoMask] = true;
                     }
                 }
             }

@@ -29,15 +29,15 @@ namespace Gma.QrCodeNet.Encoding.Positioning.Stencils
                 bool value = (sbyte)((i + 1) % 2) == 1;
                 // Horizontal line.
 
-                if (!matrix.IsUsed(6, i))
+                if (matrix.MStatus(6, i) == MatrixStatus.None)
                 {
-                    matrix[6, i] = value;
+                    matrix[6, i, MatrixStatus.NoMask] = value;
                 }
 
                 // Vertical line.
-                if (!matrix.IsUsed(i, 6))
+                if (matrix.MStatus(i, 6) == MatrixStatus.None)
                 {
-                    matrix[i, 6] = value;
+                    matrix[i, 6, MatrixStatus.NoMask] = value;
                 }
             }
         }

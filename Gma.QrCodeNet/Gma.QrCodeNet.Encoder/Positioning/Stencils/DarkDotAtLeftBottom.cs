@@ -15,7 +15,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning.Stencils
 
         public override void ApplyTo(TriStateMatrix matrix)
         {
-            matrix[8, matrix.Width - 8] = true;
+            matrix[8, matrix.Width - 8, MatrixStatus.NoMask] = true;
         }
     }
 }

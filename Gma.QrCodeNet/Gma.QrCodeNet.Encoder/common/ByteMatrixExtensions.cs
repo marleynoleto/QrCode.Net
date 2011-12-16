@@ -13,7 +13,7 @@ namespace Gma.QrCodeNet.Encoding.Common
                 {
                     if (byteMatrix[j, i] != -1)
                     {
-                        matrix[i, j] = byteMatrix[j, i] != 0;
+                        matrix[i, j, MatrixStatus.NoMask] = byteMatrix[j, i] != 0;
                     }
                 }
             }
