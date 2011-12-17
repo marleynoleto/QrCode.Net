@@ -60,7 +60,12 @@
     <Compile Include="DataEncodation\KanjiEncoderTest.cs" />
     <Compile Include="DataEncodation\TestCases\EightBitByteEncoderTestCaseFactory.cs" />
     <Compile Include="DataEncodation\TestCases\KanjiEncoderTestCaseFactory.cs" />
+    <Compile Include="EncodingRegion\BCHTest.cs" />
+    <Compile Include="EncodingRegion\BitCountTest.cs" />
     <Compile Include="EncodingRegion\CodewordsTest.cs" />
+    <Compile Include="EncodingRegion\TestCases\BCHTestCaseBase.cs" />
+    <Compile Include="EncodingRegion\TestCases\BCHTestCaseFactory.cs" />
+    <Compile Include="EncodingRegion\TestCases\BitCountTestCaseFactory.cs" />
     <Compile Include="EncodingRegion\TestCases\CodewordsTestCaseFactory.cs" />
     <Compile Include="ErrorCorrection\ECTest.cs" />
     <Compile Include="ErrorCorrection\TestCases\ECTestCaseFactory.cs" />
@@ -164,6 +169,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="DataEncodation\TestCases\NumericEncoderTestDataSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="EncodingRegion\TestCases\BCHTestCases.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="EncodingRegion\TestCases\BitCountTestCases.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="EncodingRegion\TestCases\CodewordsTestCase.txt">

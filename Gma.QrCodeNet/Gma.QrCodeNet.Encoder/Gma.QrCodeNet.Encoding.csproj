@@ -57,6 +57,7 @@
     <Compile Include="DataEncodation\InputRecognition\RecognitionStruct.cs" />
     <Compile Include="DataEncodation\InputRecognition\InputRecognise.cs" />
     <Compile Include="DataEncodation\InputRecognition\ModeEncodeCheck.cs" />
+    <Compile Include="EncodingRegion\BCHCalculator.cs" />
     <Compile Include="EncodingRegion\Codeword.cs" />
     <Compile Include="EncodingRegion\FormatInformation.cs" />
     <Compile Include="ErrorCorrection\ECGenerator.cs" />
