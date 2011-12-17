@@ -60,6 +60,7 @@
     <Compile Include="EncodingRegion\BCHCalculator.cs" />
     <Compile Include="EncodingRegion\Codeword.cs" />
     <Compile Include="EncodingRegion\FormatInformation.cs" />
+    <Compile Include="EncodingRegion\VersionInformation.cs" />
     <Compile Include="ErrorCorrection\ECGenerator.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTree.cs" />
     <Compile Include="Masking\Scoring\BitBinaryTreeNode.cs" />

@@ -38,5 +38,9 @@
         		return new byte[]{0xEF, 0xBB, 0xBF};
         	}
         }
+        
+        internal const int PositionStencilWidth = 7;
+        
+        
     }
 }

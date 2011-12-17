@@ -67,6 +67,8 @@
     <Compile Include="EncodingRegion\TestCases\BCHTestCaseFactory.cs" />
     <Compile Include="EncodingRegion\TestCases\BitCountTestCaseFactory.cs" />
     <Compile Include="EncodingRegion\TestCases\CodewordsTestCaseFactory.cs" />
+    <Compile Include="EncodingRegion\TestCases\VersionInfoTestCaseFactory.cs" />
+    <Compile Include="EncodingRegion\VersionInfoTest.cs" />
     <Compile Include="ErrorCorrection\ECTest.cs" />
     <Compile Include="ErrorCorrection\TestCases\ECTestCaseFactory.cs" />
     <Compile Include="ErrorCorrection\TestCases\VersionDetailExtension.cs" />
@@ -178,6 +180,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="EncodingRegion\TestCases\CodewordsTestCase.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="EncodingRegion\TestCases\VersionInfoTestCase.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="EndToEnd\TestCases\DataSet1.csv">

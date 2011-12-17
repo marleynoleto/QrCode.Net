@@ -2,12 +2,23 @@
 {
 	internal static class BCHCalculator
 	{
+		/// <summary>
+		/// Calculate int length by search for Most significant bit
+		/// </summary>
+		/// <param name="num">Input Number</param>
+		/// <returns>Most significant bit</returns>
 		internal static int PosMSB(int num)
 		{
 			return num == 0 ? 0 : BinarySearchPos(num, 0, 32) + 1;
 		}
 		
-		
+		/// <summary>
+		/// Search for right side bit of Most significant bit
+		/// </summary>
+		/// <param name="num">input number</param>
+		/// <param name="lowBoundary">lower boundary. At start should be 0</param>
+		/// <param name="highBoundary">higher boundary. At start should be 32</param>
+		/// <returns>Most significant bit - 1</returns>
 		private static int BinarySearchPos(int num, int lowBoundary, int highBoundary)
 		{
 			int mid = (lowBoundary + highBoundary) / 2;
