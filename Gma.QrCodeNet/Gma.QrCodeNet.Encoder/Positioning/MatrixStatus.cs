@@ -6,7 +6,6 @@ namespace Gma.QrCodeNet.Encoding.Positioning
 	{
 		None,
 		NoMask,
-		Format,
 		Data
 	}
 }

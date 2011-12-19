@@ -13,7 +13,7 @@ namespace Gma.QrCodeNet.Encoding.EncodingRegion
 			int codewordsSize = codewords.Count;
 			
 			int bitIndex = 0;
-			bool directionUp = true;
+			int directionUp = -1;
 			
 			int x = sWidth - 1;
 			int y = sWidth - 1;
@@ -59,14 +59,14 @@ namespace Gma.QrCodeNet.Encoding.EncodingRegion
 				throw new Exception(string.Format("Not all bits from codewords consumed by matrix: {0} / {1}", bitIndex, codewordsSize));
 		}
 		
-		internal static int NextY(int y, bool directionUp)
+		internal static int NextY(int y, int directionUp)
 		{
-			return directionUp ? y - 1 : y + 1;
+			return y + directionUp;
 		}
 		
-		internal static bool ChangeDirection(bool directionUp)
+		internal static int ChangeDirection(int directionUp)
 		{
-			return directionUp ? false : true;
+			return - directionUp;
 		}
 		
 	}

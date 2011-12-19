@@ -89,7 +89,6 @@
     <Compile Include="Masking\Pattern2.cs" />
     <Compile Include="Masking\PatternFactory.cs" />
     <Compile Include="Masking\Scoring\MatrixScoreCalculator.cs" />
-    <Compile Include="Masking\XorBitMatrix.cs" />
     <Compile Include="Masking\MatrixExtensions.cs" />
     <Compile Include="Masking\NullPattern.cs" />
     <Compile Include="Masking\Pattern.cs" />

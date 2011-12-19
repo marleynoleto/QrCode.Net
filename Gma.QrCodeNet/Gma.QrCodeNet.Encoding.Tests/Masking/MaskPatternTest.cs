@@ -4,6 +4,7 @@ using com.google.zxing.qrcode.encoder;
 using Gma.QrCodeNet.Encoding.Masking;
 using NUnit.Framework;
 using Gma.QrCodeNet.Encoding.Common;
+using Gma.QrCodeNet.Encoding.Positioning;
 
 namespace Gma.QrCodeNet.Encoding.Tests.Masking
 {
@@ -13,7 +14,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
 
         [Test]
         [TestCaseSource(typeof(MaskPatternTestCaseFactory), "TestCasesFromReferenceImplementation")]
-        public void Test_against_reference_implementation(BitMatrix input, MaskPatternType patternType, BitMatrix expected)
+        public void Test_against_reference_implementation(TriStateMatrix input, MaskPatternType patternType, BitMatrix expected)
         {
             Pattern pattern = new PatternFactory().CreateByType(patternType);
 
@@ -24,7 +25,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
 
         [Test]
         [TestCaseSource(typeof(MaskPatternTestCaseFactory), "TestCasesFromTxtFile")]
-        public void Test_against_DataSet(BitMatrix input, MaskPatternType patternType, BitMatrix expected)
+        public void Test_against_DataSet(TriStateMatrix input, MaskPatternType patternType, BitMatrix expected)
         {
             Pattern pattern = new PatternFactory().CreateByType(patternType);
 

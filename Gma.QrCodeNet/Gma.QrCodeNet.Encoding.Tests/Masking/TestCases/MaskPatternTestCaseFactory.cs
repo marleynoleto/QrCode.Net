@@ -4,6 +4,7 @@ using System.IO;
 using com.google.zxing.qrcode.encoder;
 using Gma.QrCodeNet.Encoding.Common;
 using Gma.QrCodeNet.Encoding.Masking;
+using Gma.QrCodeNet.Encoding.Positioning;
 using NUnit.Framework;
 
 namespace Gma.QrCodeNet.Encoding.Tests.Masking
@@ -20,9 +21,10 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
                     while (!file.EndOfStream)
                     {
                         BitMatrix input = BitMatrixToGraphicExtensions.FromGraphic(file);
+                        TriStateMatrix inputT = input.ToTriStateMatrix();
                         int pattern = int.Parse(file.ReadLine());
                         BitMatrix expected = BitMatrixToGraphicExtensions.FromGraphic(file);
-                        yield return new TestCaseData(input, pattern, expected).SetName(string.Format(s_TestNameFormat, input.Width, "?", pattern));
+                        yield return new TestCaseData(inputT, pattern, expected).SetName(string.Format(s_TestNameFormat, input.Width, "?", pattern));
                     }
                 }
             }
@@ -54,7 +56,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
         private TestCaseData GenerateRandomTestCaseData(int matrixSize, Random randomizer, int pattern)
         {
             ByteMatrix matrix;
-            BitMatrix input = GetOriginal(matrixSize, randomizer, out matrix);
+            TriStateMatrix input = GetOriginal(matrixSize, randomizer, out matrix);
             ApplyPattern(matrix, pattern);
             BitMatrix expected = matrix.ToBitMatrix();
             return new TestCaseData(input, pattern, expected);
@@ -100,12 +102,12 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
             }
         }
 
-        private BitMatrix GetOriginal(int matrixSize, Random randomizer, out ByteMatrix matrix)
+        private TriStateMatrix GetOriginal(int matrixSize, Random randomizer, out ByteMatrix matrix)
         {
             matrix = new ByteMatrix(matrixSize, matrixSize);
 
             FillRandom(matrix, randomizer);
-            return matrix.ToBitMatrix();
+            return matrix.ToPatternBitMatrix();
         }
 
         private void FillRandom(ByteMatrix matrix, Random randomizer)

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using Gma.QrCodeNet.Encoding.Positioning;
 
 namespace Gma.QrCodeNet.Encoding.Tests
 {
@@ -46,6 +47,20 @@ namespace Gma.QrCodeNet.Encoding.Tests
             }
 
             return FromGraphics(lines);
+        }
+        
+        public static TriStateMatrix ToTriStateMatrix(this BitMatrix input)
+        {
+        	int width = input.Width;
+        	TriStateMatrix result = new TriStateMatrix(width);
+        	for(int x = 0; x < width; x++)
+        	{
+        		for(int y = 0; y < width; y++)
+        		{
+        			result[x, y, MatrixStatus.Data] = input[x, y];
+        		}
+        	}
+        	return result;
         }
 
         private static BitMatrix FromGraphics(string[] lines)

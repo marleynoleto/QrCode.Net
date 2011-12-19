@@ -1,10 +1,11 @@
 ﻿using System.Linq;
+using Gma.QrCodeNet.Encoding.Positioning;
 
 namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
     internal static class MatrixScoreCalculator
     {
-        internal static BitMatrix GetLowestPenaltyMatrix(this BitMatrix matrix)
+        internal static BitMatrix GetLowestPenaltyMatrix(this TriStateMatrix matrix)
         {
             PatternFactory patternFactory = new PatternFactory();
             return 
