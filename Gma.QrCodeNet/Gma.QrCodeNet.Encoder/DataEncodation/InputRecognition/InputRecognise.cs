@@ -44,16 +44,21 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 			ECISet eciSets = new ECISet(ECISet.AppendOption.NameToValue);
 			
 			Dictionary<string, int> eciSet = eciSets.GetECITable();
+			//we will not check for utf8 encoding. 
+			if(eciSet.ContainsKey(QRCodeConstantVariable.UTF8Encoding))
+				eciSet.Remove(QRCodeConstantVariable.UTF8Encoding);
 			
 			int scanPos = startPos;
 			
 			foreach(KeyValuePair<string, int> kvp in eciSet)
 			{
 				string encodingName = kvp.Key;
-				if(encodingName != QRCodeConstantVariable.UTF8Encoding)
+				scanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, scanPos, contentLength);
+				if(scanPos == -1)
 				{
-					scanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, scanPos, contentLength);
-					if(scanPos == -1)
+					if(startPos == 0)
+						return encodingName;
+					else
 					{
 						int reScanPos = 0;
 						reScanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, 0, contentLength);
@@ -65,6 +70,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 							scanPos = reScanPos;
 					}
 				}
+
 			}
 			
 			if(scanPos == -1)

@@ -1,11 +1,20 @@
 ﻿using System;
 using Gma.QrCodeNet.Encoding.Positioning;
+using Gma.QrCodeNet.Encoding.EncodingRegion;
 
 namespace Gma.QrCodeNet.Encoding.Masking
 {
     public static class MatrixExtensions
     {
-        public static TriStateMatrix Xor(this TriStateMatrix first, BitMatrix second)
+        public static TriStateMatrix Xor(this TriStateMatrix first, Pattern second, ErrorCorrectionLevel errorlevel)
+        {
+        	TriStateMatrix result = XorMatrix(first, second);
+        	result.EmbedFormatInformation(errorlevel, second);
+        	return result;
+        }
+        
+        
+        private static TriStateMatrix XorMatrix(TriStateMatrix first, BitMatrix second)
         {
         	int width = first.Width;
         	TriStateMatrix maskedMatrix = new TriStateMatrix(width);
@@ -31,14 +40,14 @@ namespace Gma.QrCodeNet.Encoding.Masking
         	return maskedMatrix;
         }
 
-        public static TriStateMatrix Apply(this TriStateMatrix matrix, Pattern pattern)
+        public static TriStateMatrix Apply(this TriStateMatrix matrix, Pattern pattern, ErrorCorrectionLevel errorlevel)
         {
-            return matrix.Xor(pattern);
+            return matrix.Xor(pattern, errorlevel);
         }
 
-        public static TriStateMatrix Apply(this Pattern pattern, TriStateMatrix matrix)
+        public static TriStateMatrix Apply(this Pattern pattern, TriStateMatrix matrix, ErrorCorrectionLevel errorlevel)
         {
-            return matrix.Xor(pattern);
+            return matrix.Xor(pattern, errorlevel);
         }
     }
 }

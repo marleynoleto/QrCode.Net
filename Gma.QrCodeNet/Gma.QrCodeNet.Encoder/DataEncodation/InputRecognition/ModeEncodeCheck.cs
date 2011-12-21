@@ -5,7 +5,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 {
 	public static class ModeEncodeCheck
 	{
-		private const string DEFAULT_ENCODING = "iso-8859-1";
 		
 		public static bool isModeEncodeValid(Mode mode, string encoding, string content)
 		{

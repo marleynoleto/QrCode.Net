@@ -10,12 +10,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 
         internal abstract Mode Mode { get; }
 
-        internal virtual BitList Encode(string content, ErrorCorrectionLevel ecLevel)
-        {
-            return GetDataBits(content);
-            
-        }
-
         protected virtual int GetDataLength(string content)
         {
             return content.Length;

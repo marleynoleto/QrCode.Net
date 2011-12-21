@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gma.QrCodeNet.Encoding.DataEncodation;
+using Gma.QrCodeNet.Encoding.Positioning;
+using Gma.QrCodeNet.Encoding.Masking;
 
 namespace Gma.QrCodeNet.Encoding.EncodingRegion
 {
@@ -11,18 +8,79 @@ namespace Gma.QrCodeNet.Encoding.EncodingRegion
     /// 6.9 Format information
     /// The Format Information is a 15 bit sequence containing 5 data bits, with 10 error correction bits calculated using the (15, 5) BCH code.
     /// </summary>
-    internal class FormatInformation
+    internal static class FormatInformation
     {
-        internal FormatInformation(ErrorCorrectionLevel errorLevel)
-        {
-            BitArray formatInformation = new BitArray(15);
-            //formatInformation
-        }
+    	internal static void EmbedFormatInformation(this TriStateMatrix triMatrix,  ErrorCorrectionLevel errorlevel, Pattern pattern)
+    	{
+    		BitList formatInfo = GetFormatInfoBits(errorlevel, pattern);
+    		int width = triMatrix.Width;
+    		for(int index = 0; index < 15; index++)
+    		{
+    			MatrixPoint point = PointForInfo1(index);
+    			bool bit = formatInfo[index];
+    			triMatrix[point.X, point.Y, MatrixStatus.NoMask] = bit;
+    			
+    			if(index < 7)
+    			{
+    				triMatrix[8, width - 1 - index, MatrixStatus.NoMask] = bit;
+    			}
+    			else
+    			{
+    				triMatrix[width - 8 + (index - 7), 8, MatrixStatus.NoMask] = bit;
+    			}
+    			
+    		}
+    	}
+    	
+    	private static MatrixPoint PointForInfo1(int bitsIndex)
+    	{
+    		if(bitsIndex <= 7)
+    		{
+    			return bitsIndex >= 6 ? new MatrixPoint( bitsIndex + 1, 8 )
+    				: new MatrixPoint( bitsIndex, 8 );
+    		}
+    		else
+    		{
+    			return bitsIndex == 8 ? new MatrixPoint( 8, 8 - (bitsIndex - 7))
+    				: new MatrixPoint( 8, 8 - (bitsIndex - 7) - 1);
+    		}
+    	}
 
+    	/// <summary>
+    	/// From Appendix C in JISX0510:2004 (p.65).
+    	/// </summary>
+		private const int s_FormatInfoPoly = 0x537;
+		/// <summary>
+    	/// From Appendix C in JISX0510:2004 (p.65).
+    	/// </summary>
+		private const int s_FormatInfoMaskPattern = 0x5412;
+    	
+    	private static BitList GetFormatInfoBits(ErrorCorrectionLevel errorlevel, Pattern pattern)
+    	{
+    		int formatInfo = (int)pattern.MaskPatternType;
+    		//Pattern bits length = 3
+    		formatInfo |= GetErrorCorrectionIndicatorBits(errorlevel) << 3;
+    		
+    		int bchCode = BCHCalculator.CalculateBCH(formatInfo, s_FormatInfoPoly);
+    		//bchCode length = 10
+    		formatInfo = (formatInfo << 10) | bchCode;
+    		
+    		//xor maskPattern
+    		formatInfo ^= s_FormatInfoMaskPattern;
+    		
+    		BitList resultBits = new BitList();
+    		resultBits.Add(formatInfo, 15);
+    		
+    		if(resultBits.Count != 15)
+    			throw new Exception("FormatInfoBits length is not 15");
+    		else
+    			return resultBits;
+    		
+    	}
 
         //According Table 25 — Error correction level indicators
         //Using this bits as enum values would destroy thir order which currently correspond to error correction strength.
-        internal static bool[] GetErrorCorrectionIndicatorBits(ErrorCorrectionLevel errorLevel)
+        internal static int GetErrorCorrectionIndicatorBits(ErrorCorrectionLevel errorLevel)
         {
             //L 01
             //M 00
@@ -31,29 +89,20 @@ namespace Gma.QrCodeNet.Encoding.EncodingRegion
             switch (errorLevel)
             {
                 case ErrorCorrectionLevel.H:
-                    return new[] {true, false};
+                    return 0x02;
 
                 case ErrorCorrectionLevel.L:
-                    return new[] { false, true };
+                    return 0x01;
 
                 case ErrorCorrectionLevel.M:
-                    return new[] { false, false };
+                    return 0x00;
 
                 case ErrorCorrectionLevel.Q:
-                    return new[] { true, true };
+                    return 0x03;
+                   default:
+                    throw new ArgumentException(string.Format("Unsupported error correction level [{0}]", errorLevel), "errorLevel");
             }
-            throw new ArgumentException(string.Format("Unsupported error correction level [{0}]", errorLevel), "errorLevel");
-        }
-
-        internal static bool[] GetMaskPatternIndicatorBits(Mode maskPattern)
-        {
-            //6.8.1 Data mask patterns
-            bool[] threeBits = new bool[3];
-            for (int i = 0; i < threeBits.Length; i++)
-            {
-               // (maskPattern)
-            }
-            throw new NotImplementedException();
+            
         }
 
     }

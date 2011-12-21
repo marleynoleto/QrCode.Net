@@ -18,7 +18,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
         {
             Pattern pattern = new PatternFactory().CreateByType(patternType);
 
-            BitMatrix result = input.Apply(pattern);
+            BitMatrix result = input.Apply(pattern, ErrorCorrectionLevel.H);
 
             expected.AssertEquals(result);
         }
@@ -29,7 +29,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
         {
             Pattern pattern = new PatternFactory().CreateByType(patternType);
 
-            BitMatrix result = input.Apply(pattern);
+            BitMatrix result = input.Apply(pattern, ErrorCorrectionLevel.H);
 
             expected.AssertEquals(result);
         }

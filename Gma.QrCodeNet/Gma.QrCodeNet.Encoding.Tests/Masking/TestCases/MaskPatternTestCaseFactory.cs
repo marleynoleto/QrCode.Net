@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using com.google.zxing.qrcode.encoder;
+using com.google.zxing.qrcode.decoder;
 using Gma.QrCodeNet.Encoding.Common;
 using Gma.QrCodeNet.Encoding.Masking;
 using Gma.QrCodeNet.Encoding.Positioning;
@@ -39,7 +40,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
                 var realRandom = new Random();
                 var zerosOnly = new ZeroRandomizer();
                 var onesOnly = new OneRandomizer();
-                int[] matrixSizes = new[] { 1, 10, 32 };
+                int[] matrixSizes = new[] { 21, 33, 45 };
 
                 foreach (int pattern in Enum.GetValues(typeof(MaskPatternType)))
                 {
@@ -137,6 +138,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Masking
                     matrix[i, j] = (sbyte)bit;
                 }
             }
+            MatrixUtil.embedTypeInfo(ErrorCorrectionLevelInternal.H, pattern, matrix);
         }
 
     }

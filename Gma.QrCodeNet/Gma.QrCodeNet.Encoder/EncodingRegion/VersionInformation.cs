@@ -45,7 +45,7 @@ namespace Gma.QrCodeNet.Encoding.EncodingRegion
 		private const int s_LengthECBits = 12;
 		private const int s_VersionBCHPoly = 0x1f25;
 		
-		internal static BitList VersionInfoBitList(int version)
+		private static BitList VersionInfoBitList(int version)
 		{
 			BitList result = new BitList();
 			result.Add(version, s_LengthDataBits);

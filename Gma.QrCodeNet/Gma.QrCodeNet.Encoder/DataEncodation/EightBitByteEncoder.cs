@@ -63,8 +63,6 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			
 			byte[] contentBytes = EncodeContent(content, Encoding);
 			
-			int contentLength = base.GetDataLength(content);
-			
 			return GetDataBitsByByteArray(contentBytes, Encoding);
 		}
 		

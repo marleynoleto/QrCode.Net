@@ -5,13 +5,13 @@ namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
     internal static class MatrixScoreCalculator
     {
-        internal static BitMatrix GetLowestPenaltyMatrix(this TriStateMatrix matrix)
+        internal static BitMatrix GetLowestPenaltyMatrix(this TriStateMatrix matrix, ErrorCorrectionLevel errorlevel)
         {
             PatternFactory patternFactory = new PatternFactory();
             return 
                 patternFactory
                     .AllPatterns()
-                    .Select(pattern => matrix.Apply(pattern))
+                    .Select(pattern => matrix.Apply(pattern, errorlevel))
             		.OrderByDescending(patternedMatrix => patternedMatrix.PenaltyScore())
                     .First();
         }
