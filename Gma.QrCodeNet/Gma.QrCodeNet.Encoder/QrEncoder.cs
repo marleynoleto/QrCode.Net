@@ -21,10 +21,11 @@ namespace Gma.QrCodeNet.Encoding
 
         public QrCode Encode(string content)
         {
-            ErrorCorrectionLevelInternal level = ErrorCorrectionLevelConverter.ToInternal(this.ErrorCorrectionLevel);
-            QRCodeInternal qrCodeInternal = new QRCodeInternal();
-            EncoderInternal.encode(content, level, qrCodeInternal);
-            return new QrCode(qrCodeInternal);
+//            ErrorCorrectionLevelInternal level = ErrorCorrectionLevelConverter.ToInternal(this.ErrorCorrectionLevel);
+//            QRCodeInternal qrCodeInternal = new QRCodeInternal();
+//            EncoderInternal.encode(content, level, qrCodeInternal);
+			return string.IsNullOrEmpty(content) ? new QrCode(QRCodeEncode.Encode(" ", ErrorCorrectionLevel))
+				: new QrCode(QRCodeEncode.Encode(content, ErrorCorrectionLevel));
         }
     }
 }

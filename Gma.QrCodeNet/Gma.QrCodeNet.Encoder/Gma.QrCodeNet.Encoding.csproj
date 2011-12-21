@@ -104,6 +104,7 @@
     <Compile Include="Positioning\PositioninngPatternBuilder.cs" />
     <Compile Include="Positioning\Stencils\PositionDetectionPattern.cs" />
     <Compile Include="MatrixRectangle.cs" />
+    <Compile Include="QRCodeEncode.cs" />
     <Compile Include="ReedSolomon\GaloisField256.cs" />
     <Compile Include="ReedSolomon\GeneratorPolynomial.cs" />
     <Compile Include="ReedSolomon\PolyDivideStruct.cs" />

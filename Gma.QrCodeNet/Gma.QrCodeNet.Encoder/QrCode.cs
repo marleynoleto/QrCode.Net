@@ -9,6 +9,11 @@ namespace Gma.QrCodeNet.Encoding
         {
             this.Matrix = qrCodeInternal.Matrix.ToBitMatrix();
         }
+        
+        internal QrCode(BitMatrix matrix)
+        {
+        	this.Matrix = matrix;
+        }
 
         public BitMatrix Matrix
         {

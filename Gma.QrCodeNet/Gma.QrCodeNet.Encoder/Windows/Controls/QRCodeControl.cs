@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using Gma.QrCodeNet.Encoding;
-using Gma.QrCodeNet.Encoding.Windows.Controls;
 
 namespace Gma.QrCodeNet.Encoding.Windows.Controls
 {
@@ -198,14 +197,11 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         	set
         	{
         		m_Encoder.ErrorCorrectionLevel = value;
-        		m_QrCode = m_Encoder.Encode(Text);
         		
         		Artistic = value != ErrorCorrectionLevel.H ? false
         			: m_Artistic;
         		
-        		AdjustSize();
-        		
-        		Invalidate();
+        		this.UpdateQrCodeCache();
         	}
         }
         
