@@ -19,13 +19,37 @@ namespace Gma.QrCodeNet.Encoding
             ErrorCorrectionLevel = errorCorrectionLevel;
         }
 
+        /// <summary>
+        /// Encode string content to QrCode matrix
+        /// </summary>
+        /// <exception cref="InputOutOfBoundaryException">
+        /// This exception for string content is null, empty or too large</exception>
         public QrCode Encode(string content)
         {
-//            ErrorCorrectionLevelInternal level = ErrorCorrectionLevelConverter.ToInternal(this.ErrorCorrectionLevel);
-//            QRCodeInternal qrCodeInternal = new QRCodeInternal();
-//            EncoderInternal.encode(content, level, qrCodeInternal);
-			return string.IsNullOrEmpty(content) ? new QrCode(QRCodeEncode.Encode(" ", ErrorCorrectionLevel))
-				: new QrCode(QRCodeEncode.Encode(content, ErrorCorrectionLevel));
+        	if(string.IsNullOrEmpty(content))
+        	{
+        		throw new InputOutOfBoundaryException("Input should not be empty or null");
+        	}
+        	else
+        		return new QrCode(QRCodeEncode.Encode(content, ErrorCorrectionLevel));
+        }
+        
+        /// <summary>
+        /// Try to encode content
+        /// </summary>
+        /// <returns>False if input content is empty, null or too large.</returns>
+        public bool TryEncode(string content, out QrCode qrCode)
+        {
+        	try
+        	{
+        		qrCode = this.Encode(content);
+        		return true;
+        	}
+        	catch(InputOutOfBoundaryException)
+        	{
+        		qrCode = new QrCode();
+        		return false;
+        	}
         }
     }
 }

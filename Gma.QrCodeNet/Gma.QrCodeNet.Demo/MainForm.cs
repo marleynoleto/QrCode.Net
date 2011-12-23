@@ -22,6 +22,7 @@ namespace Gma.QrCodeNet.Demo
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
+        	
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = @"PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp";
             saveFileDialog.FileName = Path.GetFileName(GetFileNameProposal());

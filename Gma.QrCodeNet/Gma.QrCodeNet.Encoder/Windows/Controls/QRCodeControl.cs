@@ -24,16 +24,19 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         {
             m_Encoder = encoder;
             m_Renderer = renderer;
-            m_QrCode = m_Encoder.Encode(string.Empty);
+            m_QrCode = new QrCode();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            m_Renderer.Draw(e.Graphics, m_QrCode.Matrix);
-            if (Artistic)
-            {
-                DrawText(e.Graphics);
-            }
+        	if(!string.IsNullOrEmpty(this.Text) && m_QrCode.isContainMatrix)
+        	{
+            	m_Renderer.Draw(e.Graphics, m_QrCode.Matrix);
+            	if (Artistic)
+            	{
+                	DrawText(e.Graphics);
+            	}
+        	}
             base.OnPaint(e);
         }
 
@@ -80,16 +83,21 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         {
             this.UpdateQrCodeCache();
             base.OnTextChanged(e);
-            if (this.AutoSize)
-            {
-                this.AdjustSize();
-            }
-            this.Invalidate();
+            this.UpdatePaint();
         }
 
         private void UpdateQrCodeCache()
         {
-            m_QrCode = m_Encoder.Encode(this.Text);
+            m_Encoder.TryEncode(this.Text, out m_QrCode);
+        }
+        
+        private void UpdatePaint()
+        {
+        	if (this.AutoSize)
+            {
+                this.AdjustSize();
+            }
+            this.Invalidate();
         }
 
         private bool m_Artistic;
@@ -101,11 +109,13 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
             get { return m_Artistic; }
             set
             {
-                this.AdjustSize();
-                m_Artistic = m_Encoder.ErrorCorrectionLevel != ErrorCorrectionLevel.H ? false
-                	: value;
-                
-                Invalidate();
+            	if(m_Artistic != value)
+            	{
+            		m_Artistic = m_Encoder.ErrorCorrectionLevel != ErrorCorrectionLevel.H ? false
+                		: value;
+            		if(m_Artistic == value)
+            			this.UpdatePaint();
+            	}
             }
         }
 
@@ -118,18 +128,20 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
             }
             set
             {
-                if (value)
-                {
-                    this.AdjustSize();
-                }
-                base.AutoSize = value;
+            	if(base.AutoSize != value)
+            	{
+            		base.AutoSize = value;
+            		if(value)
+            			this.UpdatePaint();
+            	}
             }
         }
 
 
         public override Size GetPreferredSize(Size proposedSize)
         {
-            return m_Renderer.Measure(m_QrCode.Matrix.Width);
+            return m_QrCode.isContainMatrix ? m_Renderer.Measure(m_QrCode.Matrix.Width)
+            	: new Size(0, 0);
         }
 
 
@@ -159,11 +171,12 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         	}
         	set
         	{
-        		m_Renderer.QuietZoneModules = value;
+        		if(m_Renderer.QuietZoneModules != value)
+        		{
+        			m_Renderer.QuietZoneModules = value;
         		
-        		AdjustSize();
-        		
-        		Invalidate();
+        			this.UpdatePaint();
+        		}
         	}
         }
         
@@ -177,11 +190,12 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         	}
         	set
         	{
-        		m_Renderer.ModuleSize = value;
+        		if(m_Renderer.ModuleSize != value)
+        		{
+        			m_Renderer.ModuleSize = value;
         		
-        		AdjustSize();
-        		
-        		Invalidate();
+        			this.UpdatePaint();
+        		}
         	}
         }
         
@@ -196,13 +210,17 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         	}
         	set
         	{
-        		m_Encoder.ErrorCorrectionLevel = value;
+        		if(m_Encoder.ErrorCorrectionLevel != value)
+        		{
+        			m_Encoder.ErrorCorrectionLevel = value;
         		
-        		Artistic = value != ErrorCorrectionLevel.H ? false
-        			: m_Artistic;
+        			Artistic = value != ErrorCorrectionLevel.H ? false
+        				: m_Artistic;
         		
-        		this.UpdateQrCodeCache();
-        	}
+        			this.UpdateQrCodeCache();
+        			this.UpdatePaint();
+        		}
+             }
         }
         
         

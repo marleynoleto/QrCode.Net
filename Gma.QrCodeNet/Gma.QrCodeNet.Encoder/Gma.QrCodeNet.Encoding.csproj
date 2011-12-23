@@ -117,6 +117,7 @@
     <Compile Include="VersionDetail.cs" />
     <Compile Include="Versions\ErrorCorrectionBlock.cs" />
     <Compile Include="Versions\ErrorCorrectionBlocks.cs" />
+    <Compile Include="Versions\InputOutOfBoundaryException.cs" />
     <Compile Include="Versions\QRCodeVersion.cs" />
     <Compile Include="Versions\VersionControl.cs" />
     <Compile Include="Versions\VersionControlStruct.cs" />
