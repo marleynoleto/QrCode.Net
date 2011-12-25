@@ -3,6 +3,10 @@ using Gma.QrCodeNet.Encoding.Positioning;
 
 namespace Gma.QrCodeNet.Encoding.EncodingRegion
 {
+	/// <summary>
+    /// Embed version information for version larger or equal to 7. 
+    /// </summary>
+    /// <remarks>ISO/IEC 18004:2000 Chapter 8.10 Page 54</remarks>
 	internal static class VersionInformation
 	{
 		private const int s_VIRectangleHeight = 3;

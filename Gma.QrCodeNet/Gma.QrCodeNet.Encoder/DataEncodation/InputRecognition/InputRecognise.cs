@@ -44,31 +44,24 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 			ECISet eciSets = new ECISet(ECISet.AppendOption.NameToValue);
 			
 			Dictionary<string, int> eciSet = eciSets.GetECITable();
+			
+			
 			//we will not check for utf8 encoding. 
-			if(eciSet.ContainsKey(QRCodeConstantVariable.UTF8Encoding))
-				eciSet.Remove(QRCodeConstantVariable.UTF8Encoding);
+			eciSet.Remove(QRCodeConstantVariable.UTF8Encoding);
+			eciSet.Remove(QRCodeConstantVariable.DefaultEncoding);
 			
 			int scanPos = startPos;
+			//default encoding as priority
+			scanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, QRCodeConstantVariable.DefaultEncoding, scanPos, contentLength);
+			if(scanPos == -1)
+				return QRCodeConstantVariable.DefaultEncoding;
 			
 			foreach(KeyValuePair<string, int> kvp in eciSet)
 			{
-				string encodingName = kvp.Key;
-				scanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, scanPos, contentLength);
+				scanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, kvp.Key, scanPos, contentLength);
 				if(scanPos == -1)
 				{
-					if(startPos == 0)
-						return encodingName;
-					else
-					{
-						int reScanPos = 0;
-						reScanPos = ModeEncodeCheck.TryEncodeEightBitByte(content, encodingName, 0, contentLength);
-						if(reScanPos == -1)
-						{
-							return encodingName;
-						}
-						else
-							scanPos = reScanPos;
-					}
+					return kvp.Key;
 				}
 
 			}

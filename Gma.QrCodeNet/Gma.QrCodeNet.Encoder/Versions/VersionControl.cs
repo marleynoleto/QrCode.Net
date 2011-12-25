@@ -26,7 +26,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			//Check ECI header
 			if(mode == Mode.EightBitByte)
 			{
-				if(encodingName != DEFAULT_ENCODING)
+				if(encodingName != DEFAULT_ENCODING && encodingName != QRCodeConstantVariable.UTF8Encoding)
 				{
 					int eciValue = eciSet.GetECIValueByName(encodingName);
 				
@@ -56,10 +56,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			{
 				vcStruct.ECIHeader = eciSet.GetECIHeader(encodingName);
 			}
-			//ZXing decoder doesn't support UTF8's ECI value. 
-			//We will not put into QRcode for now. 
-			if(encodingName == QRCodeConstantVariable.UTF8Encoding)
-				vcStruct.isContainECI = false;
+			
 			
 			return vcStruct;
 			

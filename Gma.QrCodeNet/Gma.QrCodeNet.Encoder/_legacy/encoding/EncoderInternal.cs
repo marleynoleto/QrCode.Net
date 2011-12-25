@@ -217,7 +217,7 @@ namespace com.google.zxing.qrcode.encoder
 			return true;
 		}
 		
-		private static int chooseMaskPattern(BitVector bits, ErrorCorrectionLevelInternal m_EcLevelInternal, int version, ByteMatrix matrix)
+		internal static int chooseMaskPattern(BitVector bits, ErrorCorrectionLevelInternal m_EcLevelInternal, int version, ByteMatrix matrix)
 		{
 			
 			int minPenalty = System.Int32.MaxValue; // Lower penalty is better.

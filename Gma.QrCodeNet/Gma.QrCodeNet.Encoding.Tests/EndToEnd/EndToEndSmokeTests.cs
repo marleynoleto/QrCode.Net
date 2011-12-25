@@ -23,5 +23,11 @@ namespace Gma.QrCodeNet.Encoding.Tests
             BitMatrix resultMatrix = encoder.Encode(inputData).Matrix;
             expectedMatrix.AssertEquals(resultMatrix);
         }
+        
+        //[Test]
+        public void Generate()
+        {
+        	new EndToEndSmokeTestCaseFactory().RecordToFile();
+        }
     }
 }

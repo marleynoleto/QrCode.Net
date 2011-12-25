@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using com.google.zxing.qrcode.encoder;
+using com.google.zxing.qrcode.decoder;
 using com.google.zxing.common;
 using Gma.QrCodeNet.Encoding.DataEncodation;
 using Gma.QrCodeNet.Encoding.Versions;
 using Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition;
 using GMode = Gma.QrCodeNet.Encoding.DataEncodation.Mode;
 using Mode = com.google.zxing.qrcode.decoder.Mode;
+using Gma.QrCodeNet.Encoding.Common;
 
 
 namespace Gma.QrCodeNet.Encoding.Tests._Helper
 {
-	public static class DataEncodeExtensions
+	internal static class DataEncodeExtensions
 	{
 		/// <summary>
         /// Combine Gma.QrCodeNet.Encoding input recognition method and version control method
@@ -21,7 +23,7 @@ namespace Gma.QrCodeNet.Encoding.Tests._Helper
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static IEnumerable<bool> DataEncodeUsingReferenceImplementation(string content)
+        internal static BitVector DataEncodeUsingReferenceImplementation(string content)
         {
         	if(string.IsNullOrEmpty(content))
         		throw new ArgumentException("input string content can not be null or empty");
@@ -61,6 +63,107 @@ namespace Gma.QrCodeNet.Encoding.Tests._Helper
 			EncoderInternal.terminateBits(vcStruct.VersionDetail.NumDataBytes, headerAndDataBits);
 			
 			return headerAndDataBits;
+        }
+        
+        public static BitMatrix Encode(string content, ErrorCorrectionLevel ecLevel)
+        {
+        	if(string.IsNullOrEmpty(content))
+        		throw new ArgumentException("input string content can not be null or empty");
+        	
+        	//Choose mode
+        	RecognitionStruct recognitionResult = InputRecognise.Recognise(content);
+        	string encodingName = recognitionResult.EncodingName;
+        	Mode mode = ConvertMode(recognitionResult.Mode);
+        	
+        	//append byte to databits
+        	BitVector dataBits = new BitVector();
+			EncoderInternal.appendBytes(content, mode, dataBits, encodingName);
+			
+			int dataBitsLength = dataBits.size();
+			VersionControlStruct vcStruct = 
+				VersionControl.InitialSetup(dataBitsLength, recognitionResult.Mode, ecLevel, recognitionResult.EncodingName);
+			//ECI
+			BitVector headerAndDataBits = new BitVector();
+			string defaultByteMode = "iso-8859-1";
+			if (mode == Mode.BYTE && !defaultByteMode.Equals(encodingName))
+			{
+				CharacterSetECI eci = CharacterSetECI.getCharacterSetECIByName(encodingName);
+				if (eci != null)
+				{
+					EncoderInternal.appendECI(eci, headerAndDataBits);
+				}
+			}
+			//Mode
+			EncoderInternal.appendModeInfo(mode, headerAndDataBits);
+			//Char info
+			int numLetters = mode.Equals(Mode.BYTE)?dataBits.sizeInBytes():content.Length;
+			EncoderInternal.appendLengthInfo(numLetters, vcStruct.VersionDetail.Version, mode, headerAndDataBits);
+			//Combine with dataBits
+			headerAndDataBits.appendBitVector(dataBits);
+			
+			// Terminate the bits properly.
+			EncoderInternal.terminateBits(vcStruct.VersionDetail.NumDataBytes, headerAndDataBits);
+			
+			
+			// Step 6: Interleave data bits with error correction code.
+			BitVector finalBits = new BitVector();
+			EncoderInternal.interleaveWithECBytes(headerAndDataBits, vcStruct.VersionDetail.NumTotalBytes, vcStruct.VersionDetail.NumDataBytes, vcStruct.VersionDetail.NumECBlocks, finalBits);
+			
+			// Step 7: Choose the mask pattern and set to "QRCodeInternal".
+			ErrorCorrectionLevelInternal ecLevelI = ErrorCorrectionLevelConverter.ToInternal(ecLevel);
+			ByteMatrix matrix = new ByteMatrix(vcStruct.VersionDetail.MatrixWidth, vcStruct.VersionDetail.MatrixWidth);
+			int MaskPattern = EncoderInternal.chooseMaskPattern(finalBits, ecLevelI, vcStruct.VersionDetail.Version, matrix);
+			
+			// Step 8.  Build the matrix and set it to "QRCodeInternal".
+			MatrixUtil.buildMatrix(finalBits, ecLevelI, vcStruct.VersionDetail.Version, MaskPattern, matrix);
+			return matrix.ToBitMatrix();
+        }
+        
+        public static BitVector Codeword(string content, ErrorCorrectionLevel ecLevel)
+        {
+        	if(string.IsNullOrEmpty(content))
+        		throw new ArgumentException("input string content can not be null or empty");
+        	
+        	//Choose mode
+        	RecognitionStruct recognitionResult = InputRecognise.Recognise(content);
+        	string encodingName = recognitionResult.EncodingName;
+        	Mode mode = ConvertMode(recognitionResult.Mode);
+        	
+        	//append byte to databits
+        	BitVector dataBits = new BitVector();
+			EncoderInternal.appendBytes(content, mode, dataBits, encodingName);
+			
+			int dataBitsLength = dataBits.size();
+			VersionControlStruct vcStruct = 
+				VersionControl.InitialSetup(dataBitsLength, recognitionResult.Mode, ecLevel, recognitionResult.EncodingName);
+			//ECI
+			BitVector headerAndDataBits = new BitVector();
+			string defaultByteMode = "iso-8859-1";
+			if (mode == Mode.BYTE && !defaultByteMode.Equals(encodingName))
+			{
+				CharacterSetECI eci = CharacterSetECI.getCharacterSetECIByName(encodingName);
+				if (eci != null)
+				{
+					EncoderInternal.appendECI(eci, headerAndDataBits);
+				}
+			}
+			//Mode
+			EncoderInternal.appendModeInfo(mode, headerAndDataBits);
+			//Char info
+			int numLetters = mode.Equals(Mode.BYTE)?dataBits.sizeInBytes():content.Length;
+			EncoderInternal.appendLengthInfo(numLetters, vcStruct.VersionDetail.Version, mode, headerAndDataBits);
+			//Combine with dataBits
+			headerAndDataBits.appendBitVector(dataBits);
+			
+			// Terminate the bits properly.
+			EncoderInternal.terminateBits(vcStruct.VersionDetail.NumDataBytes, headerAndDataBits);
+			
+			
+			// Step 6: Interleave data bits with error correction code.
+			BitVector finalBits = new BitVector();
+			EncoderInternal.interleaveWithECBytes(headerAndDataBits, vcStruct.VersionDetail.NumTotalBytes, vcStruct.VersionDetail.NumDataBytes, vcStruct.VersionDetail.NumECBlocks, finalBits);
+			
+			return finalBits;
         }
         
         private static Mode ConvertMode(GMode mode)

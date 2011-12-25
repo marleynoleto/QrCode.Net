@@ -2,6 +2,9 @@
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
+	/// <summary>
+	/// ISO/IEC 18004:2000 Chapter 8.4.3 Alphanumeric Page 21
+	/// </summary>
     internal class AlphanumericEncoder : EncoderBase
     {
         internal AlphanumericEncoder() 

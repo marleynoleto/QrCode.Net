@@ -124,6 +124,17 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation.InputRecognition
 					return index;
 			}
 			
+			for(int index = 0; index < startPos; index++)
+			{
+				currentChar[0] = content[index];
+				bytes = encoding.GetBytes(currentChar);
+				int length = bytes.Length;
+				if(currentChar[0] != '?' && length == 1 && (int)bytes[0] == QUESTION_MARK_CHAR)
+					return index;
+				else if(length > 1)
+					return index;
+			}
+			
 			return -1;
 		}
 		

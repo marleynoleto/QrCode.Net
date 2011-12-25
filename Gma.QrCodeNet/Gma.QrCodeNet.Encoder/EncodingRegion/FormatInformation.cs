@@ -8,8 +8,14 @@ namespace Gma.QrCodeNet.Encoding.EncodingRegion
     /// 6.9 Format information
     /// The Format Information is a 15 bit sequence containing 5 data bits, with 10 error correction bits calculated using the (15, 5) BCH code.
     /// </summary>
+    /// <remarks>ISO/IEC 18004:2000 Chapter 8.9 Page 53</remarks>
     internal static class FormatInformation
     {
+    	/// <summary>
+    	/// Embed format information to tristatematrix. 
+    	/// Process combination of create info bits, BCH error correction bits calculation, embed towards matrix. 
+    	/// </summary>
+    	/// <remarks>ISO/IEC 18004:2000 Chapter 8.9 Page 53</remarks>
     	internal static void EmbedFormatInformation(this TriStateMatrix triMatrix,  ErrorCorrectionLevel errorlevel, Pattern pattern)
     	{
     		BitList formatInfo = GetFormatInfoBits(errorlevel, pattern);

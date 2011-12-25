@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Gma.QrCodeNet.Encoding.Tests._Helper;
 using NUnit.Framework;
 
 namespace Gma.QrCodeNet.Encoding.Tests
@@ -35,15 +36,14 @@ namespace Gma.QrCodeNet.Encoding.Tests
             get
             {
                 Random randomizer = new Random();
-                int[] testInputSizes = new[] { 0, 1, 10, 25, 36, 73, 111, 174, 255 };
+                int[] testInputSizes = new[] { 1, 10, 25, 36, 73, 111, 174, 255 };
 
                 foreach (int inputSize in testInputSizes)
                 {
                     string inputString = GenerateRandomString(inputSize, randomizer);
                     foreach (ErrorCorrectionLevel level in Enum.GetValues(typeof(ErrorCorrectionLevel)))
                     {
-                        QrEncoder encoder = new QrEncoder(level);
-                        BitMatrix referenceMatrix = encoder.Encode(inputString).Matrix;
+                    	BitMatrix referenceMatrix = DataEncodeExtensions.Encode(inputString, level);
                         yield return new TestCaseData(inputString, level, referenceMatrix);
                     }
                 }
@@ -57,7 +57,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
         private const string s_MatrixBitsColumnName = "MatrixBits";
         private const string s_CsvFileName = "DataSet1.csv";
 
-        public void RecordToFile(IEnumerable<TestCaseData> testCaseData)
+        public void RecordToFile()
         {
             string path = Path.Combine(Path.GetTempPath(), s_CsvFileName);
             using (var csvFile = File.CreateText(path))
@@ -65,7 +65,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
                 string columnHeader = string.Join(s_Semicolon.ToString(), s_InputStringColumnName, s_ErrorCorrectionLevelColumnName, s_MatrixBitsColumnName);
                 csvFile.WriteLine(columnHeader);
 
-                foreach (TestCaseData testCase in testCaseData )
+                foreach (TestCaseData testCase in TestCasesFromReferenceImplementation )
                 {
                     string inputString = testCase.Arguments[0].ToString();
                     ErrorCorrectionLevel level = (ErrorCorrectionLevel) testCase.Arguments[1];

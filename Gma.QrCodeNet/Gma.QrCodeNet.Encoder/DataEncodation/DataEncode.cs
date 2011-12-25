@@ -5,6 +5,9 @@ using Gma.QrCodeNet.Encoding.Terminate;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
+	/// <remarks>ISO/IEC 18004:2000 Chapter 8.1 Page 14
+	/// DataEncode is combination of Data analysis and Data encodation step.
+	/// Which uses sub functions under several different namespaces</remarks>
 	internal static class DataEncode
 	{
 		internal static EncodationStruct Encode(string content, ErrorCorrectionLevel ecLevel)

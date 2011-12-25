@@ -67,10 +67,10 @@
     <Compile Include="Masking\Scoring\Penalty.cs" />
     <Compile Include="Masking\Scoring\Penalty1.cs" />
     <Compile Include="Masking\Scoring\Penalty2.cs" />
-    <Compile Include="Masking\Scoring\Penalty2DecitionTree.cs" />
-    <Compile Include="Masking\Scoring\Penalty2DecitionNode.cs" />
-    <Compile Include="Masking\Scoring\Penalty3DecitionTree.cs" />
-    <Compile Include="Masking\Scoring\Penalty3DecitionNode.cs" />
+    <Compile Include="Masking\Scoring\Penalty2DecisionTree.cs" />
+    <Compile Include="Masking\Scoring\Penalty2DecisionNode.cs" />
+    <Compile Include="Masking\Scoring\Penalty3DecisionTree.cs" />
+    <Compile Include="Masking\Scoring\Penalty3DecisionNode.cs" />
     <Compile Include="Masking\Scoring\Penalty3.cs" />
     <Compile Include="Masking\Scoring\Penalty4.cs" />
     <Compile Include="Masking\Scoring\PenaltyFactory.cs" />

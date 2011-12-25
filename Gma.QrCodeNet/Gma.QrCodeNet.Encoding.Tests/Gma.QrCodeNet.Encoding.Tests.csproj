@@ -71,7 +71,9 @@
     <Compile Include="EncodingRegion\TestCases\FormatInfoTestCaseFactory.cs" />
     <Compile Include="EncodingRegion\TestCases\VersionInfoTestCaseFactory.cs" />
     <Compile Include="EncodingRegion\VersionInfoTest.cs" />
+    <Compile Include="ErrorCorrection\CodewordsBitListTest.cs" />
     <Compile Include="ErrorCorrection\ECTest.cs" />
+    <Compile Include="ErrorCorrection\TestCases\CodewordsBitListTestCaseFactory.cs" />
     <Compile Include="ErrorCorrection\TestCases\ECTestCaseFactory.cs" />
     <Compile Include="ErrorCorrection\TestCases\VersionDetailExtension.cs" />
     <Compile Include="Masking\TestCases\MaskPatternTestCaseFactory.cs" />

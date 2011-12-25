@@ -60,7 +60,9 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			//ECI table. Source 01 URL: http://strokescribe.com/en/ECI.html
 			//ECI table. Source 02 URL: http://lab.must.or.kr/Extended-Channel-Interpretations-ECI-Encoding.ashx
 			//ToDo. Fill up remaining missing table.
-			AppendECI("iso-8859-1", 3, option);
+			AppendECI("iso-8859-1", 1, option);
+			AppendECI("IBM437", 2, option);
+			//AppendECI("iso-8859-1", 3, option);	//ECI value 1 is default encoding. 
 			AppendECI("iso-8859-2", 4, option);
 			AppendECI("iso-8859-3", 5, option);
 			AppendECI("iso-8859-4", 6, option);

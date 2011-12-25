@@ -1,7 +1,14 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
+	/// <summary>
+	/// ISO/IEC 18004:2000 Chapter 8.8.2 Page 52
+	/// </summary>
 	internal class Penalty4 : Penalty
 	{
+		/// <summary>
+		/// Calculate penalty value for Fourth rule.
+		/// Perform O(n) search for available x modules
+		/// </summary>
 		internal override int PenaltyCalculate(BitMatrix matrix)
 		{
 			MatrixSize size = matrix.Size;

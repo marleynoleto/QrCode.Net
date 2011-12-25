@@ -3,10 +3,9 @@ using Gma.QrCodeNet.Encoding.Positioning;
 
 namespace Gma.QrCodeNet.Encoding.EncodingRegion
 {
+	/// <remarks>ISO/IEC 18004:2000 Chapter 8.7.3 Page 46</remarks>
 	internal static class Codeword
 	{
-		
-		
 		internal static void TryEmbedCodewords(this TriStateMatrix tsMatrix, BitList codewords)
 		{
 			int sWidth = tsMatrix.Width;

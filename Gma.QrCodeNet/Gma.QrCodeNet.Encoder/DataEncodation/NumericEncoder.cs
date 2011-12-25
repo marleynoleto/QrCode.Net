@@ -3,6 +3,7 @@ using System.Collections;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
+	/// <remarks>ISO/IEC 18004:2000 Chapter 8.4.2 Page 19</remarks>
     internal class NumericEncoder : EncoderBase
     {
         internal NumericEncoder() 

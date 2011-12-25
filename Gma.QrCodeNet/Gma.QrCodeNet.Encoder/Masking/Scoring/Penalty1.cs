@@ -1,8 +1,14 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
+	/// <summary>
+	/// ISO/IEC 18004:2000 Chapter 8.8.2 Page 52
+	/// </summary>
 	internal class Penalty1 : Penalty
     {
 
+		/// <summary>
+		/// Calculate penalty value for first rule.
+		/// </summary>
         internal override int PenaltyCalculate(BitMatrix matrix)
         {
             MatrixSize size = matrix.Size;
@@ -22,7 +28,10 @@
             return penaltyValue;
         }
 
-
+		/// <summary>
+		/// Check one line of matrix, search for constant five or more than five same color modules 
+		/// </summary>
+		/// <param name="position">starting position</param>
         private int FiveSameModuleSearch(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             MatrixSize size = matrix.Size;
@@ -47,6 +56,11 @@
 
         }
 
+        /// <summary>
+        /// Jump value come from FiveSameModuleCheck. That number indicate next check location. 
+        /// If FiveSameModuleCheck return 5, then jump value will larger than 5, it will include exceed same module numbers. 
+        /// This method help recursive loop search rapidly during constant color switch modules. 
+        /// </summary>
         private int FiveSameModuleSearch(BitMatrix matrix, MatrixPoint position, int indexJumpValue, bool isHorizontal)
         {
             MatrixPoint newPosition;
@@ -60,6 +74,16 @@
             return FiveSameModuleSearch(matrix, newPosition, isHorizontal);
         }
 
+        /// <summary>
+        /// Reverse check for the first module color switch point. 
+        /// For reverse check. Last point is current point plus 4. Which include current position should be 5 modules total. 
+        /// Use last module compare to first module's bool value to check with other module. 
+        /// If same bool value, same module count plus plus. 
+        /// At last we want to check if last value same as first value by check bool value we create at start. 
+        /// Ex. for pattern o x x x o, it will return 1
+        /// pattern o x o x o it will return 1
+        /// pattern o x o o o it will return 3.
+        /// </summary>
         private int FiveSameModuleCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             MatrixSize size = matrix.Size;
@@ -90,7 +114,10 @@
             return ModuleCount;
         }
 
-        
+        /// <summary>
+        /// Search for exceed number of modules. Use this method if FiveSameModuleCheck return 5. 
+        /// </summary>
+        /// <returns>Number of exceed same color modules</returns>
         private int SameModuleExceedNumberCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             

@@ -1,10 +1,16 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Masking.Scoring
 {
+	/// <summary>
+	/// ISO/IEC 18004:2000 Chapter 8.8.2 Page 52
+	/// </summary>
 	internal class Penalty3 : Penalty
     {
 
-        private Penalty3DecitionTree bitCheckTree = new Penalty3DecitionTree();
+        private Penalty3DecisionTree bitCheckTree = new Penalty3DecisionTree();
 
+        /// <summary>
+		/// Calculate penalty value for Third rule.
+		/// </summary>
         internal override int PenaltyCalculate(BitMatrix matrix)
         {
             MatrixSize size = matrix.Size;
@@ -23,12 +29,19 @@
             return penaltyValue;
         }
 
+        /// <summary>
+        /// Mid pattern(oxxxo) search for horizontal or vertical line. 
+        /// </summary>
+        /// <param name="position">Starting position for horizontal or vertical line</param>
         private int MidPatternSearch(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             return MidPatternSearch(matrix, position, 0, isHorizontal);
         }
 
 
+        /// <summary>
+        /// Use position offset to search from next position to end. 
+        /// </summary>
         private int MidPatternSearch(BitMatrix matrix, MatrixPoint position, int indexJumpValue, bool isHorizontal)
         {
             MatrixSize size = matrix.Size;
@@ -42,9 +55,13 @@
         }
 
 
-        private int MidPatternCheck(BitMatrix matrix, MatrixPoint position, BitBinaryTreeNode<Penalty3DecitionNode> checkNode, bool isHorizontal)
+        /// <summary>
+        /// Use decision tree node to check for Mid pattern. According to decision tree to decide next action. 
+        /// </summary>
+        /// <param name="checkNode">Decision tree from Penalty3DecisionTree. Indicate search action</param>
+        private int MidPatternCheck(BitMatrix matrix, MatrixPoint position, BitBinaryTreeNode<Penalty3DecisionNode> checkNode, bool isHorizontal)
         {
-            Penalty3DecitionNode checkValue = checkNode.Value;
+            Penalty3DecisionNode checkValue = checkNode.Value;
             MatrixSize size = matrix.Size;
             if( checkValue.IndexJumpValue > 0 )
             {
@@ -71,6 +88,11 @@
         }
 
 
+        /// <summary>
+        /// Perform patterncheck after mid pattern(oxxxo) successfully found.
+		/// Patterncheck will check at question mark position. (?oxxxo?) 
+		/// Return true for if both positions are x		
+        /// </summary>
         private int PatternCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             MatrixPoint FrontOnePos;
@@ -98,6 +120,13 @@
 
         }
 
+        /// <summary>
+        /// Perform lightAreaCheck after patterncheck return true. 
+        /// LightAreaCheck will check both side of pattern (xoxxxox). 
+        /// Return penalty score if it found light area at either side.(oooo)
+        /// </summary>
+        /// <remarks>This check only available at ISO/IEC 18004:2004. Newest international QrCode standard.
+        /// But not on old ISO/IEC18004:2000 standard</remarks>
         private int LightAreaCheck(BitMatrix matrix, MatrixPoint position, bool isHorizontal)
         {
             MatrixSize size = matrix.Size;
@@ -109,10 +138,13 @@
             penaltyValue = OneSideWhiteAreaCheck(matrix, LeftCheckPoint, true, isHorizontal) ? penaltyValue + 40 : penaltyValue;
             penaltyValue = OneSideWhiteAreaCheck(matrix, RightCheckPoint, false, isHorizontal) ? penaltyValue + 40 : penaltyValue;
 
-            penaltyValue = penaltyValue == 80 ? 40 : penaltyValue;
+            //penaltyValue = penaltyValue == 80 ? 40 : penaltyValue;
             return penaltyValue;
         }
         
+        /// <summary>
+        /// LightAreaCheck will call this method for 4 false modules(oooo) check. 
+        /// </summary>
         private bool OneSideWhiteAreaCheck(BitMatrix matrix, MatrixPoint checkPoint, bool isLeftSide, bool isHorizontal)
         {
         	int WhiteModuleCount = 0;

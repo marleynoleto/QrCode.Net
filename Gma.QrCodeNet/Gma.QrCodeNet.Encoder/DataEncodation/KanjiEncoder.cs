@@ -4,9 +4,7 @@ using com.google.zxing.qrcode.encoder;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
-	/// <summary>
-	/// Description of KanjiEncoder.
-	/// </summary>
+	/// <remarks>ISO/IEC 18004:2000 Chapter 8.4.5 Page 23</remarks>
 	internal class KanjiEncoder : EncoderBase
 	{
 		internal KanjiEncoder()

@@ -5,8 +5,15 @@ using com.google.zxing.qrcode.encoder;
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {
 	/// <summary>
-	/// Description of Class1.
+	/// EightBitByte is a bit complicate compare to other encoding.
+	/// It can accept several different encoding table from global ECI table.
+	/// For different country, default encoding is different. JP use shift_jis, International spec use iso-8859-1
+	/// China use ASCII which is first part of normal char table. Between 00 to 7E
+	/// Korean and Thai should have their own default encoding as well. But so far I can not find their specification freely online.
+	/// QrCode.Net will use international standard which is iso-8859-1 as default encoding. 
+	/// And use UTF8 as suboption for any string that not belong to any char table or other encoder. 
 	/// </summary>
+	/// <remarks>ISO/IEC 18004:2000 Chapter 8.4.4 Page 22</remarks>
 	internal class EightBitByteEncoder : EncoderBase
 	{
 		private const string _defaultEncoding = QRCodeConstantVariable.DefaultEncoding;
@@ -54,7 +61,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 		internal override BitList GetDataBits(string content)
         {
 			ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
-			if(!eciSet.ContainsECIName(Encoding.ToLower()))
+			if(!eciSet.ContainsECIName(Encoding))
 			{
 				throw new ArgumentOutOfRangeException("Encoding", 
 				                                      Encoding, 
