@@ -23,7 +23,7 @@ namespace Gma.QrCodeNet.Encoding.Tests._Helper
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        internal static BitVector DataEncodeUsingReferenceImplementation(string content)
+        internal static BitVector DataEncodeUsingReferenceImplementation(string content, ErrorCorrectionLevel ecLevel, out QRCodeInternal qrInternal)
         {
         	if(string.IsNullOrEmpty(content))
         		throw new ArgumentException("input string content can not be null or empty");
@@ -39,7 +39,7 @@ namespace Gma.QrCodeNet.Encoding.Tests._Helper
 			
 			int dataBitsLength = dataBits.size();
 			VersionControlStruct vcStruct = 
-				VersionControl.InitialSetup(dataBitsLength, recognitionResult.Mode, ErrorCorrectionLevel.H, recognitionResult.EncodingName);
+				VersionControl.InitialSetup(dataBitsLength, recognitionResult.Mode, ecLevel, recognitionResult.EncodingName);
 			//ECI
 			BitVector headerAndDataBits = new BitVector();
 			string defaultByteMode = "iso-8859-1";
@@ -62,106 +62,42 @@ namespace Gma.QrCodeNet.Encoding.Tests._Helper
 			// Terminate the bits properly.
 			EncoderInternal.terminateBits(vcStruct.VersionDetail.NumDataBytes, headerAndDataBits);
 			
+			qrInternal = new QRCodeInternal();
+			qrInternal.Version = vcStruct.VersionDetail.Version;
+			qrInternal.MatrixWidth = vcStruct.VersionDetail.MatrixWidth;
+			qrInternal.EcLevelInternal = ErrorCorrectionLevelConverter.ToInternal(ecLevel);
+			qrInternal.NumTotalBytes = vcStruct.VersionDetail.NumTotalBytes;
+			qrInternal.NumDataBytes = vcStruct.VersionDetail.NumDataBytes;
+			qrInternal.NumRSBlocks = vcStruct.VersionDetail.NumECBlocks;
 			return headerAndDataBits;
         }
         
         public static BitMatrix Encode(string content, ErrorCorrectionLevel ecLevel)
         {
-        	if(string.IsNullOrEmpty(content))
-        		throw new ArgumentException("input string content can not be null or empty");
-        	
-        	//Choose mode
-        	RecognitionStruct recognitionResult = InputRecognise.Recognise(content);
-        	string encodingName = recognitionResult.EncodingName;
-        	Mode mode = ConvertMode(recognitionResult.Mode);
-        	
-        	//append byte to databits
-        	BitVector dataBits = new BitVector();
-			EncoderInternal.appendBytes(content, mode, dataBits, encodingName);
-			
-			int dataBitsLength = dataBits.size();
-			VersionControlStruct vcStruct = 
-				VersionControl.InitialSetup(dataBitsLength, recognitionResult.Mode, ecLevel, recognitionResult.EncodingName);
-			//ECI
-			BitVector headerAndDataBits = new BitVector();
-			string defaultByteMode = "iso-8859-1";
-			if (mode == Mode.BYTE && !defaultByteMode.Equals(encodingName))
-			{
-				CharacterSetECI eci = CharacterSetECI.getCharacterSetECIByName(encodingName);
-				if (eci != null)
-				{
-					EncoderInternal.appendECI(eci, headerAndDataBits);
-				}
-			}
-			//Mode
-			EncoderInternal.appendModeInfo(mode, headerAndDataBits);
-			//Char info
-			int numLetters = mode.Equals(Mode.BYTE)?dataBits.sizeInBytes():content.Length;
-			EncoderInternal.appendLengthInfo(numLetters, vcStruct.VersionDetail.Version, mode, headerAndDataBits);
-			//Combine with dataBits
-			headerAndDataBits.appendBitVector(dataBits);
-			
-			// Terminate the bits properly.
-			EncoderInternal.terminateBits(vcStruct.VersionDetail.NumDataBytes, headerAndDataBits);
-			
+			QRCodeInternal qrInternal;
+			BitVector headerAndDataBits = DataEncodeUsingReferenceImplementation(content, ecLevel, out qrInternal);
 			
 			// Step 6: Interleave data bits with error correction code.
 			BitVector finalBits = new BitVector();
-			EncoderInternal.interleaveWithECBytes(headerAndDataBits, vcStruct.VersionDetail.NumTotalBytes, vcStruct.VersionDetail.NumDataBytes, vcStruct.VersionDetail.NumECBlocks, finalBits);
+			EncoderInternal.interleaveWithECBytes(headerAndDataBits, qrInternal.NumTotalBytes, qrInternal.NumDataBytes, qrInternal.NumRSBlocks, finalBits);
 			
 			// Step 7: Choose the mask pattern and set to "QRCodeInternal".
-			ErrorCorrectionLevelInternal ecLevelI = ErrorCorrectionLevelConverter.ToInternal(ecLevel);
-			ByteMatrix matrix = new ByteMatrix(vcStruct.VersionDetail.MatrixWidth, vcStruct.VersionDetail.MatrixWidth);
-			int MaskPattern = EncoderInternal.chooseMaskPattern(finalBits, ecLevelI, vcStruct.VersionDetail.Version, matrix);
+			ByteMatrix matrix = new ByteMatrix(qrInternal.MatrixWidth, qrInternal.MatrixWidth);
+			int MaskPattern = EncoderInternal.chooseMaskPattern(finalBits, qrInternal.EcLevelInternal, qrInternal.Version, matrix);
 			
 			// Step 8.  Build the matrix and set it to "QRCodeInternal".
-			MatrixUtil.buildMatrix(finalBits, ecLevelI, vcStruct.VersionDetail.Version, MaskPattern, matrix);
+			MatrixUtil.buildMatrix(finalBits, qrInternal.EcLevelInternal, qrInternal.Version, MaskPattern, matrix);
 			return matrix.ToBitMatrix();
         }
         
         public static BitVector Codeword(string content, ErrorCorrectionLevel ecLevel)
         {
-        	if(string.IsNullOrEmpty(content))
-        		throw new ArgumentException("input string content can not be null or empty");
-        	
-        	//Choose mode
-        	RecognitionStruct recognitionResult = InputRecognise.Recognise(content);
-        	string encodingName = recognitionResult.EncodingName;
-        	Mode mode = ConvertMode(recognitionResult.Mode);
-        	
-        	//append byte to databits
-        	BitVector dataBits = new BitVector();
-			EncoderInternal.appendBytes(content, mode, dataBits, encodingName);
-			
-			int dataBitsLength = dataBits.size();
-			VersionControlStruct vcStruct = 
-				VersionControl.InitialSetup(dataBitsLength, recognitionResult.Mode, ecLevel, recognitionResult.EncodingName);
-			//ECI
-			BitVector headerAndDataBits = new BitVector();
-			string defaultByteMode = "iso-8859-1";
-			if (mode == Mode.BYTE && !defaultByteMode.Equals(encodingName))
-			{
-				CharacterSetECI eci = CharacterSetECI.getCharacterSetECIByName(encodingName);
-				if (eci != null)
-				{
-					EncoderInternal.appendECI(eci, headerAndDataBits);
-				}
-			}
-			//Mode
-			EncoderInternal.appendModeInfo(mode, headerAndDataBits);
-			//Char info
-			int numLetters = mode.Equals(Mode.BYTE)?dataBits.sizeInBytes():content.Length;
-			EncoderInternal.appendLengthInfo(numLetters, vcStruct.VersionDetail.Version, mode, headerAndDataBits);
-			//Combine with dataBits
-			headerAndDataBits.appendBitVector(dataBits);
-			
-			// Terminate the bits properly.
-			EncoderInternal.terminateBits(vcStruct.VersionDetail.NumDataBytes, headerAndDataBits);
-			
+			QRCodeInternal qrInternal;
+			BitVector headerAndDataBits = DataEncodeUsingReferenceImplementation(content, ecLevel, out qrInternal);
 			
 			// Step 6: Interleave data bits with error correction code.
 			BitVector finalBits = new BitVector();
-			EncoderInternal.interleaveWithECBytes(headerAndDataBits, vcStruct.VersionDetail.NumTotalBytes, vcStruct.VersionDetail.NumDataBytes, vcStruct.VersionDetail.NumECBlocks, finalBits);
+			EncoderInternal.interleaveWithECBytes(headerAndDataBits, qrInternal.NumTotalBytes, qrInternal.NumDataBytes, qrInternal.NumRSBlocks, finalBits);
 			
 			return finalBits;
         }

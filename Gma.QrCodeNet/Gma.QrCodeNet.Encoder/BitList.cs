@@ -56,14 +56,80 @@ namespace Gma.QrCodeNet.Encoding
         public BitList Add(IEnumerable<bool> values, int bitCount)
         {
             int initialCount = this.Count;
-            Resize(this.Count + bitCount);
-            int i = 0;
-            foreach (var value in values)
-            {
-                this[initialCount + i] = value;
-                i++;
-            }
-            return this;
+            Resize(initialCount + bitCount);
+            initialCount = AddIEnumerable(values, initialCount);
+            if(initialCount == this.Count)
+            	return this;
+            else
+            	throw new ArgumentException(string.Format("InitialCount:{0}, ThisCount:{1}", initialCount, this.Count));
+        }
+        
+        private int AddIEnumerable(IEnumerable<bool> values, int initialCount)
+        {
+        	int i = 0;
+        	foreach(bool value in values)
+        	{
+        		this[initialCount + i] = value;
+        		i++;
+        	}
+        	return initialCount + i;
+        }
+        
+        
+        public BitList Add(byte[] values, int numBytes)
+        {
+        	int initialCount = this.Count;
+        	Resize(initialCount + (numBytes << 3));
+        	foreach(byte value in values)
+        	{
+        		IEnumerable<bool> bits = GetBits((int)value, 8);
+        		initialCount = AddIEnumerable(bits, initialCount);
+        	}
+        	
+        	if(initialCount == this.Count)
+        		return this;
+        	else
+        		throw new ArgumentException(string.Format("InitialCount:{0}, ThisCount:{1}", initialCount, this.Count));
+        }
+        
+        /// <summary>
+        /// Method for Terminator class. 
+        /// Add padding codeword at end of BitList.
+        /// </summary>
+        /// <param name="byteCount">Number of padding</param>
+        internal BitList AddPadding(int byteCount)
+        {
+        	if(byteCount < 0)
+				throw new ArgumentException("Num of pade codewords less than Zero");
+        	int initialCount = this.Count;
+        	Resize(initialCount + (byteCount << 3));
+			for(int numOfP = 1; numOfP <= byteCount; numOfP++)
+			{
+				if(numOfP % 2 == 1)
+					initialCount = this.AddBoolArray(QRCodeConstantVariable.PadeOdd, initialCount);
+				else
+					initialCount = this.AddBoolArray(QRCodeConstantVariable.PadeEven, initialCount);
+			}
+			
+			if(initialCount != this.Count)
+				throw new ArgumentException(string.Format("InitialCount:{0}, ThisCount:{1}", initialCount, this.Count));
+			else
+				return this;
+        }
+        
+        /// <summary>
+        /// Sub method for AddPadding. It will use initialCount from AddPadding as actually data size. 
+        /// </summary>
+        /// <param name="pad">Pad codewords from QRCodeConstantVariable, or bool array. </param>
+        private int AddBoolArray(bool[] pad, int initialCount)
+        {
+        	int i = 0;
+        	foreach(bool value in pad)
+        	{
+        		this[initialCount + i] = value;
+        		i++;
+        	}
+        	return initialCount + i;
         }
 
         private void Resize(int newLength)

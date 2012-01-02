@@ -11,19 +11,19 @@
 		/// </summary>
 		internal override int PenaltyCalculate(BitMatrix matrix)
 		{
-			MatrixSize size = matrix.Size;
+			int width = matrix.Width;
 			int DarkBitCount = 0;
 			
-			for(int j = 0; j < size.Height; j++)
+			for(int j = 0; j < width; j++)
 			{
-				for(int i = 0; i < size.Width; i++)
+				for(int i = 0; i < width; i++)
 				{
 					if(matrix[i, j])
 						DarkBitCount++;
 				}
 			}
 			
-			int MatrixCount = size.Width * size.Height;
+			int MatrixCount = width * width;
 			
 			double ratio = (double)DarkBitCount / MatrixCount;
 			

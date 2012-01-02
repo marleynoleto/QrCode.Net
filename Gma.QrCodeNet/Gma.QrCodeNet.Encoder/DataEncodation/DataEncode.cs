@@ -33,7 +33,7 @@ namespace Gma.QrCodeNet.Encoding.DataEncodation
 			//Data
 			dataCodewords.Add(encodeContent);
 			//Terminator Padding
-			dataCodewords.Add(Terminator.TerminateBites(dataCodewords.Count, vcStruct.VersionDetail.NumDataBytes));
+			dataCodewords.TerminateBites(dataCodewords.Count, vcStruct.VersionDetail.NumDataBytes);
 			
 			int dataCodewordsCount = dataCodewords.Count;
 			if((dataCodewordsCount & 0x7) != 0)

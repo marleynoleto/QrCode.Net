@@ -1,13 +1,13 @@
 ﻿namespace Gma.QrCodeNet.Encoding.Versions
 {
-	public sealed class VersionTable
+	public static class VersionTable
 	{
 		/// <summary>
 		/// ISO/IEC 18004/2006 Tabler 9 Page 38
 		/// Only include non-micro QRCode
 		/// </summary>
 		/// <value versionNum>1 to 40, Non-micro QRcode</value>
-		internal QRCodeVersion GetVersionByNum(int versionNum)
+		internal static QRCodeVersion GetVersionByNum(int versionNum)
 		{
 			if(versionNum < QRCodeConstantVariable.MinVersion || versionNum > QRCodeConstantVariable.MaxVersion)
 				throw new System.InvalidOperationException(string.Format("Unexpected version number: {0}", versionNum));
@@ -19,7 +19,7 @@
 		/// Only include non-micro QRCode
 		/// </summary>
 		/// <value matrixWidth>matrix width for non-micro QRCode</value>
-		internal QRCodeVersion GetVersionByWidth(int matrixWidth)
+		internal static QRCodeVersion GetVersionByWidth(int matrixWidth)
 		{
 			if((matrixWidth - 17) % 4 != 0)
 				throw new System.ArgumentException("Incorrect matrix width");
@@ -31,9 +31,12 @@
 		private static QRCodeVersion[] version = initialize();
 		
 		/// <summary>
-		/// ISO/IEC 18004/2006 Tabler 9 Page 38
-		/// Only include non-micro QRCode
+		/// We only need totalCodeWords, dataCodewords and number of blocks. Other variable can be calculate through
+		/// equation by given that three variables. 
+		/// This table try to use original table layout for easier error detection. 
 		/// </summary>
+		/// <remarks>ISO/IEC 18004/2006 Tabler 9 Page 38
+		/// Only include non-micro QRCode</remarks>
 		/// <remarks>Sorted list</remarks>
 		private static QRCodeVersion[] initialize()
 		{

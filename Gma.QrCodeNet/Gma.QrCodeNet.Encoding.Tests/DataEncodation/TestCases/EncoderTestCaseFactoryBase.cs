@@ -77,10 +77,10 @@ namespace Gma.QrCodeNet.Encoding.Tests.DataEncodation
         	foreach (int inputSize in testInputSizes)
             {
                 string inputString = GenerateRandomInputString(inputSize, randomizer);
-                    
+               	QRCodeInternal qrInternal;
                 IEnumerable<bool> result = option == "encoder" ? 
                 	EncodeUsingReferenceImplementation(inputString) :
-                	DataEncodeExtensions.DataEncodeUsingReferenceImplementation(inputString);
+                	DataEncodeExtensions.DataEncodeUsingReferenceImplementation(inputString, ErrorCorrectionLevel.H, out qrInternal);
                 yield return new TestCaseData(inputString, result);
             }
         }

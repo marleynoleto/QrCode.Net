@@ -13,7 +13,6 @@ namespace Gma.QrCodeNet.Encoding.Tests.EncodingRegion
 	public sealed class CodewordsTestCaseFactory
 	{
 		const string s_TestNameFormat = "Size: {0}, Vresion: {1}";
-		VersionTable versionTable = new VersionTable();
 		
 		public IEnumerable<TestCaseData> TestCasesFromReferenceImplementation
         {
@@ -22,7 +21,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.EncodingRegion
             	Random randomizer = new Random();
             	for(int version = 1; version <= 40; version++)
             	{
-            		int numData = versionTable.GetVersionByNum(version).TotalCodewords;
+            		int numData = VersionTable.GetVersionByNum(version).TotalCodewords;
             		yield return GenerateRandomTestCaseData(version, numData, randomizer);
             	}
             }

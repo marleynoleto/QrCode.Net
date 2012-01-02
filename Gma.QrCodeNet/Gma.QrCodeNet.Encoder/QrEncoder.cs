@@ -51,5 +51,21 @@ namespace Gma.QrCodeNet.Encoding
         		return false;
         	}
         }
+        
+        public QrCode ZXEncode(string content)
+        {
+        	ErrorCorrectionLevelInternal level = ErrorCorrectionLevelConverter.ToInternal(this.ErrorCorrectionLevel);
+            QRCodeInternal qrCodeInternal = new QRCodeInternal();
+            EncoderInternal.encode(content, level, qrCodeInternal);
+            return new QrCode();
+        }
+        
+        
+        public QrCode NEncode(string content)
+        {
+        	QRCodeEncode.Encode(content, ErrorCorrectionLevel);
+        	return new QrCode();
+        }
+        
     }
 }

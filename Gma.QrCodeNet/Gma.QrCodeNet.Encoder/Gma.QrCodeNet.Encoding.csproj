@@ -62,15 +62,9 @@
     <Compile Include="EncodingRegion\FormatInformation.cs" />
     <Compile Include="EncodingRegion\VersionInformation.cs" />
     <Compile Include="ErrorCorrection\ECGenerator.cs" />
-    <Compile Include="Masking\Scoring\BitBinaryTree.cs" />
-    <Compile Include="Masking\Scoring\BitBinaryTreeNode.cs" />
     <Compile Include="Masking\Scoring\Penalty.cs" />
     <Compile Include="Masking\Scoring\Penalty1.cs" />
     <Compile Include="Masking\Scoring\Penalty2.cs" />
-    <Compile Include="Masking\Scoring\Penalty2DecisionTree.cs" />
-    <Compile Include="Masking\Scoring\Penalty2DecisionNode.cs" />
-    <Compile Include="Masking\Scoring\Penalty3DecisionTree.cs" />
-    <Compile Include="Masking\Scoring\Penalty3DecisionNode.cs" />
     <Compile Include="Masking\Scoring\Penalty3.cs" />
     <Compile Include="Masking\Scoring\Penalty4.cs" />
     <Compile Include="Masking\Scoring\PenaltyFactory.cs" />

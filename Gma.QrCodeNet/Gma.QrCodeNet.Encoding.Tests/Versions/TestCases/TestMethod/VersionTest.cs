@@ -12,7 +12,6 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 		
 		private static string[] s_EncodingNames = new string[]{"iso-8859-1", "iso-8859-2"};
 		
-		private static VersionTable versionTable = new VersionTable();
 		
 		public static VersionCheckStatus VersionCheck(int versionNum, int numDataBits, Mode mode, ErrorCorrectionLevel level, string encodingName)
 		{
@@ -48,8 +47,8 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 		
 		private static int DataBits(int version, ErrorCorrectionLevel level)
         {
-        	int totalCodewords = versionTable.GetVersionByNum(version).TotalCodewords;
-        	int totalECCodewords = versionTable.GetVersionByNum(version).GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
+        	int totalCodewords = VersionTable.GetVersionByNum(version).TotalCodewords;
+        	int totalECCodewords = VersionTable.GetVersionByNum(version).GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
         	
         	return (totalCodewords - totalECCodewords) * 8;
         }
@@ -62,7 +61,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 				ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
 				for(int versionNum = 1; versionNum < 33; versionNum++)
 				{
-					QRCodeVersion version = versionTable.GetVersionByNum(versionNum);
+					QRCodeVersion version = VersionTable.GetVersionByNum(versionNum);
 					
 					int totalCodewordsBits = version.TotalCodewords * 8;
 					

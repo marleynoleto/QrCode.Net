@@ -16,10 +16,6 @@ namespace Gma.QrCodeNet.Encoding.Positioning
         {
             get
             {
-            	if (MStatus(i, j) == MatrixStatus.None)
-                {
-                    throw new InvalidOperationException(string.Format("The value of cell [{0},{1}] is not set.", i, j));
-                }
                 return base[i, j];
             }
             set

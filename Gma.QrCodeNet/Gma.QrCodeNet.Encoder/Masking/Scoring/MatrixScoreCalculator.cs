@@ -8,12 +8,28 @@ namespace Gma.QrCodeNet.Encoding.Masking.Scoring
         internal static BitMatrix GetLowestPenaltyMatrix(this TriStateMatrix matrix, ErrorCorrectionLevel errorlevel)
         {
             PatternFactory patternFactory = new PatternFactory();
-            return 
-                patternFactory
-                    .AllPatterns()
-                    .Select(pattern => matrix.Apply(pattern, errorlevel))
-            		.OrderByDescending(patternedMatrix => patternedMatrix.PenaltyScore())
-                    .Last();
+            int score = int.MaxValue;
+            int tempScore;
+            TriStateMatrix result = new TriStateMatrix(matrix.Width);
+            TriStateMatrix triMatrix = new TriStateMatrix(matrix.Width);
+            foreach(Pattern pattern in patternFactory.AllPatterns())
+            {
+            	triMatrix = matrix.Apply(pattern, errorlevel);
+            	tempScore = triMatrix.PenaltyScore();
+            	if(tempScore < score)
+            	{
+            		score = tempScore;
+            		result = triMatrix;
+            	}
+            }
+            
+            return result;
+//            return 
+//                patternFactory
+//                    .AllPatterns()
+//                    .Select(pattern => matrix.Apply(pattern, errorlevel))
+//            		.OrderByDescending(patternedMatrix => patternedMatrix.PenaltyScore())
+//                    .Last();
         }
 
 

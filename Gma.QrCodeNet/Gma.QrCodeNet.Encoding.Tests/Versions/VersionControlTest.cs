@@ -8,7 +8,6 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions
 	[TestFixture]
 	public class VersionControlTest
 	{
-		private static VersionTable versionTable = new VersionTable();
 		
 		[Test]
         [TestCaseSource(typeof(VersionControlTestCaseFactory), "TestCasesFromReferenceImplementation")]

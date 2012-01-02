@@ -88,6 +88,13 @@
     <Compile Include="PenaltyScore\TestCases\Penalty3TestCaseFactory.cs" />
     <Compile Include="PenaltyScore\TestCases\Penalty4TestCaseFactory.cs" />
     <Compile Include="PenaltyScore\TestCases\PenaltyScoreTestCaseFactory.cs" />
+    <Compile Include="PerformanceTest\EncodePTest.cs" />
+    <Compile Include="PerformanceTest\ErrorCorrectionPTest.cs" />
+    <Compile Include="PerformanceTest\InputRecognisePTest.cs" />
+    <Compile Include="PerformanceTest\PenaltyPTest.cs" />
+    <Compile Include="PerformanceTest\ReedSolomonPTest.cs" />
+    <Compile Include="PerformanceTest\TerminatorPTest.cs" />
+    <Compile Include="PerformanceTest\VersionControlPTest.cs" />
     <Compile Include="Positioning\PositioningPatternsTest.cs" />
     <Compile Include="Positioning\TestCases\PositioningPatternsTestCaseFactory.cs" />
     <Compile Include="ReedSolomon\ByteConvertTest.cs" />
@@ -143,6 +150,7 @@
     <Folder Include="ErrorCorrection" />
     <Folder Include="ErrorCorrection\TestCases" />
     <Folder Include="EncodingRegion" />
+    <Folder Include="PerformanceTest" />
     <Folder Include="Terminate" />
     <Folder Include="ReedSolomon" />
     <Folder Include="ReedSolomon\TestCase" />

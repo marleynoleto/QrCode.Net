@@ -59,7 +59,35 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 			BitList codewords = new BitList();
 			
 			int maxDataLength = ecBlockGroup1 == vd.NumECBlocks ? numDataBytesGroup1 : numDataBytesGroup2;
-			
+			//
+//			byte[] codeBytes = new byte[vd.NumTotalBytes];
+//			int index = 0;
+//			for(int dataID = 0; dataID < maxDataLength; dataID++)
+//			{
+//				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)
+//				{
+//					if( !(dataID == numDataBytesGroup1 && blockID < ecBlockGroup1) )
+//					{
+//						codeBytes[index] = dByteJArray[blockID][dataID];
+//						index++;
+//					}
+//				}
+//			}
+//			
+//			for(int ECID = 0; ECID < ecBytesPerBlock; ECID++)
+//			{
+//				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)
+//				{
+//					codeBytes[index] = ecByteJArray[blockID][ECID];
+//					index++;
+//				}
+//			}
+//			
+//			if(index != vd.NumTotalBytes)
+//				throw new ArgumentException(string.Format("total bytes: {0}, actual bits: {1}", vd.NumTotalBytes, index));
+//			
+//			return codewords.Add(codeBytes, index);
+			//
 			for(int dataID = 0; dataID < maxDataLength; dataID++)
 			{
 				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)

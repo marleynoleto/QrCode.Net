@@ -1,5 +1,8 @@
 ﻿namespace Gma.QrCodeNet.Encoding
 {
+	/// <summary>
+	/// Contain most of common constant variables. S
+	/// </summary>
     public static class QRCodeConstantVariable
     {
         public const int MinVersion = 1;
@@ -22,12 +25,15 @@
         /// 0xEC
         /// </summary>
         internal const int PadeCodewordsOdd = 0xec;
+        internal static bool[] PadeOdd = new bool[]{true, true, true, false, 
+        	                                        true, true, false, false};
         
         /// <summary>
         /// 0x11
         /// </summary>
         internal const int PadeCodewordsEven = 0x11;
-        
+        internal static bool[] PadeEven = new bool[]{false, false, false, true, 
+        	                                          false, false, false, true};
         /// <summary>
         /// URL:http://en.wikipedia.org/wiki/Byte-order_mark
         /// </summary>

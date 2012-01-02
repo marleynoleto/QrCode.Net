@@ -62,8 +62,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Versions.TestCases
 		
 		public static VersionTableTestProperties GetVersionInfo(int versionNum, ErrorCorrectionLevel level)
 		{
-			VersionTable versionTable = new VersionTable();
-			Version version = versionTable.GetVersionByNum(versionNum);
+			Version version = VersionTable.GetVersionByNum(versionNum);
 			int totalNumCodewords = version.TotalCodewords;
 			ErrorCorrectionBlocks ecBlocks = version.GetECBlocksByLevel(level);
 			int numECCodewords = ecBlocks.NumErrorCorrectionCodewards;

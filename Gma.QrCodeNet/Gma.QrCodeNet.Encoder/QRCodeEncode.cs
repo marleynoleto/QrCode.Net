@@ -26,5 +26,6 @@ namespace Gma.QrCodeNet.Encoding
 			return triMatrix.GetLowestPenaltyMatrix(errorLevel);
 			
 		}
+		
 	}
 }

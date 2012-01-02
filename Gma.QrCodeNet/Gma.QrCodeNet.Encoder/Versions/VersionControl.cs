@@ -8,7 +8,6 @@ namespace Gma.QrCodeNet.Encoding.Versions
 		private const int NUM_BITS_MODE_INDICATOR = 4;
 		private const string DEFAULT_ENCODING = QRCodeConstantVariable.DefaultEncoding;
 		
-		private static VersionTable versionTable = new VersionTable();
 		
 		/// <summary>
 		/// Determine which version to use
@@ -22,16 +21,19 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 			bool containECI = false;
 			
-			ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
+			BitList eciHeader = new BitList();
+			
+			
 			//Check ECI header
 			if(mode == Mode.EightBitByte)
 			{
 				if(encodingName != DEFAULT_ENCODING && encodingName != QRCodeConstantVariable.UTF8Encoding)
 				{
+					ECISet eciSet = new ECISet(ECISet.AppendOption.NameToValue);
 					int eciValue = eciSet.GetECIValueByName(encodingName);
 				
 					totalDataBits += ECISet.NumOfECIHeaderBits(eciValue);
-					
+					eciHeader = eciSet.GetECIHeader(encodingName);
 					containECI = true;
 				}
 			}
@@ -52,11 +54,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 			vcStruct.isContainECI = containECI;
 			
-			if(containECI)
-			{
-				vcStruct.ECIHeader = eciSet.GetECIHeader(encodingName);
-			}
-			
+			vcStruct.ECIHeader = eciHeader;
 			
 			return vcStruct;
 			
@@ -73,7 +71,7 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 			int version = versionNum;
 			
-			QRCodeVersion versionData = versionTable.GetVersionByNum(versionNum);
+			QRCodeVersion versionData = VersionTable.GetVersionByNum(versionNum);
 			
 			int numTotalBytes = versionData.TotalCodewords;
 			
@@ -106,11 +104,10 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			{
 				totalBits = numBits + NUM_BITS_MODE_INDICATOR + charCountIndicator[i];
 				
-				QRCodeVersion version = versionTable.GetVersionByNum(VERSION_GROUP[i]);
-				int totalCodewords = version.TotalCodewords;
+				QRCodeVersion version = VersionTable.GetVersionByNum(VERSION_GROUP[i]);
 				int numECCodewords = version.GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
 			
-				int dataCodewords = totalCodewords - numECCodewords;
+				int dataCodewords = version.TotalCodewords - numECCodewords;
 				
 				if(totalBits <= dataCodewords * 8)
 				{
@@ -122,34 +119,38 @@ namespace Gma.QrCodeNet.Encoding.Versions
 			
 		}
 		
-		
-		/// <param name="NumDataCodewords">Bytes number</param>
+		/// <summary>
+		/// Use number of data bits(header + eci header + data bits from EncoderBase) to search for proper version to use
+		/// between min and max boundary. 
+		/// Boundary define by DynamicSearchIndicator method. 
+		/// </summary>
 		private static int BinarySearch(int numDataBits, ErrorCorrectionLevel level, int lowerVersionNum, int higherVersionNum)
 		{
 			int middleVersionNumber;
 			
-			if(lowerVersionNum > higherVersionNum)
+			while(lowerVersionNum <= higherVersionNum)
 			{
-				//Version Low should be the one that has enough space for current data.
-				return lowerVersionNum;	
+				middleVersionNumber = (lowerVersionNum + higherVersionNum) / 2;
+				QRCodeVersion version = VersionTable.GetVersionByNum(middleVersionNumber);
+				int numECCodewords = version.GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
+				int dataCodewords = version.TotalCodewords - numECCodewords;
+				
+				if(dataCodewords << 3 == numDataBits)
+					return middleVersionNumber;
+				
+				if(dataCodewords << 3 > numDataBits)
+				{
+					higherVersionNum = middleVersionNumber - 1;
+				}
+				else
+				{
+					lowerVersionNum = middleVersionNumber + 1;
+				}
 			}
-			
-			middleVersionNumber = (lowerVersionNum + higherVersionNum) / 2;
-			QRCodeVersion version = versionTable.GetVersionByNum(middleVersionNumber);
-			int totalCodewords = version.TotalCodewords;
-			int numECCodewords = version.GetECBlocksByLevel(level).NumErrorCorrectionCodewards;
-			
-			int dataCodewords = totalCodewords - numECCodewords;
-			
-			if(dataCodewords * 8 == numDataBits)
-				return middleVersionNumber;
-			
-			if(dataCodewords * 8 > numDataBits)
-				return BinarySearch(numDataBits, level, lowerVersionNum, middleVersionNumber - 1);
-			else
-				return BinarySearch(numDataBits, level, middleVersionNumber + 1, higherVersionNum);
-			
+			return lowerVersionNum;
 		}
+		
+		
 		
 	}
 }

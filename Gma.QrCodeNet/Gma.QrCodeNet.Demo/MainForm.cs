@@ -5,6 +5,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Gma.QrCodeNet.Encoding.Windows.Controls;
+using Gma.QrCodeNet.Encoding;
+using System.Diagnostics;
 
 namespace Gma.QrCodeNet.Demo
 {
@@ -53,6 +55,38 @@ namespace Gma.QrCodeNet.Demo
         private void checkBoxArtistic_CheckedChanged(object sender, EventArgs e)
         {
             qrCodeControl1.Artistic = checkBoxArtistic.Checked;
+        }
+        
+        void BtPerformanceClick(object sender, EventArgs e)
+        {
+        	QrEncoder encoder = new QrEncoder();
+        	QrCode qrCode;
+        	
+        	Stopwatch sw = new Stopwatch();
+        	
+        	string testStr = "QrCode.Net";
+        	
+        	sw.Start();
+        	for(int numTimes = 0; numTimes < 1000; numTimes++)
+        	{
+        		qrCode = encoder.ZXEncode(testStr);
+        	}
+        	sw.Stop();
+        	
+        	lblZXing.Text = string.Format("ZX Elapsed={0}", sw.ElapsedMilliseconds);
+        	
+        	sw.Reset();
+        	
+        	sw.Start();
+        	for(int numTimes = 0; numTimes < 1000; numTimes++)
+        	{
+        		qrCode = encoder.NEncode(testStr);
+        	}
+        	sw.Stop();
+        	
+        	lblNetResult.Text = string.Format("Elapsed={0}", sw.ElapsedMilliseconds);
+        	
+        	
         }
     }
 }

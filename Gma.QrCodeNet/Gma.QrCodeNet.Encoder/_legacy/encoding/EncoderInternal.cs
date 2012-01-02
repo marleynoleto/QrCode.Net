@@ -239,7 +239,7 @@ namespace com.google.zxing.qrcode.encoder
 		/// <summary> Initialize "QRCodeInternal" according to "numInputBytes", "m_EcLevelInternal", and "mode". On success,
 		/// modify "QRCodeInternal".
 		/// </summary>
-		private static void  initQRCode(int numInputBytes, ErrorCorrectionLevelInternal m_EcLevelInternal, Mode mode, QRCodeInternal qrCodeInternal)
+		internal static void  initQRCode(int numInputBytes, ErrorCorrectionLevelInternal m_EcLevelInternal, Mode mode, QRCodeInternal qrCodeInternal)
 		{
 			qrCodeInternal.EcLevelInternal = m_EcLevelInternal;
 			qrCodeInternal.Mode = mode;

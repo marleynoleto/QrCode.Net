@@ -26,8 +26,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.Terminate
         
         private void TestOneData(BitList data, int numTotalByte, IEnumerable<bool> expected)
         {
-        	BitList terminateBits = new BitList();
-        	data.Add(Terminator.TerminateBites(data.Count, numTotalByte));
+        	data.TerminateBites(data.Count, numTotalByte);
         	
         	IEnumerable actualResult = data;
         	

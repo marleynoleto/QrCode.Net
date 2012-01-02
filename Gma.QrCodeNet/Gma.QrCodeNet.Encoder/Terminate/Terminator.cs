@@ -13,11 +13,12 @@ namespace Gma.QrCodeNet.Encoding.Terminate
 		/// </summary>
 		/// <remarks>ISO/IEC 18004:2006 P. 32 33. 
 		/// Terminator / Bit stream to codeword conversion</remarks>
+		/// <param name="baseList">Method will add terminator bits at end of baseList</param>
 		/// <param name="dataCount">Num of bits for datacodewords without terminator</param>
 		/// <param name="numTotalDataCodewords">Total number of datacodewords for specific version.
 		/// Receive it under Version/VersionTable</param>
 		/// <returns>Bitlist that contain Terminator, padding and padcodewords</returns>
-		internal static BitList TerminateBites(int dataCount, int numTotalDataCodewords)
+		internal static void TerminateBites(this BitList baseList, int dataCount, int numTotalDataCodewords)
 		{
 			int numTotalDataBits = numTotalDataCodewords << 3;
 			int numDataBits = dataCount;
@@ -26,50 +27,36 @@ namespace Gma.QrCodeNet.Encoding.Terminate
 			int numBitsNeedForLastByte = numFillerBits & 0x7;
 			int numFillerBytes = numFillerBits >> 3;
 			
-			BitList result = new BitList();
+			//BitList result = new BitList();
 			if(numBitsNeedForLastByte >= QRCodeConstantVariable.TerminatorLength)
 			{
-				result.Add(TerminatorPadding(numBitsNeedForLastByte));
-				result.Add(PadeCodewords(numFillerBytes));
+				baseList.TerminatorPadding(numBitsNeedForLastByte);
+				baseList.PadeCodewords(numFillerBytes);
 			}
 			else if(numFillerBytes == 0)
 			{
-				result.Add(TerminatorPadding(numBitsNeedForLastByte));
+				baseList.TerminatorPadding(numBitsNeedForLastByte);
 			}
 			else if(numFillerBytes > 0)
 			{
-				result.Add(TerminatorPadding(numBitsNeedForLastByte + NumBitsForByte));
-				result.Add(PadeCodewords(numFillerBytes - 1));
+				baseList.TerminatorPadding(numBitsNeedForLastByte + NumBitsForByte);
+				baseList.PadeCodewords(numFillerBytes - 1);
 			}
 			
-			if(result.Count == numFillerBits)
-				return result;
-			else
+			if(baseList.Count != numTotalDataBits)
 				throw new ArgumentException(
-					string.Format("Generate terminator and Padding fail. Num of bits need: {0}, Actually length: {1}", numFillerBytes, result.Count));
+					string.Format("Generate terminator and Padding fail. Num of bits need: {0}, Actually length: {1}", numFillerBytes, baseList.Count - numDataBits));
 		}
 		
 		
-		private static BitList PadeCodewords(int numOfPadeCodewords)
+		private static void PadeCodewords(this BitList mainList, int numOfPadeCodewords)
 		{
-			if(numOfPadeCodewords < 0)
-				throw new ArgumentException("Num of pade codewords less than Zero");
-			BitList padeCodewords = new BitList();
-			for(int numOfP = 1; numOfP <= numOfPadeCodewords; numOfP++)
-			{
-				if(numOfP % 2 == 1)
-					padeCodewords.Add(QRCodeConstantVariable.PadeCodewordsOdd, NumBitsForByte);
-				else
-					padeCodewords.Add(QRCodeConstantVariable.PadeCodewordsEven, NumBitsForByte);
-			}
-			return padeCodewords;
+			mainList.AddPadding(numOfPadeCodewords);
 		}
 		
-		private static BitList TerminatorPadding(int numBits)
+		private static void TerminatorPadding(this BitList mainList, int numBits)
 		{
-			BitList terminatorPadding = new BitList();
-			terminatorPadding.Add(QRCodeConstantVariable.TerminatorNPaddingBit, numBits);
-			return terminatorPadding;
+			mainList.Add(QRCodeConstantVariable.TerminatorNPaddingBit, numBits);
 		}
 	}
 }
