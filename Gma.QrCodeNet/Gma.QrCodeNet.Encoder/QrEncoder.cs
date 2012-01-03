@@ -57,15 +57,9 @@ namespace Gma.QrCodeNet.Encoding
         	ErrorCorrectionLevelInternal level = ErrorCorrectionLevelConverter.ToInternal(this.ErrorCorrectionLevel);
             QRCodeInternal qrCodeInternal = new QRCodeInternal();
             EncoderInternal.encode(content, level, qrCodeInternal);
-            return new QrCode();
+            return new QrCode(qrCodeInternal);
         }
         
-        
-        public QrCode NEncode(string content)
-        {
-        	QRCodeEncode.Encode(content, ErrorCorrectionLevel);
-        	return new QrCode();
-        }
         
     }
 }

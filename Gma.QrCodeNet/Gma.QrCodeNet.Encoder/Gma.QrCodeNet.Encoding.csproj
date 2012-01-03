@@ -44,9 +44,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
-    <Compile Include="BitVector8.cs" />
+    <Compile Include="BitList.cs" />
     <Compile Include="common\BitListExtensions.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
@@ -87,12 +86,10 @@
     <Compile Include="Masking\MatrixExtensions.cs" />
     <Compile Include="Masking\NullPattern.cs" />
     <Compile Include="Masking\Pattern.cs" />
-    <Compile Include="Positioning\MatrixStatus.cs" />
-    <Compile Include="Positioning\StateMatrix.cs" />
+    <Compile Include="MatrixStatus.cs" />
     <Compile Include="Positioning\Stencils\DarkDotAtLeftBottom.cs" />
     <Compile Include="Positioning\Stencils\PatternStencilBase.cs" />
     <Compile Include="Positioning\Stencils\TimingPattern.cs" />
-    <Compile Include="Positioning\TriStateMatrix.cs" />
     <Compile Include="Positioning\TriStateMatrixExtensions.cs" />
     <Compile Include="MatrixSize.cs" />
     <Compile Include="Positioning\Stencils\AlignmentPattern.cs" />
@@ -105,10 +102,10 @@
     <Compile Include="ReedSolomon\PolyDivideStruct.cs" />
     <Compile Include="ReedSolomon\Polynomial.cs" />
     <Compile Include="ReedSolomon\ReedSolomonEncoder.cs" />
-    <None Include="SimpleBitMatrix.cs" />
-    <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="QRCodeConstantVariable.cs" />
+    <Compile Include="StateMatrix.cs" />
     <Compile Include="Terminate\Terminator.cs" />
+    <Compile Include="TriStateMatrix.cs" />
     <Compile Include="VersionDetail.cs" />
     <Compile Include="Versions\ErrorCorrectionBlock.cs" />
     <Compile Include="Versions\ErrorCorrectionBlocks.cs" />

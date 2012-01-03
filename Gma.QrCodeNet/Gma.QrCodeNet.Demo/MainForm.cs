@@ -80,7 +80,7 @@ namespace Gma.QrCodeNet.Demo
         	sw.Start();
         	for(int numTimes = 0; numTimes < 1000; numTimes++)
         	{
-        		qrCode = encoder.NEncode(testStr);
+        		qrCode = encoder.Encode(testStr);
         	}
         	sw.Stop();
         	

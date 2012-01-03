@@ -20,7 +20,6 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 		/// <returns>codewords BitList contain datacodewords and ECCodewords</returns>
 		internal static BitList FillECCodewords(BitList dataCodewords, VersionDetail vd)
 		{
-//			byte[] dataCodewordsByte = BitListExtensions.ToByteArray(dataCodewords);
 			List<byte> dataCodewordsByte = dataCodewords.List;
 			int ecBlockGroup2 = vd.ECBlockGroup2;
 			int ecBlockGroup1 = vd.ECBlockGroup1;
@@ -41,8 +40,6 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 				if(blockID < ecBlockGroup1)
 				{
 					dByteJArray[blockID] = new byte[numDataBytesGroup1];
-//					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup1);
-//					dataBytesOffset += numDataBytesGroup1;
 					for(int index = 0; index < numDataBytesGroup1; index++)
 					{
 						dByteJArray[blockID][index] = dataCodewordsByte[dataBytesOffset + index];
@@ -52,8 +49,6 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 				else
 				{
 					dByteJArray[blockID] = new byte[numDataBytesGroup2];
-//					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup2);
-//					dataBytesOffset += numDataBytesGroup2;
 					for(int index = 0; index < numDataBytesGroup2; index++)
 					{
 						dByteJArray[blockID][index] = dataCodewordsByte[dataBytesOffset + index];
@@ -69,35 +64,7 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 			BitList codewords = new BitList();
 			
 			int maxDataLength = ecBlockGroup1 == vd.NumECBlocks ? numDataBytesGroup1 : numDataBytesGroup2;
-			//
-//			byte[] codeBytes = new byte[vd.NumTotalBytes];
-//			int index = 0;
-//			for(int dataID = 0; dataID < maxDataLength; dataID++)
-//			{
-//				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)
-//				{
-//					if( !(dataID == numDataBytesGroup1 && blockID < ecBlockGroup1) )
-//					{
-//						codeBytes[index] = dByteJArray[blockID][dataID];
-//						index++;
-//					}
-//				}
-//			}
-//			
-//			for(int ECID = 0; ECID < ecBytesPerBlock; ECID++)
-//			{
-//				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)
-//				{
-//					codeBytes[index] = ecByteJArray[blockID][ECID];
-//					index++;
-//				}
-//			}
-//			
-//			if(index != vd.NumTotalBytes)
-//				throw new ArgumentException(string.Format("total bytes: {0}, actual bits: {1}", vd.NumTotalBytes, index));
-//			
-//			return codewords.Add(codeBytes, index);
-			//
+		
 			for(int dataID = 0; dataID < maxDataLength; dataID++)
 			{
 				for(int blockID = 0; blockID < vd.NumECBlocks; blockID++)

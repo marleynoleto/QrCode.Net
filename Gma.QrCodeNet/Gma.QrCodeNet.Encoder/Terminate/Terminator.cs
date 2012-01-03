@@ -51,7 +51,6 @@ namespace Gma.QrCodeNet.Encoding.Terminate
 		
 		private static void PadeCodewords(this BitList mainList, int numOfPadeCodewords)
 		{
-//			mainList.AddPadding(numOfPadeCodewords);
 			if(numOfPadeCodewords < 0)
 				throw new ArgumentException("Num of pade codewords less than Zero");
 			for(int numOfP = 1; numOfP <= numOfPadeCodewords; numOfP++)
