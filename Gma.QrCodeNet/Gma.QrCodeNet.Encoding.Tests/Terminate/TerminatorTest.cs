@@ -12,23 +12,25 @@ namespace Gma.QrCodeNet.Encoding.Tests.Terminate
 	{
 		[Test]
         [TestCaseSource(typeof(TerminatorTestCaseFactory), "TestCasesFromReferenceImplementation")]
-        public void Test_against_reference_implementation(BitList data, int numTotalByte, IEnumerable<bool> expected)
+        public void Test_against_reference_implementation(IEnumerable<bool> data, int numTotalByte, IEnumerable<bool> expected)
         {
         	TestOneData(data, numTotalByte, expected);
 		}
         
         [Test]
         [TestCaseSource(typeof(TerminatorTestCaseFactory), "TestCasesFromCsvFile")]
-        public void Test_against_TXT_Dataset(BitList data, int numTotalByte, IEnumerable<bool> expected)
+        public void Test_against_TXT_Dataset(IEnumerable<bool> data, int numTotalByte, IEnumerable<bool> expected)
         {
         	TestOneData(data, numTotalByte, expected);
         }
         
-        private void TestOneData(BitList data, int numTotalByte, IEnumerable<bool> expected)
+        private void TestOneData(IEnumerable<bool> data, int numTotalByte, IEnumerable<bool> expected)
         {
-        	data.TerminateBites(data.Count, numTotalByte);
+        	BitList tData = new BitList();
+        	tData.Add(data);
+        	tData.TerminateBites(tData.Count, numTotalByte);
         	
-        	IEnumerable actualResult = data;
+        	IEnumerable actualResult = tData;
         	
         	CollectionAssert.AreEquivalent(expected.ToList(), actualResult);
         }

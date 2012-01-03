@@ -2,16 +2,19 @@
 
 namespace Gma.QrCodeNet.Encoding
 {
-    public class SimpleBitMatrix : SquareBitMatrix
+    public class SimpleBitMatrix : BitMatrix
     {
         //private readonly BitArray m_InternalArray;
         private readonly bool[,] m_InternalArray;
 
+        private readonly int m_Width;
+        
         public SimpleBitMatrix(int width)
-            : base(width)
+//            : base(width)
         {
            // m_InternalArray = new BitArray(width*width);
             m_InternalArray = new bool[width, width];
+            m_Width = width;
         }
 
         public override bool this[int i, int j]
@@ -32,5 +35,18 @@ namespace Gma.QrCodeNet.Encoding
         {
             return j * Width + i;
         }
+        
+        
+        public override int Height
+        {
+            get { return Width; }
+        }
+
+        public override int Width
+        {
+            get { return m_Width; }
+        }
+        
+        
     }
 }

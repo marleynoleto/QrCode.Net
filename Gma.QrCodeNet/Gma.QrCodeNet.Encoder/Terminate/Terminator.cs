@@ -51,7 +51,16 @@ namespace Gma.QrCodeNet.Encoding.Terminate
 		
 		private static void PadeCodewords(this BitList mainList, int numOfPadeCodewords)
 		{
-			mainList.AddPadding(numOfPadeCodewords);
+//			mainList.AddPadding(numOfPadeCodewords);
+			if(numOfPadeCodewords < 0)
+				throw new ArgumentException("Num of pade codewords less than Zero");
+			for(int numOfP = 1; numOfP <= numOfPadeCodewords; numOfP++)
+			{
+				if(numOfP % 2 == 1)
+					mainList.Add(QRCodeConstantVariable.PadeCodewordsOdd, NumBitsForByte);
+				else
+					mainList.Add(QRCodeConstantVariable.PadeCodewordsEven, NumBitsForByte);
+			}
 		}
 		
 		private static void TerminatorPadding(this BitList mainList, int numBits)

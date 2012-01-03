@@ -2,21 +2,27 @@
 
 namespace Gma.QrCodeNet.Encoding.Positioning
 {
-    public class TriStateMatrix : SimpleBitMatrix
+    public class TriStateMatrix : BitMatrix
     {
         private readonly StateMatrix m_stateMatrix;
+        
+        private readonly bool[,] m_InternalArray;
+
+        private readonly int m_Width;
 
         public TriStateMatrix(int width)
-            : base(width)
+//            : base(width)
         {
             m_stateMatrix = new StateMatrix(width);
+            m_InternalArray = new bool[width, width];
+            m_Width = width;
         }
 
         public override bool this[int i, int j]
         {
             get
             {
-                return base[i, j];
+                return m_InternalArray[i, j];
             }
             set
             {
@@ -24,7 +30,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning
             	{
             		throw new InvalidOperationException(string.Format("The value of cell [{0},{1}] is not set or is Stencil.", i, j));
             	}
-                base[i, j] = value;
+                m_InternalArray[i, j] = value;
             }
         }
         
@@ -33,7 +39,7 @@ namespace Gma.QrCodeNet.Encoding.Positioning
         	set
         	{
         		m_stateMatrix[i, j] = mstatus;
-        		base[i, j] = value;
+        		m_InternalArray[i, j] = value;
         	}
         }
 
@@ -45,6 +51,16 @@ namespace Gma.QrCodeNet.Encoding.Positioning
         internal MatrixStatus MStatus(MatrixPoint point)
         {
             return MStatus(point.X, point.Y);
+        }
+        
+         public override int Height
+        {
+            get { return Width; }
+        }
+
+        public override int Width
+        {
+            get { return m_Width; }
         }
     }
 }

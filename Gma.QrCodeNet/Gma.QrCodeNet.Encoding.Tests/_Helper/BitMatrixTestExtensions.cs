@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Gma.QrCodeNet.Encoding.Positioning;
 using NUnit.Framework;
 
 namespace Gma.QrCodeNet.Encoding.Tests
@@ -19,7 +20,7 @@ namespace Gma.QrCodeNet.Encoding.Tests
             return base64String;
         }
 
-        private static BitMatrix FromBytes(byte[] bytes)
+        private static TriStateMatrix FromBytes(byte[] bytes)
         {
             int length = BitConverter.ToInt32(bytes, 0);
             byte[] data = new byte[(bytes.Length - sizeof(int)) * sizeof(byte)];
@@ -32,13 +33,13 @@ namespace Gma.QrCodeNet.Encoding.Tests
             }
 
             BitArray bitArray = new BitArray(data);
-            SimpleBitMatrix matrix = new SimpleBitMatrix(width);
+            TriStateMatrix matrix = new TriStateMatrix(width);
             for (int index = 0; index < length; index++)
             {
                 int i = index % width;
                 int j = index / width;
 
-                matrix[i, j] = bitArray[index];
+                matrix[i, j, MatrixStatus.Data] = bitArray[index];
             }
             return matrix;
         }
@@ -53,10 +54,10 @@ namespace Gma.QrCodeNet.Encoding.Tests
             return bytes;
         }
 
-        public static BitMatrix FromBase64(string base64String)
+        public static TriStateMatrix FromBase64(string base64String)
         {
             byte[] bytes = Convert.FromBase64String(base64String);
-            BitMatrix matrix = FromBytes(bytes);
+            TriStateMatrix matrix = FromBytes(bytes);
             return matrix;
         }
 

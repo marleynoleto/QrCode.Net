@@ -45,7 +45,8 @@ namespace Gma.QrCodeNet.Encoding.Tests
         [TestCase(new[] { O }, 0, 33, new[] { O, O }, ExpectedException = typeof(ArgumentOutOfRangeException), TestName = "[0].Append([0;33])=[0,0] => Exception")]
         public void Add(bool[] initial, int value, int bitCount, bool[] expected)
         {
-            var target = new BitList(initial);
+            var target = new BitList();
+            target.Add(initial);
             target.Add(value, bitCount);
             CollectionAssert.AreEquivalent(expected, target);
         }

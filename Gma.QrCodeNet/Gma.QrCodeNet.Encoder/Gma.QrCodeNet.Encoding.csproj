@@ -44,8 +44,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitList.cs" />
+    <None Include="BitList.cs" />
     <Compile Include="BitMatrix.cs" />
+    <Compile Include="BitVector8.cs" />
     <Compile Include="common\BitListExtensions.cs" />
     <Compile Include="Common\ByteMatrix.cs" />
     <Compile Include="Common\ByteMatrixExtensions.cs" />
@@ -104,7 +105,7 @@
     <Compile Include="ReedSolomon\PolyDivideStruct.cs" />
     <Compile Include="ReedSolomon\Polynomial.cs" />
     <Compile Include="ReedSolomon\ReedSolomonEncoder.cs" />
-    <Compile Include="SimpleBitMatrix.cs" />
+    <None Include="SimpleBitMatrix.cs" />
     <Compile Include="SquareBitMatrix.cs" />
     <Compile Include="QRCodeConstantVariable.cs" />
     <Compile Include="Terminate\Terminator.cs" />

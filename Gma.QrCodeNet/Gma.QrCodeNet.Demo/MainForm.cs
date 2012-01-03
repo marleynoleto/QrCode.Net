@@ -64,7 +64,7 @@ namespace Gma.QrCodeNet.Demo
         	
         	Stopwatch sw = new Stopwatch();
         	
-        	string testStr = "QrCode.Net";
+        	string testStr = "QrCode.Netlasdkfjwtazkjv;zlxkhgalkejt;ikcjvlskdf;algkdsa;lskdfja;lskdfjlfkaslkdgjalskjga";
         	
         	sw.Start();
         	for(int numTimes = 0; numTimes < 1000; numTimes++)

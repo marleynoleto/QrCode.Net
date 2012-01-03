@@ -20,8 +20,8 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 		/// <returns>codewords BitList contain datacodewords and ECCodewords</returns>
 		internal static BitList FillECCodewords(BitList dataCodewords, VersionDetail vd)
 		{
-			byte[] dataCodewordsByte = BitListExtensions.ToByteArray(dataCodewords);
-			
+//			byte[] dataCodewordsByte = BitListExtensions.ToByteArray(dataCodewords);
+			List<byte> dataCodewordsByte = dataCodewords.List;
 			int ecBlockGroup2 = vd.ECBlockGroup2;
 			int ecBlockGroup1 = vd.ECBlockGroup1;
 			int numDataBytesGroup1 = vd.NumDataBytesGroup1;
@@ -41,13 +41,23 @@ namespace Gma.QrCodeNet.Encoding.ErrorCorrection
 				if(blockID < ecBlockGroup1)
 				{
 					dByteJArray[blockID] = new byte[numDataBytesGroup1];
-					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup1);
+//					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup1);
+//					dataBytesOffset += numDataBytesGroup1;
+					for(int index = 0; index < numDataBytesGroup1; index++)
+					{
+						dByteJArray[blockID][index] = dataCodewordsByte[dataBytesOffset + index];
+					}
 					dataBytesOffset += numDataBytesGroup1;
 				}
 				else
 				{
 					dByteJArray[blockID] = new byte[numDataBytesGroup2];
-					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup2);
+//					Array.Copy(dataCodewordsByte, dataBytesOffset, dByteJArray[blockID], 0, numDataBytesGroup2);
+//					dataBytesOffset += numDataBytesGroup2;
+					for(int index = 0; index < numDataBytesGroup2; index++)
+					{
+						dByteJArray[blockID][index] = dataCodewordsByte[dataBytesOffset + index];
+					}
 					dataBytesOffset += numDataBytesGroup2;
 				}
 				

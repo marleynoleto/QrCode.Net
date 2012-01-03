@@ -65,12 +65,12 @@ namespace Gma.QrCodeNet.Encoding.Tests
 
         private static BitMatrix FromGraphics(string[] lines)
         {
-            var matrix = new SimpleBitMatrix(lines.Length);
+            var matrix = new TriStateMatrix(lines.Length);
             for (int j = 0; j < matrix.Width; j++)
             {
                 for (int i = 0; i < matrix.Width; i++)
                 {
-                    matrix[i, j] = lines[j][i] == s_1Char;
+                    matrix[i, j, MatrixStatus.Data] = lines[j][i] == s_1Char;
                 }
             }
             return matrix;
