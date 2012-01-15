@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using com.google.zxing.qrcode.encoder;
 
 namespace Gma.QrCodeNet.Encoding.DataEncodation
 {

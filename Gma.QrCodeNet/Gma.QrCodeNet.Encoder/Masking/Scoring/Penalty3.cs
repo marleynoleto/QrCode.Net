@@ -16,48 +16,44 @@
         private int PenaltyCalculation(BitMatrix matrix, bool isHorizontal)
         {
         	int i = 0;
-        	int j = 0;
+        	int j = 1;
         	int penalty = 0;
         	int width = matrix.Width;
         	bool bit;
         	while(i < width)
         	{
-        		while(j < width)
+        		while(j < width - 5)
         		{
-        			if((j + 5) < width)
+        			
+        			bit = isHorizontal ? matrix[j + 4, i]
+        				: matrix[i, j + 4];
+        			if(!bit)
         			{
-        				bit = isHorizontal ? matrix[j + 4, i]
-        					: matrix[i, j + 4];
+        				bit = isHorizontal ? matrix[j, i]
+        					: matrix[i, j];
         				if(!bit)
         				{
-        					bit = isHorizontal ? matrix[j, i]
-        						: matrix[i, j];
-        					if(!bit)
-        					{
-        						penalty += PatternCheck(matrix, i, j, isHorizontal);
-        						j += 4;
-        					}
-        					else
-        						j += 4;
+        					penalty += PatternCheck(matrix, i, j, isHorizontal);
+        					j += 4;
         				}
         				else
-        				{
-        					for(int num = 4; num > 0; num--)
-        					{
-        						bit = bit = isHorizontal ? matrix[j + num, i]
-        							: matrix[i, j + num];
-        						if(!bit)
-        						{
-        							j += num;
-        							break;
-        						}
-        						if(num == 1)
-        							j += 5;
-        					}
-        				}
+        					j += 4;
         			}
         			else
-        				break;
+        			{
+        				for(int num = 4; num > 0; num--)
+        				{
+        					bit = bit = isHorizontal ? matrix[j + num, i]
+        						: matrix[i, j + num];
+        					if(!bit)
+        					{
+        						j += num;
+        						break;
+        					}
+        					if(num == 1)
+        						j += 5;
+        				}
+        			}
         		}
         		j = 0;
         		i++;

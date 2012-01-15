@@ -1,6 +1,4 @@
 ﻿using System;
-using com.google.zxing.qrcode.decoder;
-using com.google.zxing.qrcode.encoder;
 
 namespace Gma.QrCodeNet.Encoding
 {
@@ -52,13 +50,6 @@ namespace Gma.QrCodeNet.Encoding
         	}
         }
         
-        public QrCode ZXEncode(string content)
-        {
-        	ErrorCorrectionLevelInternal level = ErrorCorrectionLevelConverter.ToInternal(this.ErrorCorrectionLevel);
-            QRCodeInternal qrCodeInternal = new QRCodeInternal();
-            EncoderInternal.encode(content, level, qrCodeInternal);
-            return new QrCode(qrCodeInternal);
-        }
         
         
     }

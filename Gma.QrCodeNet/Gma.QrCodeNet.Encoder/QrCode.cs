@@ -1,5 +1,4 @@
-﻿using com.google.zxing.qrcode.encoder;
-using Gma.QrCodeNet.Encoding.Common;
+﻿using Gma.QrCodeNet.Encoding.Common;
 
 namespace Gma.QrCodeNet.Encoding
 {
@@ -11,12 +10,6 @@ namespace Gma.QrCodeNet.Encoding
 	/// </summary>
     public class QrCode
     {
-        internal QrCode(QRCodeInternal qrCodeInternal)
-        {
-            this.Matrix = qrCodeInternal.Matrix.ToBitMatrix();
-            this.isContainMatrix = true;
-        }
-        
         internal QrCode(BitMatrix matrix)
         {
         	this.Matrix = matrix;

@@ -44,19 +44,16 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
                 {
                     Point moduleRelativePosition = new Point(i * m_ModuleSize, j * m_ModuleSize);
                     Rectangle moduleAbsoluteArea = new Rectangle(moduleRelativePosition + paddingOffset, moduleSize);
-                    Brush bush = matrix[i, j] ? m_DarkBrush : m_LightBrush;
-                    graphics.FillRectangle(bush, moduleAbsoluteArea);
+                    if(matrix[i, j])
+                    	graphics.FillRectangle(m_DarkBrush, moduleAbsoluteArea);
                 }
             }
         }
 
         private void DrawQuietZone(Graphics graphics, int matrixWidth, Point offset)
         {
-            int barLength = m_ModuleSize * (matrixWidth + quietZoneModules);
-            graphics.FillRectangle(m_LightBrush, offset.X, offset.Y, barLength, m_Padding);
-            graphics.FillRectangle(m_LightBrush, barLength + offset.X, offset.Y, m_Padding, barLength);
-            graphics.FillRectangle(m_LightBrush, m_Padding + offset.X, barLength + offset.Y, barLength, m_Padding);
-            graphics.FillRectangle(m_LightBrush, offset.X, m_Padding + offset.Y, m_Padding, barLength);
+        	int barLength = m_ModuleSize * (matrixWidth + (quietZoneModules * 2));
+        	graphics.FillRectangle(m_LightBrush, offset.X, offset.Y, barLength, barLength);
         }
 
         public void CreateImageFile(BitMatrix matrix, string fileName, ImageFormat imageFormat)

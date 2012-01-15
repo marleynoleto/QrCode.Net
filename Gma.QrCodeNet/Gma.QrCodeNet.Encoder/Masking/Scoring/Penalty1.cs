@@ -30,51 +30,46 @@
         	
         	while(i < width)
         	{
-        		while(j < width)
+        		while(j < width - 4)
         		{
-        			if((j + 4) < width)
-        			{
-        				bool preBit = isHorizontal ? matrix[j + 4, i]
-        					: matrix[i, j + 4];
-        				numSameBitCell = 1;
+        			bool preBit = isHorizontal ? matrix[j + 4, i]
+        				: matrix[i, j + 4];
+        			numSameBitCell = 1;
         				
-        				for(int x = 1; x <= 4; x++)
+        			for(int x = 1; x <= 4; x++)
+        			{
+        				bool bit = isHorizontal ? matrix[j + 4 - x, i]
+        					: matrix[i, j + 4 - x];
+        				if(bit == preBit)
         				{
-        					bool bit = isHorizontal ? matrix[j + 4 - x, i]
-        						: matrix[i, j + 4 - x];
+        					numSameBitCell++;
+        				}
+        				else
+        				{
+        					j += (5 - numSameBitCell);
+        					break;
+        				}
+        					
+        			}
+        				
+        			if(numSameBitCell == 5)
+        			{
+        				penalty += 3;
+        				int x = 5;
+        				while((j + x) < width)
+        				{
+        					bool bit = isHorizontal ? matrix[j + x, i]
+        						: matrix[i, j + x];
         					if(bit == preBit)
-        					{
-        						numSameBitCell++;
-        					}
+        						penalty++;
         					else
         					{
-        						j += (5 - numSameBitCell);
         						break;
         					}
-        					
+        					x++;
         				}
-        				
-        				if(numSameBitCell == 5)
-        				{
-        					penalty += 3;
-        					int x = 5;
-        					while((j + x) < width)
-        					{
-        						bool bit = isHorizontal ? matrix[j + x, i]
-        							: matrix[i, j + x];
-        						if(bit == preBit)
-        							penalty++;
-        						else
-        						{
-        							break;
-        						}
-        						x++;
-        					}
-        					j += x;
-        				}
+        				j += x;
         			}
-        			else
-        				break;
         		}
         		j = 0;
         		i++;

@@ -118,6 +118,7 @@
     <Compile Include="Versions\TestCases\VersionTableTestCaseFactory.cs" />
     <Compile Include="Versions\VersionControlTest.cs" />
     <Compile Include="Versions\VersionTableTests.cs" />
+    <Compile Include="_compatibility\ErrorCorrectionLevelConverter.cs" />
     <Compile Include="_Helper\BitMatrixToGraphicExtensions.cs" />
     <Compile Include="_Helper\BitVectorTestExtensions.cs" />
     <Compile Include="_Helper\BitMatrixTestExtensions.cs" />
@@ -138,6 +139,26 @@
     </Compile>
     <Compile Include="_Helper\TriStateMatrixTestExtensions.cs" />
     <Compile Include="_Helper\MatrixConverter.cs" />
+    <Compile Include="_legacy\Common\CharacterSetECI.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\GF256.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\GF256Poly.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\ReedSolomonEncoder.cs" />
+    <Compile Include="_legacy\Common\reedsolomon\ReedSolomonException.cs" />
+    <Compile Include="_legacy\Core\ECI.cs" />
+    <Compile Include="_legacy\Core\EncodeHintType.cs" />
+    <Compile Include="_legacy\Core\ErrorCorrectionLevelInternal.cs" />
+    <Compile Include="_legacy\Core\FormatInformation.cs" />
+    <Compile Include="_legacy\Core\Mode.cs" />
+    <Compile Include="_legacy\Core\QRCodeInternal.cs" />
+    <Compile Include="_legacy\Core\ReaderException.cs" />
+    <Compile Include="_legacy\Core\SupportClass.cs" />
+    <Compile Include="_legacy\Core\Version.cs" />
+    <Compile Include="_legacy\Core\WriterException.cs" />
+    <Compile Include="_legacy\encoding\BitVector.cs" />
+    <Compile Include="_legacy\encoding\BlockPair.cs" />
+    <Compile Include="_legacy\encoding\EncoderInternal.cs" />
+    <Compile Include="_legacy\encoding\MaskUtil.cs" />
+    <Compile Include="_legacy\encoding\MatrixUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gma.QrCodeNet.Encoder\Gma.QrCodeNet.Encoding.csproj">
@@ -159,6 +180,12 @@
     <Folder Include="Properties\" />
     <Folder Include="Versions\TestCases" />
     <Folder Include="Versions\TestCases\TestMethod" />
+    <Folder Include="_compatibility" />
+    <Folder Include="_legacy" />
+    <Folder Include="_legacy\Common" />
+    <Folder Include="_legacy\Common\reedsolomon" />
+    <Folder Include="_legacy\Core" />
+    <Folder Include="_legacy\encoding" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataEncodation\TestCases\AlphanumericDataEncodeTestDataSet.csv">

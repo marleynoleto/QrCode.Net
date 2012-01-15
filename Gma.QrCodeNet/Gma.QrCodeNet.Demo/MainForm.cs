@@ -15,6 +15,7 @@ namespace Gma.QrCodeNet.Demo
         public MainForm()
         {
             InitializeComponent();
+            qrCodeControl1.Text = textBoxInput.Text;
         }
 
         private void textBoxInput_TextChanged(object sender, EventArgs e)
@@ -57,36 +58,6 @@ namespace Gma.QrCodeNet.Demo
             qrCodeControl1.Artistic = checkBoxArtistic.Checked;
         }
         
-        void BtPerformanceClick(object sender, EventArgs e)
-        {
-        	QrEncoder encoder = new QrEncoder();
-        	QrCode qrCode;
-        	
-        	Stopwatch sw = new Stopwatch();
-        	
-        	string testStr = "QrCode.Netlasdkfjwtazkjv;zlxkhgalkejt;ikcjvlskdf;algkdsa;lskdfja;lskdfjlfkaslkdgjalskjga";
-        	
-        	sw.Start();
-        	for(int numTimes = 0; numTimes < 1000; numTimes++)
-        	{
-        		qrCode = encoder.ZXEncode(testStr);
-        	}
-        	sw.Stop();
-        	
-        	lblZXing.Text = string.Format("ZX Elapsed={0}", sw.ElapsedMilliseconds);
-        	
-        	sw.Reset();
-        	
-        	sw.Start();
-        	for(int numTimes = 0; numTimes < 1000; numTimes++)
-        	{
-        		qrCode = encoder.Encode(testStr);
-        	}
-        	sw.Stop();
-        	
-        	lblNetResult.Text = string.Format("Elapsed={0}", sw.ElapsedMilliseconds);
-        	
-        	
-        }
+        
     }
 }
