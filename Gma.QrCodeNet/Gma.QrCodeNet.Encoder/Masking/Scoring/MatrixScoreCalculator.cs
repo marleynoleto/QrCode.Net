@@ -24,12 +24,6 @@ namespace Gma.QrCodeNet.Encoding.Masking.Scoring
             }
             
             return result;
-//            return 
-//                patternFactory
-//                    .AllPatterns()
-//                    .Select(pattern => matrix.Apply(pattern, errorlevel))
-//            		.OrderByDescending(patternedMatrix => patternedMatrix.PenaltyScore())
-//                    .Last();
         }
 
 

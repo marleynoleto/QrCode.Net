@@ -92,6 +92,7 @@
     <Compile Include="PerformanceTest\ErrorCorrectionPTest.cs" />
     <Compile Include="PerformanceTest\InputRecognisePTest.cs" />
     <Compile Include="PerformanceTest\PenaltyPTest.cs" />
+    <Compile Include="PerformanceTest\QrCodePTest.cs" />
     <Compile Include="PerformanceTest\ReedSolomonPTest.cs" />
     <Compile Include="PerformanceTest\TerminatorPTest.cs" />
     <Compile Include="PerformanceTest\VersionControlPTest.cs" />
