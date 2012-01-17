@@ -9,8 +9,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
     public class Renderer
     {
         private int m_ModuleSize;
-        private readonly Brush m_DarkBrush;
-        private readonly Brush m_LightBrush;
+        private Brush m_DarkBrush;
+        private Brush m_LightBrush;
         private int m_Padding;
 
         private int quietZoneModules = 4;
@@ -50,7 +50,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
             }
         }
 
-        private void DrawQuietZone(Graphics graphics, int matrixWidth, Point offset)
+        internal void DrawQuietZone(Graphics graphics, int matrixWidth, Point offset)
         {
         	int barLength = m_ModuleSize * (matrixWidth + (quietZoneModules * 2));
         	graphics.FillRectangle(m_LightBrush, offset.X, offset.Y, barLength, barLength);
@@ -116,7 +116,29 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         	}
         }
         
+        public Brush DarkBrush
+        {
+        	get
+        	{
+        		return m_DarkBrush;
+        	}
+        	set
+        	{
+        		m_DarkBrush = value;
+        	}
+        }
         
+        public Brush LightBrush
+        {
+        	get
+        	{
+        		return m_LightBrush;
+        	}
+        	set
+        	{
+        		m_LightBrush = value;
+        	}
+        }
         
     }
 }

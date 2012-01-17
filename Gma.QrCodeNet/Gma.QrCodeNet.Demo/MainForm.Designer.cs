@@ -72,9 +72,11 @@
         	// qrCodeControl1
         	// 
         	this.qrCodeControl1.AutoSize = true;
+        	this.qrCodeControl1.DarkBrush = System.Drawing.Color.Black;
+        	this.qrCodeControl1.LightBrush = System.Drawing.Color.White;
         	this.qrCodeControl1.Location = new System.Drawing.Point(13, 90);
         	this.qrCodeControl1.Name = "qrCodeControl1";
-        	this.qrCodeControl1.Size = new System.Drawing.Size(0, 0);
+        	this.qrCodeControl1.Size = new System.Drawing.Size(204, 204);
         	this.qrCodeControl1.TabIndex = 5;
         	// 
         	// MainForm

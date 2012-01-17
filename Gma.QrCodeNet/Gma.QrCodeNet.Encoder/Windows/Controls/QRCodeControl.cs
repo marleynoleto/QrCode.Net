@@ -12,6 +12,10 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
     {
         private readonly QrEncoder m_Encoder;
         private readonly Renderer m_Renderer;
+        
+        private Color m_DarkBrushColor = Color.Black;
+        private Color m_LightBrushColor = Color.White;
+        
         private QrCode m_QrCode;
 
         public QrCodeControl()
@@ -26,7 +30,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
             m_Renderer = renderer;
             m_QrCode = new QrCode();
         }
-
+        
         protected override void OnPaint(PaintEventArgs e)
         {
         	if(!string.IsNullOrEmpty(this.Text) && m_QrCode.isContainMatrix)
@@ -36,6 +40,10 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
             	{
                 	DrawText(e.Graphics);
             	}
+        	}
+        	else
+        	{
+        		m_Renderer.DrawQuietZone(e.Graphics, 21, new Point(0,0));
         	}
             base.OnPaint(e);
         }
@@ -102,7 +110,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
 
         private bool m_Artistic;
 
-        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(true),
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(true),
          DefaultValue(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
         public bool Artistic
         {
@@ -141,7 +149,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         public override Size GetPreferredSize(Size proposedSize)
         {
             return m_QrCode.isContainMatrix ? m_Renderer.Measure(m_QrCode.Matrix.Width)
-            	: new Size(0, 0);
+            	: m_Renderer.Measure(21);	//21 is width for version 01. 
         }
 
 
@@ -222,6 +230,44 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         		}
              }
         }
+        
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
+         DefaultValue(ErrorCorrectionLevel.H), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+		public Color DarkBrush
+		{
+			get
+			{
+				return m_DarkBrushColor;
+			}
+			set
+			{
+				if(m_DarkBrushColor != value)
+				{
+					m_DarkBrushColor = value;
+					m_Renderer.DarkBrush = new SolidBrush(m_DarkBrushColor);
+					this.UpdatePaint();
+				}
+			}
+		}
+		
+		[Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
+         DefaultValue(ErrorCorrectionLevel.H), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+		public Color LightBrush
+		{
+			get
+			{
+				return m_LightBrushColor;
+			}
+			set
+			{
+				if(m_LightBrushColor != value)
+				{
+					m_LightBrushColor = value;
+					m_Renderer.LightBrush = new SolidBrush(m_LightBrushColor);
+					this.UpdatePaint();
+				}
+			}
+		}
         
         
     }
