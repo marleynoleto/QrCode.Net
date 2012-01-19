@@ -18,12 +18,20 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         
         private QrCode m_QrCode;
 
+        /// <summary>
+        /// QrCode winform control. 
+        /// It will redraw entire QrCode whenever trigger OnPaint().
+        /// </summary>
         public QrCodeControl()
             : this(new QrEncoder(ErrorCorrectionLevel.H), new Renderer(7))
         {
 
         }
 
+        /// <summary>
+        /// QrCode winform control. 
+        /// It will redraw entire QrCode whenever trigger OnPaint().
+        /// </summary>
         public QrCodeControl(QrEncoder encoder, Renderer renderer)
         {
             m_Encoder = encoder;
@@ -43,7 +51,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         	}
         	else
         	{
-        		m_Renderer.DrawQuietZone(e.Graphics, 21, new Point(0,0));
+        		m_Renderer.Draw(e.Graphics, m_QrCode.Matrix);
+//        		m_Renderer.DrawQuietZone(e.Graphics, 21, new Point(0,0));
         	}
             base.OnPaint(e);
         }
@@ -232,7 +241,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         }
         
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
-         DefaultValue(ErrorCorrectionLevel.H), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+         DefaultValue(typeof(Color), "Black"), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
 		public Color DarkBrush
 		{
 			get
@@ -251,7 +260,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
 		}
 		
 		[Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
-         DefaultValue(ErrorCorrectionLevel.H), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+		 DefaultValue(typeof(Color), "White"), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
 		public Color LightBrush
 		{
 			get

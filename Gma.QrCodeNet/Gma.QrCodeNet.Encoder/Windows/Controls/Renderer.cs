@@ -34,6 +34,11 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
 
         public void Draw(Graphics graphics, BitMatrix matrix, Point offset)
         {
+        	if(matrix == null)
+        	{
+        		DrawQuietZone(graphics, 21, offset);
+        		return;
+        	}
             DrawQuietZone(graphics, matrix.Width, offset);
             Size paddingOffset = new Size(m_Padding, m_Padding) + new Size(offset.X, offset.Y);
             Size moduleSize = new Size(m_ModuleSize, m_ModuleSize);
@@ -58,7 +63,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
 
         public void CreateImageFile(BitMatrix matrix, string fileName, ImageFormat imageFormat)
         {
-            Size size = Measure(matrix.Width);
+            Size size = matrix == null ? Measure(21)
+            	: Measure(matrix.Width);
             using (Bitmap bitmap = new Bitmap(size.Width, size.Height))
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
@@ -69,7 +75,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
 
         public void WriteToStream(BitMatrix matrix, Stream stream, ImageFormat imageFormat)
         {
-            Size size = Measure(matrix.Width);
+            Size size = matrix == null ? Measure(21)
+            	: Measure(matrix.Width);
             using (Bitmap bitmap = new Bitmap(size.Width, size.Height))
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {

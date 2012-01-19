@@ -2,6 +2,7 @@
 using System.IO;
 using System.Drawing.Imaging;
 using System.ComponentModel;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
@@ -24,6 +25,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
             m_Encoder = encoder;
             m_Renderer = renderer;
             m_QrCode = new QrCode();
+            this.SnapsToDevicePixels = true;
+            this.VisualBitmapScalingMode = BitmapScalingMode.HighQuality;
         }
         
         private double m_IMG_Height = 0;
@@ -31,25 +34,16 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         
         private void UpdateSource()
         {
-        	if(m_QrCode.Matrix == null)
-        	{
-        		this.Source = null;
-        		m_IMG_Height = 0;
-        		m_IMG_Width = 0;
-        	}
-        	else
-        	{
-        		MemoryStream ms = new MemoryStream();
-        		m_Renderer.WriteToStream(m_QrCode.Matrix, ms, ImageFormat.Png);
-        		ms.Position = 0;
-        		BitmapImage bi = new BitmapImage();
-        		bi.BeginInit();
-        		bi.StreamSource = ms;
-        		bi.EndInit();
-        		m_IMG_Height = bi.Height;
-        		m_IMG_Width = bi.Width;
-        		this.Source = bi;
-        	}
+        	MemoryStream ms = new MemoryStream();
+        	m_Renderer.WriteToStream(m_QrCode.Matrix, ms, ImageFormat.Png);
+        	ms.Position = 0;
+        	BitmapImage bi = new BitmapImage();
+        	bi.BeginInit();
+        	bi.StreamSource = ms;
+        	bi.EndInit();
+        	m_IMG_Height = bi.Height;
+        	m_IMG_Width = bi.Width;
+        	this.Source = bi;
         }
         
         private void UpdateQrCodeCache()

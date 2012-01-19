@@ -89,14 +89,8 @@
 		
 		public override string ToString()
 		{
-			return string.Join(";",
-			                     this.Version,
-			                     this.NumTotalBytes,
-			                     this.NumDataBytes,
-			                     this.NumECBlocks);
+			return this.Version + ";" + this.NumTotalBytes + ";" + this.NumDataBytes + ";" + this.NumECBlocks;
 		}
-
-
 		
 	}
 }

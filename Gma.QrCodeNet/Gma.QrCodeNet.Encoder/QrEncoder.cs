@@ -6,12 +6,19 @@ namespace Gma.QrCodeNet.Encoding
     {
         public ErrorCorrectionLevel ErrorCorrectionLevel { get; set; }
 
+        /// <summary>
+        /// Default QrEncoder will set ErrorCorrectionLevel as M
+        /// </summary>
         public QrEncoder()
             : this(ErrorCorrectionLevel.M)
         {
 
         }
 
+        /// <summary>
+        /// QrEncoder with parameter ErrorCorrectionLevel. 
+        /// </summary>
+        /// <param name="errorCorrectionLevel"></param>
         public QrEncoder(ErrorCorrectionLevel errorCorrectionLevel)
         {
             ErrorCorrectionLevel = errorCorrectionLevel;

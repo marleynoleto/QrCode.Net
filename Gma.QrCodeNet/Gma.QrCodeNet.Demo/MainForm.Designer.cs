@@ -33,6 +33,8 @@
         	this.buttonSave = new System.Windows.Forms.Button();
         	this.checkBoxArtistic = new System.Windows.Forms.CheckBox();
         	this.qrCodeControl1 = new Gma.QrCodeNet.Encoding.Windows.Controls.QrCodeControl();
+        	this.qrCodeImgControl1 = new Gma.QrCodeNet.Encoding.Windows.Controls.QrCodeImgControl();
+        	((System.ComponentModel.ISupportInitialize)(this.qrCodeImgControl1)).BeginInit();
         	this.SuspendLayout();
         	// 
         	// textBoxInput
@@ -72,18 +74,27 @@
         	// qrCodeControl1
         	// 
         	this.qrCodeControl1.AutoSize = true;
-        	this.qrCodeControl1.DarkBrush = System.Drawing.Color.Black;
-        	this.qrCodeControl1.LightBrush = System.Drawing.Color.White;
         	this.qrCodeControl1.Location = new System.Drawing.Point(13, 90);
         	this.qrCodeControl1.Name = "qrCodeControl1";
         	this.qrCodeControl1.Size = new System.Drawing.Size(204, 204);
         	this.qrCodeControl1.TabIndex = 5;
         	// 
+        	// qrCodeImgControl1
+        	// 
+        	this.qrCodeImgControl1.Image = ((System.Drawing.Image)(resources.GetObject("qrCodeImgControl1.Image")));
+        	this.qrCodeImgControl1.Location = new System.Drawing.Point(13, 369);
+        	this.qrCodeImgControl1.Name = "qrCodeImgControl1";
+        	this.qrCodeImgControl1.Size = new System.Drawing.Size(204, 204);
+        	this.qrCodeImgControl1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+        	this.qrCodeImgControl1.TabIndex = 6;
+        	this.qrCodeImgControl1.TabStop = false;
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(509, 426);
+        	this.ClientSize = new System.Drawing.Size(509, 519);
+        	this.Controls.Add(this.qrCodeImgControl1);
         	this.Controls.Add(this.qrCodeControl1);
         	this.Controls.Add(this.checkBoxArtistic);
         	this.Controls.Add(this.buttonSave);
@@ -91,9 +102,11 @@
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.Name = "MainForm";
         	this.Text = "QrCode.Net Demo";
+        	((System.ComponentModel.ISupportInitialize)(this.qrCodeImgControl1)).EndInit();
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private Gma.QrCodeNet.Encoding.Windows.Controls.QrCodeImgControl qrCodeImgControl1;
         private Gma.QrCodeNet.Encoding.Windows.Controls.QrCodeControl qrCodeControl1;
 
         #endregion

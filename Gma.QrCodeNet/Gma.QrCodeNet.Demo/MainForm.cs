@@ -16,11 +16,13 @@ namespace Gma.QrCodeNet.Demo
         {
             InitializeComponent();
             qrCodeControl1.Text = textBoxInput.Text;
+            qrCodeImgControl1.Text = textBoxInput.Text;
         }
 
         private void textBoxInput_TextChanged(object sender, EventArgs e)
         {
             qrCodeControl1.Text = textBoxInput.Text;
+            qrCodeImgControl1.Text = textBoxInput.Text;
         }
 
         private void buttonSave_Click(object sender, EventArgs e)

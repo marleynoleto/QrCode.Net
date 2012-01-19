@@ -120,6 +120,7 @@
     <Compile Include="Windows\Controls\QRCodeControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Windows\Controls\QrCodeImgControl.cs" />
     <Compile Include="Windows\Controls\QrWPFControl.cs" />
     <Compile Include="Windows\Controls\QuietZoneModules.cs" />
     <Compile Include="Windows\Controls\Renderer.cs" />
