@@ -60,7 +60,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
                             preX = x;
                         if (x == matrix.Width - 1)
                         {
-                            Point modulePosition = new Point(preX * m_ModuleSize + padding + offset.X, y * m_ModuleSize + offset.Y);
+                            Point modulePosition = new Point(preX * m_ModuleSize + padding + offset.X, 
+                                y * m_ModuleSize + padding + offset.Y);
                             Rect moduleArea = new Rect(modulePosition, new Size((x - preX + 1) * m_ModuleSize, m_ModuleSize));
                             drawContext.DrawRectangle(darkBrush, null, moduleArea);
                             preX = -1;
@@ -68,7 +69,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
                     }
                     else if (!matrix[x, y] && preX != -1)
                     {
-                        Point modulePosition = new Point(preX * m_ModuleSize + padding + offset.X, y * m_ModuleSize + offset.Y);
+                        Point modulePosition = new Point(preX * m_ModuleSize + padding + offset.X, 
+                            y * m_ModuleSize + padding + offset.Y);
                         Rect moduleArea = new Rect(modulePosition, new Size((x - preX) * m_ModuleSize, m_ModuleSize));
                         drawContext.DrawRectangle(darkBrush, null, moduleArea);
                         preX = -1;
@@ -78,15 +80,36 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 
         }
 
+
+        /// <summary>
+        /// Draw QrCode on WriteableBitmap. 
+        /// Currently only support PixelFormat Gray8 or Pbgra32.
+        /// </summary>
+        /// <param name="wBitmap">WriteableBitmap, if variable is null, it will create Gray8 Bitmap</param>
+        /// <param name="matrix">QrCode matrix</param>
         public void Draw(WriteableBitmap wBitmap, BitMatrix matrix)
         {
             this.Draw(wBitmap, matrix, new Point(0, 0));
         }
 
-
+        /// <summary>
+        /// Draw QrCode on WriteableBitmap. 
+        /// Currently only support PixelFormat Gray8 or Pbgra32.
+        /// </summary>
+        /// <param name="wBitmap">WriteableBitmap, if variable is null, it will create Gray8 Bitmap</param>
+        /// <param name="matrix">QrCode matrix</param>
+        /// <param name="offset">Offset position</param>
         public void Draw(WriteableBitmap wBitmap, BitMatrix matrix, Point offset)
         {
-
+            if (wBitmap == null)
+            {
+                int width = matrix == null ? this.Measure(21)
+                    : this.Measure(matrix.Width);
+                wBitmap = new WriteableBitmap(width, width, 96, 96, PixelFormats.Gray8, null);
+            }
+                
+            if (!(wBitmap.Format == PixelFormats.Pbgra32 || wBitmap.Format == PixelFormats.Gray8))
+                return;
             if (matrix == null)
             {
                 this.DrawingQuitZone(wBitmap, 21, offset);
@@ -121,7 +144,10 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
                         if (x == matrix.Width - 1)
                         {
                             Int32Rect moduleArea =
-                                new Int32Rect((int)(preX * m_ModuleSize + padding + offset.X), (int)(y * m_ModuleSize + offset.Y), (x - preX + 1) * m_ModuleSize, m_ModuleSize);
+                                new Int32Rect((int)(preX * m_ModuleSize + padding + offset.X), 
+                                    (int)(y * m_ModuleSize + padding + offset.Y), 
+                                    (x - preX + 1) * m_ModuleSize, 
+                                    m_ModuleSize);
                             wBitmap.FillRectangle(moduleArea, m_DarkColor);
                             preX = -1;
                         }
@@ -129,7 +155,10 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
                     else if (!matrix[x, y] && preX != -1)
                     {
                         Int32Rect moduleArea =
-                            new Int32Rect((int)(preX * m_ModuleSize + padding + offset.X), (int)(y * m_ModuleSize + offset.Y), (x - preX) * m_ModuleSize, m_ModuleSize);
+                            new Int32Rect((int)(preX * m_ModuleSize + padding + offset.X), 
+                                (int)(y * m_ModuleSize + padding + offset.Y), 
+                                (x - preX) * m_ModuleSize, 
+                                m_ModuleSize);
                         wBitmap.FillRectangle(moduleArea, m_DarkColor);
                         preX = -1;
                     }

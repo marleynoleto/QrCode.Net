@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Gma.QrCodeNet.Encoding.Windows.WPF
 {
-    public class QrWPFControl : Image
+    public class QrCodeImgControl : Image
     {
     	private readonly QrEncoder m_Encoder;
         private readonly Renderer m_Renderer;
@@ -24,7 +24,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         /// Memory cost depending on module size inside Renderer. 
         /// Image can be stretch
         /// </summary>
-        public QrWPFControl()
+        public QrCodeImgControl()
             : this(new QrEncoder(ErrorCorrectionLevel.H), new Renderer(3))
         {
 
@@ -37,7 +37,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         /// </summary>
         /// <param name="encoder">QrEncoder, Specify errorcorrection level</param>
         /// <param name="renderer">Renderer, Specify module size</param>
-        public QrWPFControl(QrEncoder encoder, Renderer renderer)
+        public QrCodeImgControl(QrEncoder encoder, Renderer renderer)
         {
             m_Encoder = encoder;
             m_Renderer = renderer;
@@ -59,12 +59,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         {
             if (m_WriteableBitmap == null)
             {
-                int width = m_Renderer.Measure(21);
-                m_WriteableBitmap = new WriteableBitmap(width, width, 96, 96, PixelFormats.Pbgra32, null);
-
-                this.Source = m_WriteableBitmap;
-                m_IMG_Height = width;
-                m_IMG_Width = width;
+                this.CreateWriteableBitmap();
             }
             else
             {
@@ -72,11 +67,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
                     : m_Renderer.Measure(m_QrCode.Matrix.Width);
                 if (width != m_WriteableBitmap.PixelWidth)
                 {
-                    m_WriteableBitmap = null;
-                    m_WriteableBitmap = new WriteableBitmap(width, width, 96, 96, PixelFormats.Pbgra32, null);
-                    this.Source = m_WriteableBitmap;
-                    m_IMG_Height = width;
-                    m_IMG_Width = width;
+                    this.CreateWriteableBitmap();
                 }
             }
 
@@ -85,7 +76,18 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
                 m_Renderer.DrawDarkModule(m_WriteableBitmap, m_QrCode.Matrix, new Point(0, 0));
         }
 
-        
+        private void CreateWriteableBitmap()
+        {
+            int width = m_QrCode.Matrix == null ? m_Renderer.Measure(21)
+                    : m_Renderer.Measure(m_QrCode.Matrix.Width);
+            m_WriteableBitmap = null;
+            m_WriteableBitmap = m_ColorMode == true ?
+                new WriteableBitmap(width, width, 96, 96, PixelFormats.Pbgra32, null)
+                : new WriteableBitmap(width, width, 96, 96, PixelFormats.Gray8, null);
+            this.Source = m_WriteableBitmap;
+            m_IMG_Height = width;
+            m_IMG_Width = width;
+        }
         
         private void UpdateQrCodeCache()
         {
@@ -116,6 +118,24 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         		m_AutoSize = value;
         		this.AdjustSize();
         	}
+        }
+
+        private bool m_ColorMode;
+
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(true),
+         DefaultValue(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+        public bool ColorMode
+        {
+            get
+            {
+                return m_ColorMode;
+            }
+            set
+            {
+                m_ColorMode = value;
+                m_WriteableBitmap = null;
+                this.UpdateSource();
+            }
         }
         
         private string m_Text;
