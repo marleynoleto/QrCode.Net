@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -120,8 +121,9 @@
     <Compile Include="Windows\Controls\QRCodeControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Windows\Controls\QrCodeImgControl.cs" />
-    <Compile Include="Windows\Controls\QrWPFControl.cs" />
+    <Compile Include="Windows\Controls\QrCodeImgControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Windows\Controls\QuietZoneModules.cs" />
     <Compile Include="Windows\Controls\Renderer.cs" />
     <Compile Include="DataEncodation\AlphanumericEncoder.cs" />
@@ -132,12 +134,11 @@
     <Compile Include="ErrorCorrectionLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QrCode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataEncodation\InputRecognition" />
-    <Folder Include="ErrorCorrection" />
-    <Folder Include="Terminate" />
-    <Folder Include="ReedSolomon" />
+    <Compile Include="Windows\WPF\QrCodeControl.cs" />
+    <Compile Include="Windows\WPF\QrWPFControl.cs" />
+    <Compile Include="Windows\WPF\QuietZoneModules.cs" />
+    <Compile Include="Windows\WPF\Renderer.cs" />
+    <Compile Include="Windows\WPF\WriteableBitmapExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Windows\Controls\QrCodeControl.resx">

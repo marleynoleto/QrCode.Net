@@ -1,7 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-# SharpDevelop 4.1.0.8000
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{6AE2EB7F-333D-461E-B806-DB342B92879C}"
 	ProjectSection(SolutionItems) = preProject
 		lib\nunit.framework.dll = lib\nunit.framework.dll
@@ -12,6 +11,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.Demo", "Gma.QrCodeNet.Demo\Gma.QrCodeNet.Demo.csproj", "{8A5C0B8E-480C-45B1-B961-8F21F994BD9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.Encoding.Tests", "Gma.QrCodeNet.Encoding.Tests\Gma.QrCodeNet.Encoding.Tests.csproj", "{3C686D15-BFF5-474A-8381-B742790D8148}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.QrCodeNet.WPF.Demo", "Gma.QrCodeNet.WPF.Demo\Gma.QrCodeNet.WPF.Demo.csproj", "{1D5B21D6-99C2-4A79-A12A-29E8646CC538}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -68,6 +69,16 @@ Global
 		{3C686D15-BFF5-474A-8381-B742790D8148}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3C686D15-BFF5-474A-8381-B742790D8148}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3C686D15-BFF5-474A-8381-B742790D8148}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Debug|x86.ActiveCfg = Debug|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Debug|x86.Build.0 = Debug|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Release|Any CPU.ActiveCfg = Release|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Release|x86.ActiveCfg = Release|x86
+		{1D5B21D6-99C2-4A79-A12A-29E8646CC538}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

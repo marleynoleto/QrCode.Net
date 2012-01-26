@@ -1,30 +1,52 @@
 ﻿using System;
 using System.IO;
-using System.Drawing.Imaging;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace Gma.QrCodeNet.Encoding.Windows.Controls
+namespace Gma.QrCodeNet.Encoding.Windows.WPF
 {
-    public class QrWPFControl : Image
+    public class QrCodeControl : Canvas
     {
     	private readonly QrEncoder m_Encoder;
         private readonly Renderer m_Renderer;
         private QrCode m_QrCode;
 
-        public QrWPFControl()
+        private Color m_DarkBrushColor = Colors.Black;
+        private Color m_LightBrushColor = Colors.White;
+
+
+        /// <summary>
+        /// QrCode WPF control base on Canvas. Use DrawingContext
+        /// Low memory, No stretch mode. 
+        /// </summary>
+        public QrCodeControl()
             : this(new QrEncoder(ErrorCorrectionLevel.H), new Renderer(7))
         {
 
         }
 
-        public QrWPFControl(QrEncoder encoder, Renderer renderer)
+
+        /// <summary>
+        /// QrCode WPF control base on Canvas. Use DrawingContext
+        /// Low memory, No stretch mode. 
+        /// </summary>
+        /// <param name="encoder">QrEncoder, Specify errorcorrection level</param>
+        /// <param name="renderer">Renderer, Specify module size</param>
+        public QrCodeControl(QrEncoder encoder, Renderer renderer)
         {
             m_Encoder = encoder;
             m_Renderer = renderer;
             m_QrCode = new QrCode();
+            this.Initialize();
+        }
+
+        private void Initialize()
+        {
+            m_IMG_Height = m_Renderer.Measure(21);
+            m_IMG_Width = m_IMG_Height;
             this.SnapsToDevicePixels = true;
             this.VisualBitmapScalingMode = BitmapScalingMode.HighQuality;
         }
@@ -32,18 +54,11 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         private double m_IMG_Height = 0;
         private double m_IMG_Width = 0;
         
-        private void UpdateSource()
+
+        protected override void OnRender(DrawingContext dc)
         {
-        	MemoryStream ms = new MemoryStream();
-        	m_Renderer.WriteToStream(m_QrCode.Matrix, ms, ImageFormat.Png);
-        	ms.Position = 0;
-        	BitmapImage bi = new BitmapImage();
-        	bi.BeginInit();
-        	bi.StreamSource = ms;
-        	bi.EndInit();
-        	m_IMG_Height = bi.Height;
-        	m_IMG_Width = bi.Width;
-        	this.Source = bi;
+            base.OnRender(dc);
+            m_Renderer.Draw(dc, m_QrCode.Matrix);
         }
         
         private void UpdateQrCodeCache()
@@ -60,7 +75,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         	}
         }
         
-        private bool m_AutoSize;
+        private bool m_AutoSize = true;
         
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(true),
          DefaultValue(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
@@ -93,8 +108,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         		{
         			m_Text = value;
         			this.UpdateQrCodeCache();
-        			this.UpdateSource();
         			this.AdjustSize();
+                    this.InvalidateVisual();
         		}
         	}
         }
@@ -113,8 +128,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         		{
         			m_Renderer.QuietZoneModules = value;
         		
-        			this.UpdateSource();
         			this.AdjustSize();
+                    this.InvalidateVisual();
         		}
         	}
         }
@@ -133,8 +148,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         		{
         			m_Renderer.ModuleSize = value;
         		
-        			this.UpdateSource();
         			this.AdjustSize();
+                    this.InvalidateVisual();
         		}
         	}
         }
@@ -155,10 +170,49 @@ namespace Gma.QrCodeNet.Encoding.Windows.Controls
         			m_Encoder.ErrorCorrectionLevel = value;
         		
         			this.UpdateQrCodeCache();
-        			this.UpdateSource();
         			this.AdjustSize();
+                    this.InvalidateVisual();
         		}
              }
+        }
+
+
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
+         DefaultValue(typeof(Color), "Black"), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+        public Color DarkBrush
+        {
+            get
+            {
+                return m_DarkBrushColor;
+            }
+            set
+            {
+                if (m_DarkBrushColor != value)
+                {
+                    m_DarkBrushColor = value;
+                    m_Renderer.DarkBrush = m_DarkBrushColor;
+                    this.InvalidateVisual();
+                }
+            }
+        }
+
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false),
+         DefaultValue(typeof(Color), "White"), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Category("QR Code")]
+        public Color LightBrush
+        {
+            get
+            {
+                return m_LightBrushColor;
+            }
+            set
+            {
+                if (m_LightBrushColor != value)
+                {
+                    m_LightBrushColor = value;
+                    m_Renderer.LightBrush = m_LightBrushColor;
+                    this.InvalidateVisual();
+                }
+            }
         }
         
     }

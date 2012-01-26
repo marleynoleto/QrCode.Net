@@ -2,7 +2,6 @@
 using System.Drawing.Imaging;
 using System.IO;
 using Gma.QrCodeNet.Encoding;
-using Gma.QrCodeNet.Encoding.Windows.Controls;
 
 namespace Gma.QrCodeNet.Encoding.Windows.Controls
 {
