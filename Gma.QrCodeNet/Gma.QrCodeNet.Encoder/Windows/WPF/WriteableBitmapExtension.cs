@@ -11,80 +11,36 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         private const int s_SizeOfInt32 = 4;
         private const int s_SizeOfByte = 1;
 
-
         internal static void Clear(this WriteableBitmap wBitmap, Color color)
         {
             if (!(wBitmap.Format == PixelFormats.Pbgra32 || wBitmap.Format == PixelFormats.Gray8))
                 return;
-            if (wBitmap.Format == PixelFormats.Pbgra32)
-                wBitmap.IntClear(color);
-            else
-                wBitmap.ByteClear(color);
-        }
+            byte[] col = ConvertColor(wBitmap.Format, color);
 
-        /// <summary>
-        /// Clear whole bitmap with specific color
-        /// </summary>
-        /// <param name="wBitmap">WriteableBitmap, PixelFormats must be Pbgra32</param>
-        /// <param name="color"></param>
-        private static void IntClear(this WriteableBitmap wBitmap, Color color)
-        {
-            //WriteableBitmap's Pixels array uses Premultiplied ARGB32. 
-            //We have to specify an alpha value other than 255(fully opaque)
-            //3 other value(red, green and blue) need to be scaled based on the alpha value. 
-            int col = IntColor(color);
-
+            //Currently only support two PixelFormat.
+            int sizeOfColor = wBitmap.Format == PixelFormats.Pbgra32 ? 4 : 1;
 
             int pixelW = wBitmap.PixelWidth;
             int pixelH = wBitmap.PixelHeight;
             int totalPixels = pixelW * pixelH;
 
-
             wBitmap.Lock();
             unsafe
             {
-                int* pixels = IntPixels(wBitmap);
-                *pixels = col;
-
-                int pixelIndex = 1;
-                int blockPixels = 1;
-                while (pixelIndex < totalPixels)
+                byte* pixels = (byte*)wBitmap.BackBuffer;
+                int length = col.Length;
+                //Draw first dot color. 
+                for (int index = 0; index < length; index++)
                 {
-                    CopyUnmanagedMemory((IntPtr)pixels, 0, (IntPtr)pixels, pixelIndex * s_SizeOfInt32, blockPixels * s_SizeOfInt32);
-
-                    pixelIndex += blockPixels;
-                    blockPixels = Math.Min(2 * blockPixels, totalPixels - pixelIndex);
+                    *(pixels + index) = col[index];
                 }
-            }
-            wBitmap.AddDirtyRect(new Int32Rect(0, 0, wBitmap.PixelWidth, wBitmap.PixelHeight));
-            wBitmap.Unlock();
-
-        }
-
-        private static void ByteClear(this WriteableBitmap wBitmap, Color color)
-        {
-            //WriteableBitmap's Pixels array uses Premultiplied ARGB32. 
-            //We have to specify an alpha value other than 255(fully opaque)
-            //3 other value(red, green and blue) need to be scaled based on the alpha value. 
-            byte col = ByteColor(color);
-
-
-            int pixelW = wBitmap.PixelWidth;
-            int pixelH = wBitmap.PixelHeight;
-            int totalPixels = pixelW * pixelH;
-
-
-            wBitmap.Lock();
-            unsafe
-            {
-                byte* pixels = BytePixels(wBitmap);
-                *pixels = col;
 
                 int pixelIndex = 1;
                 int blockPixels = 1;
+                //Expand to all other pixels with Log(n) process. 
                 while (pixelIndex < totalPixels)
                 {
-                    CopyUnmanagedMemory((IntPtr)pixels, 0, (IntPtr)pixels, pixelIndex * s_SizeOfByte, blockPixels * s_SizeOfByte);
+                    CopyUnmanagedMemory(pixels, 0, pixels, pixelIndex * sizeOfColor, blockPixels * sizeOfColor);
 
                     pixelIndex += blockPixels;
                     blockPixels = Math.Min(2 * blockPixels, totalPixels - pixelIndex);
@@ -99,158 +55,98 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         {
             if (!(wBitmap.Format == PixelFormats.Pbgra32 || wBitmap.Format == PixelFormats.Gray8))
                 return;
-            if (wBitmap.Format == PixelFormats.Pbgra32)
-                wBitmap.IntFillRectangle(rectangle, color);
+            byte[] col = ConvertColor(wBitmap.Format, color);
+
+            //Currently only support two PixelFormat.
+            int sizeOfColor = wBitmap.Format == PixelFormats.Pbgra32 ? 4 : 1;
+
+            int pixelW = wBitmap.PixelWidth;
+            int pixelH = wBitmap.PixelHeight;
+
+            if (rectangle.X >= pixelW
+                || rectangle.Y >= pixelH
+                || rectangle.X + rectangle.Width - 1 < 0
+                || rectangle.Y + rectangle.Height - 1 < 0)
+                return;
+
+            if (rectangle.X < 0) rectangle.X = 0;
+            if (rectangle.Y < 0) rectangle.Y = 0;
+            if (rectangle.X + rectangle.Width - 1 >= pixelW) rectangle.Width = pixelW - rectangle.X;
+            if (rectangle.Y + rectangle.Height - 1 >= pixelH) rectangle.Height = pixelH - rectangle.Y;
+
+            wBitmap.Lock();
+            unsafe
+            {
+                byte* pixels = (byte*)wBitmap.BackBuffer;
+                
+                int startPoint = rectangle.Y * pixelW + rectangle.X;
+                int endBoundry = startPoint + rectangle.Width;
+                int srcOffsetBytes = startPoint * sizeOfColor;
+
+                int length = col.Length;
+                //Draw first dot color. 
+                for (int index = 0; index < length; index++)
+                {
+                    *(pixels + srcOffsetBytes + index) = col[index];
+                }
+
+                int pixelIndex = startPoint + 1;
+                int blockPixels = 1;
+
+                //Use first pixel color at (x, y) offset to draw first line. 
+                while (pixelIndex < endBoundry)
+                {
+                    CopyUnmanagedMemory(pixels, srcOffsetBytes, pixels, pixelIndex * sizeOfColor, blockPixels * sizeOfColor);
+
+                    pixelIndex += blockPixels;
+                    blockPixels = Math.Min(2 * blockPixels, endBoundry - pixelIndex);
+                }
+
+                int bottomLeft = (rectangle.Y + rectangle.Height - 1) * pixelW + rectangle.X;
+                //Use first line of pixel to fill up rest of rectangle. 
+                for (pixelIndex = startPoint + pixelW; pixelIndex <= bottomLeft; pixelIndex += pixelW)
+                {
+                    CopyUnmanagedMemory(pixels, srcOffsetBytes, pixels, pixelIndex * sizeOfColor, rectangle.Width * sizeOfColor);
+                }
+
+            }
+            wBitmap.AddDirtyRect(rectangle);
+            wBitmap.Unlock();
+
+        }
+
+
+        private static byte[] ConvertColor(PixelFormat format, Color color)
+        {
+            byte[] colorByteArray;
+            if (format == PixelFormats.Gray8)
+            {
+                colorByteArray = new byte[1];
+                colorByteArray[0] = (byte)(((color.R + color.B + color.G) / 3) & 0xFF);
+                return colorByteArray;
+            }
+            else if (format == PixelFormats.Pbgra32)
+            {
+                colorByteArray = new byte[4];
+                int a = color.A + 1;
+                colorByteArray[0] = (byte)(0xFF & ((color.B * a) >> 8));
+                colorByteArray[1] = (byte)(0xFF & ((color.G * a) >> 8));
+                colorByteArray[2] = (byte)(0xFF & ((color.R * a) >> 8));
+                colorByteArray[3] = (byte)(0xFF & color.A);
+
+                return colorByteArray;
+            }
             else
-                wBitmap.ByteFillRectangle(rectangle, color);
+                throw new ArgumentOutOfRangeException("Not supported PixelFormats");
         }
 
 
-        private static void IntFillRectangle(this WriteableBitmap wBitmap, Int32Rect rectangle, Color color)
+        private static unsafe void CopyUnmanagedMemory(byte* src, int srcOffset, byte* dst, int dstOffset, int count)
         {
-            
-            int col = IntColor(color);
+            src += srcOffset;
+            dst += dstOffset;
 
-            int pixelW = wBitmap.PixelWidth;
-            int pixelH = wBitmap.PixelHeight;
-
-            if (rectangle.X >= pixelW
-                || rectangle.Y >= pixelH
-                || rectangle.X + rectangle.Width - 1 < 0
-                || rectangle.Y + rectangle.Height - 1 < 0)
-                return;
-
-            if (rectangle.X < 0) rectangle.X = 0;
-            if (rectangle.Y < 0) rectangle.Y = 0;
-            if (rectangle.X + rectangle.Width - 1 >= pixelW) rectangle.Width = pixelW - rectangle.X;
-            if (rectangle.Y + rectangle.Height - 1 >= pixelH) rectangle.Height = pixelH - rectangle.Y;
-
-            wBitmap.Lock();
-            unsafe
-            {
-                int* pixels = IntPixels(wBitmap);
-
-                //Fill first line
-                int startPoint = rectangle.Y * pixelW + rectangle.X;
-                int endBoundry = startPoint + rectangle.Width;
-
-                pixels[startPoint] = col;
-
-                int pixelIndex = startPoint + 1;
-                int blockPixels = 1;
-
-                int srcOffsetBytes = startPoint * s_SizeOfInt32;
-                while (pixelIndex < endBoundry)
-                {
-                    CopyUnmanagedMemory((IntPtr)pixels, srcOffsetBytes, (IntPtr)pixels, pixelIndex * s_SizeOfInt32, blockPixels * s_SizeOfInt32);
-
-                    pixelIndex += blockPixels;
-                    blockPixels = Math.Min(2 * blockPixels, endBoundry - pixelIndex);
-                }
-
-                int bottomLeft = (rectangle.Y + rectangle.Height - 1) * pixelW + rectangle.X;
-
-                for (pixelIndex = startPoint + pixelW; pixelIndex <= bottomLeft; pixelIndex += pixelW)
-                {
-                    CopyUnmanagedMemory((IntPtr)pixels, srcOffsetBytes, (IntPtr)pixels, pixelIndex * s_SizeOfInt32, rectangle.Width * s_SizeOfInt32);
-                }
-
-            }
-            wBitmap.AddDirtyRect(rectangle);
-            wBitmap.Unlock();
-
-        }
-
-        private static void ByteFillRectangle(this WriteableBitmap wBitmap, Int32Rect rectangle, Color color)
-        {
-
-            byte col = ByteColor(color);
-
-            int pixelW = wBitmap.PixelWidth;
-            int pixelH = wBitmap.PixelHeight;
-
-            if (rectangle.X >= pixelW
-                || rectangle.Y >= pixelH
-                || rectangle.X + rectangle.Width - 1 < 0
-                || rectangle.Y + rectangle.Height - 1 < 0)
-                return;
-
-            if (rectangle.X < 0) rectangle.X = 0;
-            if (rectangle.Y < 0) rectangle.Y = 0;
-            if (rectangle.X + rectangle.Width - 1 >= pixelW) rectangle.Width = pixelW - rectangle.X;
-            if (rectangle.Y + rectangle.Height - 1 >= pixelH) rectangle.Height = pixelH - rectangle.Y;
-
-            wBitmap.Lock();
-            unsafe
-            {
-                byte* pixels = BytePixels(wBitmap);
-
-                //Fill first line
-                int startPoint = rectangle.Y * pixelW + rectangle.X;
-                int endBoundry = startPoint + rectangle.Width;
-
-                pixels[startPoint] = col;
-
-                int pixelIndex = startPoint + 1;
-                int blockPixels = 1;
-
-                int srcOffsetBytes = startPoint * s_SizeOfByte;
-                while (pixelIndex < endBoundry)
-                {
-                    CopyUnmanagedMemory((IntPtr)pixels, srcOffsetBytes, (IntPtr)pixels, pixelIndex * s_SizeOfByte, blockPixels * s_SizeOfByte);
-
-                    pixelIndex += blockPixels;
-                    blockPixels = Math.Min(2 * blockPixels, endBoundry - pixelIndex);
-                }
-
-                int bottomLeft = (rectangle.Y + rectangle.Height - 1) * pixelW + rectangle.X;
-
-                for (pixelIndex = startPoint + pixelW; pixelIndex <= bottomLeft; pixelIndex += pixelW)
-                {
-                    CopyUnmanagedMemory((IntPtr)pixels, srcOffsetBytes, (IntPtr)pixels, pixelIndex * s_SizeOfByte, rectangle.Width * s_SizeOfByte);
-                }
-
-            }
-            wBitmap.AddDirtyRect(rectangle);
-            wBitmap.Unlock();
-
-        }
-
-        private static unsafe int* IntPixels(WriteableBitmap wBitmap)
-        {
-            return (int*)wBitmap.BackBuffer;
-        }
-
-        private static unsafe byte* BytePixels(WriteableBitmap wBitmap)
-        {
-            return (byte*)wBitmap.BackBuffer;
-        }
-
-        private static int IntColor(Color color)
-        {
-            int a = color.A + 1;
-            int col = ((0xFF & color.A) << 24)
-                | ((0xFF & ((color.R * a) >> 8)) << 16)
-                | ((0xFF & ((color.G * a) >> 8)) << 8)
-                | (0xFF & ((color.B * a) >> 8));
-            return col;
-        }
-
-        private static byte ByteColor(Color color)
-        {
-            int col = (color.R + color.B + color.G) / 3;
-            return (byte)(col & 0xFF);
-        }
-
-
-        private static unsafe void CopyUnmanagedMemory(IntPtr src, int srcOffset, IntPtr dst, int dstOffset, int count)
-        {
-            byte* srcPtr = (byte*)src.ToPointer();
-            srcPtr += srcOffset;
-            byte* dstPtr = (byte*)dst.ToPointer();
-            dstPtr += dstOffset;
-
-            memcpy(dstPtr, srcPtr, count);
+            memcpy(dst, src, count);
         }
 
 
