@@ -8,8 +8,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 {
     internal static class WriteableBitmapExtension
     {
-        private const int s_SizeOfInt32 = 4;
-        private const int s_SizeOfByte = 1;
 
         internal static void Clear(this WriteableBitmap wBitmap, Color color)
         {

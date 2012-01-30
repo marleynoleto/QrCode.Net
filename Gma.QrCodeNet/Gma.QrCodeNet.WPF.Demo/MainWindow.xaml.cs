@@ -27,7 +27,7 @@ namespace Gma.QrCodeNet.WPF.Demo
         private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
             qrCodeImgControl1.Text = textBox1.Text;
-            //qrCodeControl1.Text = textBox1.Text;
+            qrCodeControl1.Text = textBox1.Text;
         }
     }
 }

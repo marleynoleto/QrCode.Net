@@ -9,9 +9,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
     {
         private int m_ModuleSize;
 
-        //private Brush m_DarkBrush;
-        //private Brush m_LightBrush;
-
         private Color m_DarkColor;
         private Color m_LightColor;
 
