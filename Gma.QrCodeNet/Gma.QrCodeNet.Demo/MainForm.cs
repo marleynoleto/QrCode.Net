@@ -1,12 +1,9 @@
-﻿//using System;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using Gma.QrCodeNet.Encoding.Windows.Controls;
 using Gma.QrCodeNet.Encoding;
-using System.Diagnostics;
 
 namespace Gma.QrCodeNet.Demo
 {
@@ -29,7 +26,7 @@ namespace Gma.QrCodeNet.Demo
         {
         	
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = @"PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp";
+            saveFileDialog.Filter = @"PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|Encapsuled PostScript (*.eps)|*.eps";
             saveFileDialog.FileName = Path.GetFileName(GetFileNameProposal());
             saveFileDialog.DefaultExt = "png";
 
@@ -38,15 +35,35 @@ namespace Gma.QrCodeNet.Demo
                 return;
             }
 
-            using (Bitmap bitmap = new Bitmap(qrCodeControl1.Size.Width, qrCodeControl1.Size.Height))
-            {
-                qrCodeControl1.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
-                bitmap.Save(
-                    saveFileDialog.FileName,
-                    saveFileDialog.FileName.EndsWith("png")
-                        ? ImageFormat.Png
-                        : ImageFormat.Bmp);
-            }
+			if (saveFileDialog.FileName.EndsWith("eps"))
+			{
+				// Generate the matrix from scratch as it is not reachable from the qrCodeControl1
+				var encoder = new QrEncoder(qrCodeControl1.ErrorCorrectionLevel);
+				var qrCode = encoder.Encode(textBoxInput.Text);
+
+				// Initialize the EPS renderer
+				var renderer = new Gma.QrCodeNet.Encoding.Windows.Render.EncapsulatedPostScriptRenderer(
+					qrCodeControl1.DarkBrush,
+					qrCodeControl1.LightBrush,
+					Gma.QrCodeNet.Encoding.Windows.Render.QuietZoneModules.Two); // No easy way to convert Control.QuietZoneModule to Render.QuietZoneModule
+
+				using (var file = File.CreateText(saveFileDialog.FileName))
+				{
+					renderer.WriteToStream(qrCode.Matrix, 6, file); // 72/6 = 12 modules per inch
+				}
+			}
+			else
+			{
+				using (Bitmap bitmap = new Bitmap(qrCodeControl1.Size.Width, qrCodeControl1.Size.Height))
+				{
+					qrCodeControl1.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
+					bitmap.Save(
+						saveFileDialog.FileName,
+						saveFileDialog.FileName.EndsWith("png")
+							? ImageFormat.Png
+							: ImageFormat.Bmp);
+				}
+			}
 
         }
 
@@ -59,7 +76,5 @@ namespace Gma.QrCodeNet.Demo
         {
             qrCodeControl1.Artistic = checkBoxArtistic.Checked;
         }
-        
-        
     }
 }

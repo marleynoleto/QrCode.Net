@@ -137,6 +137,7 @@
     <Compile Include="QrCode.cs" />
     <Compile Include="Windows\Render\DrawingBrushRenderer.cs" />
     <Compile Include="Windows\Render\DrawingSize.cs" />
+    <Compile Include="Windows\Render\EncapsulatedPostScriptRenderer.cs" />
     <Compile Include="Windows\Render\FixedCodeSize.cs" />
     <Compile Include="Windows\Render\FixedModuleSize.cs" />
     <Compile Include="Windows\Render\GeometryExtensions.cs" />
