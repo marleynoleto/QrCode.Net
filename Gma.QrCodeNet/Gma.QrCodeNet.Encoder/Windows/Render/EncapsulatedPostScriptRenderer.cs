@@ -16,6 +16,14 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 
 		private QuietZoneModules m_QuietZoneModules;
 
+		/// <summary>
+		/// Initializes a Encapsulated PostScript renderer.
+		/// </summary>
+		/// <param name="darkColor">DarkColor used to draw Dark modules of the QrCode</param>
+		/// <param name="lightColor">LightColor used to draw Light modules and QuietZone of the QrCode.
+		/// Setting to Color.Transparent allows transparent light modules so the QR Code blends in the existing background.
+		/// In that case the existing background should remain light and rather uniform, and higher error correction levels are recommended.</param>
+		/// <param name="quietZoneModules"></param>
 		public EncapsulatedPostScriptRenderer(Color darkColor, Color lightColor, QuietZoneModules quietZoneModules)
 		{
 			m_DarkColor = darkColor;
@@ -57,14 +65,16 @@ save
 
 % Invert the Y axis
 0 W s mul translate
-s s neg scale
+s s neg scale";
 
+			string strBackground = @"
 % Create the background
-{7} 255 div {8} 255 div {9} 255 div setrgbcolor
-newpath 0 0 moveto W 0 rlineto 0 H rlineto W neg 0 rlineto closepath fill
+{0} 255 div {1} 255 div {2} 255 div setrgbcolor
+newpath 0 0 moveto W 0 rlineto 0 H rlineto W neg 0 rlineto closepath fill";
 
+			string strSquaresHeader = @"
 % Draw squares
-{10} 255 div {11} 255 div {12} 255 div setrgbcolor
+{0} 255 div {1} 255 div {2} 255 div setrgbcolor
 q q translate";
 
 			string strFooter = @"
@@ -84,21 +94,32 @@ restore showpage
 				matrix.Width,
 				matrix.Height,
 				(int)m_QuietZoneModules,
-				moduleSize.ToString(CultureInfo.InvariantCulture.NumberFormat),
-				LightColor.R, LightColor.G, LightColor.B,
-				DarkColor.R, DarkColor.G, DarkColor.B));
+				moduleSize.ToString(CultureInfo.InvariantCulture.NumberFormat)));
+
+			if (LightColor != Color.Transparent)
+				stream.WriteLine(string.Format(strBackground,
+					LightColor.R,
+					LightColor.G,
+					LightColor.B));
+
+			#region Draw squares for each dark module
+			stream.WriteLine(string.Format(strSquaresHeader,
+				DarkColor.R,
+				DarkColor.G,
+				DarkColor.B));
 
 			for (int y = 0; y < matrix.Height; ++y)
 				for (int x = 0; x < matrix.Width; ++x)
 					if (matrix[x, y])
 						// Output the coordinates of the upper left corner and call to the box function
 						stream.WriteLine(string.Format("{0} {1} b", x, y));
+			#endregion
 
 			stream.Write(strFooter);
 		}
 
 		/// <summary>
-		/// DarkColor for drawing Dark module of QrCode
+		/// DarkColor used to draw Dark modules of the QrCode
 		/// </summary>
 		public Color DarkColor
 		{
@@ -113,7 +134,9 @@ restore showpage
 		}
 
 		/// <summary>
-		/// LightColor for drawing Light module and QuietZone of QrCode
+		/// LightColor used to draw Light modules and QuietZone of the QrCode.
+		/// Setting to Color.Transparent allows transparent light modules so the QR Code blends in the existing background.
+		/// In that case the existing background should remain light and rather uniform, and higher error correction levels are recommended.
 		/// </summary>
 		public Color LightColor
 		{
