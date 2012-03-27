@@ -188,8 +188,8 @@ q q translate";
 			string strDarkColor;
 			if (bGrayScale)
 			{
-				strLightColor = LightColor.R.ToString("{x2}");
-				strDarkColor = DarkColor.R.ToString("{x2}");
+				strLightColor = LightColor.R.ToString("x2");
+				strDarkColor = DarkColor.R.ToString("x2");
 			}
 			else
 			{
@@ -279,7 +279,7 @@ restore showpage
 
 		/// <summary>
 		/// Selection of the technique used to draw the modules. 'Squares' draws vector squares one by one; 'Image' uses the 'image' or 'colorimage' PostScript command.
-		/// 'Squares' supports transparency of light modules and often has smaller file size for color QR Codes, but can be rendered with tiny spacing between contigus dark modules.
+		/// 'Squares' supports transparency of light modules and often has smaller file size for color QR Codes.
 		/// 'Image' might be faster to render on some devices as it is a single command.
 		/// </summary>
 		public EpsModuleDrawingTechnique DrawingTechnique
