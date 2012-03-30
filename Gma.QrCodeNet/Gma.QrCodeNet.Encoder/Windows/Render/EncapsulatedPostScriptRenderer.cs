@@ -10,11 +10,10 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 {
 	public class EncapsulatedPostScriptRenderer
 	{
+		private ISizeCalculation m_iSize;
+
 		private Color m_DarkColor;
-
 		private Color m_LightColor;
-
-		private QuietZoneModules m_QuietZoneModules;
 
 		private EpsModuleDrawingTechnique m_DrawingTechnique;
 
@@ -26,11 +25,11 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 		/// Setting to Color.Transparent allows transparent light modules so the QR Code blends in the existing background.
 		/// In that case the existing background should remain light and rather uniform, and higher error correction levels are recommended.</param>
 		/// <param name="quietZoneModules"></param>
-		public EncapsulatedPostScriptRenderer(Color darkColor, Color lightColor, QuietZoneModules quietZoneModules)
+		public EncapsulatedPostScriptRenderer(ISizeCalculation iSize, Color darkColor, Color lightColor)
 		{
+			m_iSize = iSize;
 			m_DarkColor = darkColor;
 			m_LightColor = lightColor;
-			m_QuietZoneModules = quietZoneModules;
 			m_DrawingTechnique = EpsModuleDrawingTechnique.Squares;
 		}
 
@@ -40,21 +39,28 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 		/// <param name="matrix">The matrix to be rendered</param>
 		/// <param name="moduleSize">Size in points (1 inch contains 72 point in PostScript) of a module</param>
 		/// <param name="stream">Output text stream</param>
-		public void WriteToStream(BitMatrix matrix, double moduleSize, StreamWriter stream)
+		public void WriteToStream(BitMatrix matrix, StreamWriter stream)
 		{
-			OutputHeader(matrix, moduleSize, stream);
-			OutputBackground(matrix, stream);
+			int width = matrix == null ? 21 : matrix.Width;
 
-			switch (m_DrawingTechnique)
+			DrawingSize drawingSize = m_iSize.GetSize(width);
+
+			OutputHeader(drawingSize, stream);
+			OutputBackground(stream);
+
+			if (matrix != null)
 			{
-				case EpsModuleDrawingTechnique.Squares:
-					DrawSquares(matrix, stream);
-					break;
-				case EpsModuleDrawingTechnique.Image:
-					DrawImage(matrix, stream);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException("DrawingTechnique");
+				switch (m_DrawingTechnique)
+				{
+					case EpsModuleDrawingTechnique.Squares:
+						DrawSquares(matrix, stream);
+						break;
+					case EpsModuleDrawingTechnique.Image:
+						DrawImage(matrix, stream);
+						break;
+					default:
+						throw new ArgumentOutOfRangeException("DrawingTechnique");
+				}
 			}
 
 			OutputFooter(stream);
@@ -66,7 +72,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 		/// <param name="matrix">The matrix to be rendered</param>
 		/// <param name="moduleSize">Size in points (1 inch contains 72 point in PostScript) of a module</param>
 		/// <param name="stream">Output text stream</param>
-		private void OutputHeader(BitMatrix matrix, double moduleSize, StreamWriter stream)
+		private void OutputHeader(DrawingSize drawingSize, StreamWriter stream)
 		{
 			string strHeader = @"%!PS-Adobe-3.0 EPSF-3.0
 %%Creator: Gma.QrCodeNet
@@ -104,12 +110,12 @@ s s neg scale";
 			stream.WriteLine(string.Format(strHeader,
 				DateTime.UtcNow,
 				// Use invariant culture to ensure that the dot is used as the decimal separator
-				(moduleSize * (matrix.Width + (int)m_QuietZoneModules * 2)).ToString(CultureInfo.InvariantCulture.NumberFormat),
-				(moduleSize * (matrix.Height + (int)m_QuietZoneModules * 2)).ToString(CultureInfo.InvariantCulture.NumberFormat),
-				matrix.Width,
-				matrix.Height,
-				(int)m_QuietZoneModules,
-				moduleSize.ToString(CultureInfo.InvariantCulture.NumberFormat)));
+				(drawingSize.CodeWidth).ToString(CultureInfo.InvariantCulture.NumberFormat), // Size in points of the matrix with the quiet zone
+				(drawingSize.CodeWidth).ToString(CultureInfo.InvariantCulture.NumberFormat),
+				drawingSize.CodeWidth / drawingSize.ModuleSize - ((int)drawingSize.QuietZoneModules * 2), // Number of modules of the matrix without the quiet zone
+				drawingSize.CodeWidth / drawingSize.ModuleSize - ((int)drawingSize.QuietZoneModules * 2),
+				(int)drawingSize.QuietZoneModules, // Number of quiet zone modules
+				drawingSize.ModuleSize.ToString(CultureInfo.InvariantCulture.NumberFormat))); // Size in points of a single module
 
 			if (m_DrawingTechnique == EpsModuleDrawingTechnique.Squares)
 				stream.WriteLine(strBoxFunctions);
@@ -122,7 +128,7 @@ s s neg scale";
 		/// </summary>
 		/// <param name="matrix">The matrix to be rendered</param>
 		/// <param name="stream">Output text stream</param>
-		private void OutputBackground(BitMatrix matrix, StreamWriter stream)
+		private void OutputBackground(StreamWriter stream)
 		{
 			string strBackground = @"
 % Create the background
@@ -231,6 +237,22 @@ restore showpage
 		}
 
 		/// <summary>
+		/// ISizeCalculation for the way to calculate QrCode's pixel size.
+		/// Ex for ISizeCalculation:FixedCodeSize, FixedModuleSize
+		/// </summary>
+		public ISizeCalculation SizeCalculator
+		{
+			set
+			{
+				m_iSize = value;
+			}
+			get
+			{
+				return m_iSize;
+			}
+		}
+
+		/// <summary>
 		/// DarkColor used to draw Dark modules of the QrCode
 		/// </summary>
 		public Color DarkColor
@@ -259,21 +281,6 @@ restore showpage
 			get
 			{
 				return m_LightColor;
-			}
-		}
-
-		/// <summary>
-		/// Number of surroungind modules forming a quiet zone intended to improve detection by reducing noise.
-		/// </summary>
-		public QuietZoneModules QuietZoneModules
-		{
-			get
-			{
-				return m_QuietZoneModules;
-			}
-			set
-			{
-				m_QuietZoneModules = value;
 			}
 		}
 

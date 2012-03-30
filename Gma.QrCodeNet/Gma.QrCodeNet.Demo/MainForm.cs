@@ -39,17 +39,18 @@ namespace Gma.QrCodeNet.Demo
 			{
 				// Generate the matrix from scratch as it is not reachable from the qrCodeControl1
 				var encoder = new QrEncoder(qrCodeControl1.ErrorCorrectionLevel);
-				var qrCode = encoder.Encode(textBoxInput.Text);
+				QrCode qrCode;
+				encoder.TryEncode(textBoxInput.Text, out qrCode);
 
 				// Initialize the EPS renderer
 				var renderer = new Gma.QrCodeNet.Encoding.Windows.Render.EncapsulatedPostScriptRenderer(
+					new Gma.QrCodeNet.Encoding.Windows.Render.FixedModuleSize(2, Encoding.Windows.Render.QuietZoneModules.Two), // Modules size is 2/72th inch (72 points = 1 inch)
 					qrCodeControl1.DarkBrush,
-					qrCodeControl1.LightBrush,
-					Gma.QrCodeNet.Encoding.Windows.Render.QuietZoneModules.Two); // No easy way to convert Control.QuietZoneModule to Render.QuietZoneModule
+					qrCodeControl1.LightBrush);
 
 				using (var file = File.CreateText(saveFileDialog.FileName))
 				{
-					renderer.WriteToStream(qrCode.Matrix, 6, file); // 72/6 = 12 modules per inch
+					renderer.WriteToStream(qrCode.Matrix, file);
 				}
 			}
 			else
