@@ -38,32 +38,34 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 		/// </summary>
 		/// <param name="matrix">The matrix to be rendered</param>
 		/// <param name="moduleSize">Size in points (1 inch contains 72 point in PostScript) of a module</param>
-		/// <param name="stream">Output text stream</param>
-		public void WriteToStream(BitMatrix matrix, StreamWriter stream)
+		/// <param name="stream">Output stream that must be writable</param>
+		public void WriteToStream(BitMatrix matrix, Stream stream)
 		{
+			var writer = new StreamWriter(stream);
+
 			int width = matrix == null ? 21 : matrix.Width;
 
 			DrawingSize drawingSize = m_iSize.GetSize(width);
 
-			OutputHeader(drawingSize, stream);
-			OutputBackground(stream);
+			OutputHeader(drawingSize, writer);
+			OutputBackground(writer);
 
 			if (matrix != null)
 			{
 				switch (m_DrawingTechnique)
 				{
 					case EpsModuleDrawingTechnique.Squares:
-						DrawSquares(matrix, stream);
+						DrawSquares(matrix, writer);
 						break;
 					case EpsModuleDrawingTechnique.Image:
-						DrawImage(matrix, stream);
+						DrawImage(matrix, writer);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException("DrawingTechnique");
 				}
 			}
 
-			OutputFooter(stream);
+			OutputFooter(writer);
 		}
 
 		/// <summary>

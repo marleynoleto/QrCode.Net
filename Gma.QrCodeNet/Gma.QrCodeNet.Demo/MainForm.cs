@@ -48,7 +48,7 @@ namespace Gma.QrCodeNet.Demo
 					qrCodeControl1.DarkBrush,
 					qrCodeControl1.LightBrush);
 
-				using (var file = File.CreateText(saveFileDialog.FileName))
+				using (var file = File.OpenWrite(saveFileDialog.FileName))
 				{
 					renderer.WriteToStream(qrCode.Matrix, file);
 				}
