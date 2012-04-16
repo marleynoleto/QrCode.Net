@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Gma.QrCodeNet.Encoding;
+using Gma.QrCodeNet.Encoding.Windows.Render;
 
 namespace Gma.QrCodeNet.Demo
 {
@@ -12,13 +13,15 @@ namespace Gma.QrCodeNet.Demo
         public MainForm()
         {
             InitializeComponent();
-            qrCodeControl1.Text = textBoxInput.Text;
+            qrCodeImgControl1.DarkBrush = Brushes.Yellow;
+            qrCodeImgControl1.LightBrush = Brushes.MediumVioletRed;
+            qrCodeGraphicControl1.Text = textBoxInput.Text;
             qrCodeImgControl1.Text = textBoxInput.Text;
         }
 
         private void textBoxInput_TextChanged(object sender, EventArgs e)
         {
-            qrCodeControl1.Text = textBoxInput.Text;
+            qrCodeGraphicControl1.Text = textBoxInput.Text;
             qrCodeImgControl1.Text = textBoxInput.Text;
         }
 
@@ -38,15 +41,14 @@ namespace Gma.QrCodeNet.Demo
 			if (saveFileDialog.FileName.EndsWith("eps"))
 			{
 				// Generate the matrix from scratch as it is not reachable from the qrCodeControl1
-				var encoder = new QrEncoder(qrCodeControl1.ErrorCorrectionLevel);
+                var encoder = new QrEncoder(qrCodeGraphicControl1.ErrorCorrectLevel);
 				QrCode qrCode;
 				encoder.TryEncode(textBoxInput.Text, out qrCode);
 
 				// Initialize the EPS renderer
-				var renderer = new Gma.QrCodeNet.Encoding.Windows.Render.EncapsulatedPostScriptRenderer(
-					new Gma.QrCodeNet.Encoding.Windows.Render.FixedModuleSize(2, Encoding.Windows.Render.QuietZoneModules.Two), // Modules size is 2/72th inch (72 points = 1 inch)
-					qrCodeControl1.DarkBrush,
-					qrCodeControl1.LightBrush);
+				var renderer = new EncapsulatedPostScriptRenderer(
+					new FixedModuleSize(2, QuietZoneModules.Two), // Modules size is 2/72th inch (72 points = 1 inch)
+                    Color.Black, Color.White);
 
 				using (var file = File.OpenWrite(saveFileDialog.FileName))
 				{
@@ -55,9 +57,9 @@ namespace Gma.QrCodeNet.Demo
 			}
 			else
 			{
-				using (Bitmap bitmap = new Bitmap(qrCodeControl1.Size.Width, qrCodeControl1.Size.Height))
+                using (Bitmap bitmap = new Bitmap(qrCodeGraphicControl1.Size.Width, qrCodeGraphicControl1.Size.Height))
 				{
-					qrCodeControl1.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
+                    qrCodeGraphicControl1.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
 					bitmap.Save(
 						saveFileDialog.FileName,
 						saveFileDialog.FileName.EndsWith("png")
@@ -65,6 +67,23 @@ namespace Gma.QrCodeNet.Demo
 							: ImageFormat.Bmp);
 				}
 			}
+            //    using (var file = File.CreateText(saveFileDialog.FileName))
+            //    {
+            //        renderer.WriteToStream(qrCode.Matrix, 6, file); // 72/6 = 12 modules per inch
+            //    }
+            //}
+            //else
+            //{
+            //    using (Bitmap bitmap = new Bitmap(qrCodeControl1.Size.Width, qrCodeControl1.Size.Height))
+            //    {
+            //        qrCodeControl1.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
+            //        bitmap.Save(
+            //            saveFileDialog.FileName,
+            //            saveFileDialog.FileName.EndsWith("png")
+            //                ? ImageFormat.Png
+            //                : ImageFormat.Bmp);
+            //    }
+            //}
 
         }
 
@@ -75,7 +94,7 @@ namespace Gma.QrCodeNet.Demo
 
         private void checkBoxArtistic_CheckedChanged(object sender, EventArgs e)
         {
-            qrCodeControl1.Artistic = checkBoxArtistic.Checked;
+            //qrCodeControl1.Artistic = checkBoxArtistic.Checked;
         }
     }
 }

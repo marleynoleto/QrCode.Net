@@ -17,6 +17,8 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <SourceAnalysisOverrideSettingsFile>C:\Users\Nness\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -119,14 +121,6 @@
     <Compile Include="Versions\VersionControl.cs" />
     <Compile Include="Versions\VersionControlStruct.cs" />
     <Compile Include="Versions\VersionTable.cs" />
-    <Compile Include="Windows\Controls\QRCodeControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Windows\Controls\QrCodeImgControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Windows\Controls\QuietZoneModules.cs" />
-    <Compile Include="Windows\Controls\Renderer.cs" />
     <Compile Include="DataEncodation\AlphanumericEncoder.cs" />
     <Compile Include="DataEncodation\EncoderBase.cs" />
     <Compile Include="DataEncodation\Mode.cs" />
@@ -135,6 +129,13 @@
     <Compile Include="ErrorCorrectionLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QrCode.cs" />
+    <Compile Include="Windows\Forms\QrCodeGraphicControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\QrCodeImgControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Render\WriteableBitmapRenderer.cs" />
     <Compile Include="Windows\Render\DrawingBrushRenderer.cs" />
     <Compile Include="Windows\Render\DrawingSize.cs" />
     <Compile Include="Windows\Render\EncapsulatedPostScriptRenderer.cs" />
@@ -146,17 +147,16 @@
     <Compile Include="Windows\Render\ImageFormatExtension.cs" />
     <Compile Include="Windows\Render\ISizeCalculation.cs" />
     <Compile Include="Windows\Render\QuietZoneModules.cs" />
-    <Compile Include="Windows\WPF\QrCodeControl.cs" />
+    <Compile Include="Windows\Render\WriteableBitmapExtension.cs" />
+    <Compile Include="Windows\WPF\QrCodeGeoControl.cs" />
     <Compile Include="Windows\WPF\QrCodeImgControl.cs" />
-    <Compile Include="Windows\WPF\QuietZoneModules.cs" />
-    <Compile Include="Windows\WPF\Renderer.cs" />
-    <Compile Include="Windows\WPF\WriteableBitmapExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Windows\Controls\QrCodeControl.resx">
-      <DependentUpon>QRCodeControl.cs</DependentUpon>
-    </EmbeddedResource>
+    <Page Include="themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,11 +4,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
 
-namespace Gma.QrCodeNet.Encoding.Windows.WPF
+namespace Gma.QrCodeNet.Encoding.Windows.Render
 {
     internal static class WriteableBitmapExtension
     {
-
+        /// <summary>
+        /// Clear all pixel with given color.
+        /// </summary>
+        /// <param name="wBitmap">Must not be null, or pixel width, pixel height equal to zero</param>
+        /// <exception>Exception should be expect with null writeablebitmap or pixel width, height equal to zero.</exception>
         internal static void Clear(this WriteableBitmap wBitmap, Color color)
         {
             if (!(wBitmap.Format == PixelFormats.Pbgra32 || wBitmap.Format == PixelFormats.Gray8))
@@ -49,6 +53,11 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 
         }
 
+        /// <summary>
+        /// Draw rectangle with given color.
+        /// </summary>
+        /// <param name="wBitmap">Must not be null, or pixel width, pixel height equal to zero</param>
+        /// <exception>Exception should be expect with null writeablebitmap or pixel width, height equal to zero.</exception>
         internal static void FillRectangle(this WriteableBitmap wBitmap, Int32Rect rectangle, Color color)
         {
             if (!(wBitmap.Format == PixelFormats.Pbgra32 || wBitmap.Format == PixelFormats.Gray8))

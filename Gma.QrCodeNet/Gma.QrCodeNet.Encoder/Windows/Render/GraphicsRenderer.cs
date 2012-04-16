@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Windows.Forms;
+using System;
 
 namespace Gma.QrCodeNet.Encoding.Windows.Render
 {
@@ -106,14 +108,43 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
         /// If any additional data has been written to the stream before saving the image, the image data in the stream will be corrupted</remarks>
         public void WriteToStream(BitMatrix QrMatrix, ImageFormat imageFormat, Stream stream)
         {
-            DrawingSize size = m_iSize.GetSize(QrMatrix == null ? 21 : QrMatrix.Width);
-
-            using(Bitmap bitmap = new Bitmap(size.CodeWidth, size.CodeWidth))
-            using(Graphics graphics = Graphics.FromImage(bitmap))
+            if (imageFormat == ImageFormat.Emf || imageFormat == ImageFormat.Wmf)
             {
-                this.Draw(graphics, QrMatrix);
-                bitmap.Save(stream, imageFormat);
+                this.CreateMetaFile(QrMatrix, stream);
             }
+            else if (imageFormat != ImageFormat.Exif
+                && imageFormat != ImageFormat.Icon
+                && imageFormat != ImageFormat.MemoryBmp)
+            {
+                DrawingSize size = m_iSize.GetSize(QrMatrix == null ? 21 : QrMatrix.Width);
+
+                using (Bitmap bitmap = new Bitmap(size.CodeWidth, size.CodeWidth))
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    this.Draw(graphics, QrMatrix);
+                    bitmap.Save(stream, imageFormat);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Using MetaFile Class to create metafile. 
+        /// temp control create to use as object to get temp graphics for Hdc. 
+        /// Drawing on the metaGraphics will record as vector metaFile. 
+        /// </summary>
+        private void CreateMetaFile(BitMatrix QrMatrix, Stream stream)
+        {
+            using (Control gControl = new Control())
+            using (Graphics newGraphics = gControl.CreateGraphics())
+            {
+                IntPtr hdc = newGraphics.GetHdc();
+                using (Metafile metaFile = new Metafile(stream, hdc))
+                using (Graphics metaGraphics = Graphics.FromImage(metaFile))
+                {
+                    this.Draw(metaGraphics, QrMatrix);
+                }
+            }
+
         }
 
         /// <summary>

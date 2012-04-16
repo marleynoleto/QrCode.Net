@@ -48,9 +48,10 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
         /// <param name="qrCodeWidth">Fixed size for QrCode pixel width. 
         /// Pixel width have to be bigger than QrCode's matrix width(include quiet zone)
         /// QrCode matrix width is between 25 ~ 182(version 1 ~ 40).</param>
-        public FixedCodeSize(int qrCodeWidth)
+        public FixedCodeSize(int qrCodeWidth, QuietZoneModules quietZone)
         {
             m_QrCodeWidth = qrCodeWidth;
+            m_QuietZoneModules = (int)quietZone;
         }
 
         /// <summary>

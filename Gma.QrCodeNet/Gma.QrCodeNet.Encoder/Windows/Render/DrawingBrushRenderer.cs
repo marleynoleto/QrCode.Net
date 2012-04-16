@@ -38,7 +38,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
         /// <returns>DrawingBrush, Stretch = uniform</returns>
         /// <remarks>LightBrush will not use by this method, DrawingBrush will only contain DarkBrush part.
         /// Use LightBrush to fill background of main uielement for more flexible placement</remarks>
-        public DrawingBrush Draw(BitMatrix QrMatrix)
+        public DrawingBrush DrawBrush(BitMatrix QrMatrix)
         {
             if (QrMatrix == null)
             {
@@ -52,24 +52,18 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
         }
 
         /// <summary>
-        /// Construct DrawingBrush with input Drawing
+        /// Construct QrCode geometry. It will only include geometry for Dark colour module
         /// </summary>
-        /// <returns>DrawingBrush where Stretch = uniform</returns>
-        private DrawingBrush ConstructDrawingBrush(Drawing drawing)
-        {
-            DrawingBrush qrCodeBrush = new DrawingBrush();
-            qrCodeBrush.Stretch = Stretch.Uniform;
-            qrCodeBrush.Drawing = drawing;
-            return qrCodeBrush;
-        }
-
-
-        private GeometryDrawing ConstructQrDrawing(BitMatrix QrMatrix, int offsetX, int offSetY)
+        /// <returns>QrCode dark colour module geometry. Size = QrMatrix width x width</returns>
+        public StreamGeometry DrawGeometry(BitMatrix QrMatrix, int offsetX, int offSetY)
         {
             int width = QrMatrix == null ? 21 : QrMatrix.Width;
 
             StreamGeometry qrCodeStream = new StreamGeometry();
             qrCodeStream.FillRule = FillRule.EvenOdd;
+
+            if (QrMatrix == null)
+                return qrCodeStream;
 
             using (StreamGeometryContext qrCodeCtx = qrCodeStream.Open())
             {
@@ -87,9 +81,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
                             //If this is last module in that row. Draw rectangle
                             if (x == width - 1)
                             {
-                                //Point modulePosition = new Point(preX + quietZone,
-                                //    y + quietZone);
-                                //Size rectSize = new Size(x - preX + 1, 1);
                                 qrCodeCtx.DrawRectGeometry(new Int32Rect(preX + offsetX, y + offSetY, x - preX + 1, 1));
                                 preX = -1;
                             }
@@ -98,9 +89,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
                         {
                             //Here will be first light module after sequence of dark module.
                             //Draw previews sequence of dark Module
-                            //Point modulePosition = new Point(preX + quietZone,
-                            //    y + quietZone);
-                            //Size rectSize = new Size(x - preX, 1);
                             qrCodeCtx.DrawRectGeometry(new Int32Rect(preX + offsetX, y + offSetY, x - preX, 1));
                             preX = -1;
                         }
@@ -108,6 +96,26 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
                 }
             }
             qrCodeStream.Freeze();
+
+            return qrCodeStream;
+        }
+
+        /// <summary>
+        /// Construct DrawingBrush with input Drawing
+        /// </summary>
+        /// <returns>DrawingBrush where Stretch = uniform</returns>
+        private DrawingBrush ConstructDrawingBrush(Drawing drawing)
+        {
+            DrawingBrush qrCodeBrush = new DrawingBrush();
+            qrCodeBrush.Stretch = Stretch.Uniform;
+            qrCodeBrush.Drawing = drawing;
+            return qrCodeBrush;
+        }
+
+
+        private GeometryDrawing ConstructQrDrawing(BitMatrix QrMatrix, int offsetX, int offSetY)
+        {
+            StreamGeometry qrCodeStream = DrawGeometry(QrMatrix, offsetX, offSetY);
 
             GeometryDrawing qrCodeDrawing = new GeometryDrawing();
             qrCodeDrawing.Brush = m_DarkBrush;

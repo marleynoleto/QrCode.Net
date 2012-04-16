@@ -1,9 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Gma.QrCodeNet.Encoding;
-using Gma.QrCodeNet.Encoding.Windows.Controls;
+using Gma.QrCodeNet.Encoding.Windows.Render;
 
 namespace Gma.QrCodeNet.Demo
 {
@@ -37,13 +38,13 @@ namespace Gma.QrCodeNet.Demo
             QrCode qrCode = qrEncoder.Encode(helloWorld);
 
             const int moduleSizeInPixels = 5;
-            Renderer renderer = new Renderer(moduleSizeInPixels, Brushes.Black, Brushes.White);
+            GraphicsRenderer renderer = new GraphicsRenderer(new FixedModuleSize(moduleSizeInPixels, QuietZoneModules.Two), Brushes.Black, Brushes.White);
 
             Panel panel = new Panel();
             Point padding = new Point(10, 16);
-            Size qrCodeSize = renderer.Measure(qrCode.Matrix.Width);
+            DrawingSize dSize = renderer.SizeCalculator.GetSize(qrCode.Matrix.Width);
             panel.AutoSize = false;
-            panel.Size = qrCodeSize + new Size(2*padding.X, 2*padding.Y);
+            panel.Size = new Size(dSize.CodeWidth, dSize.CodeWidth) + new Size(2*padding.X, 2*padding.Y);
 
             using (Graphics graphics = panel.CreateGraphics())
             {
@@ -57,8 +58,11 @@ namespace Gma.QrCodeNet.Demo
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
             QrCode qrCode = qrEncoder.Encode("Hello World!");
 
-            Renderer renderer = new Renderer(5, Brushes.Black, Brushes.White);
-            renderer.CreateImageFile(qrCode.Matrix, @"c:\temp\HelloWorld.png", ImageFormat.Png);
+            GraphicsRenderer renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
+            using (FileStream stream = new FileStream(@"c:\temp\HelloWorld.png", FileMode.Create))
+            {
+                renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, stream);
+            }
         }
     }
 }
