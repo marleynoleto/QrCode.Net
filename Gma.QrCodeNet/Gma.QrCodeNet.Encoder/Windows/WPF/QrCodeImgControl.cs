@@ -353,19 +353,19 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         /// Get Qr BitMatrix as two dimentional bool array.
         /// </summary>
         /// <returns>null if matrix is null, else full matrix</returns>
-        public bool[,] GetQrMatrix()
+        public BitMatrix GetQrMatrix()
         {
             if (m_QrCode.Matrix == null)
                 return null;
             else
             {
-                bool[,] clone = new bool[m_QrCode.Matrix.Width, m_QrCode.Matrix.Width];
                 BitMatrix matrix = m_QrCode.Matrix;
+                TriStateMatrix clone = new TriStateMatrix(matrix.Width);
                 for (int x = 0; x < matrix.Width; x++)
                 {
                     for (int y = 0; y < matrix.Width; y++)
                     {
-                        clone[x, y] = matrix[x, y];
+                        clone[x, y, MatrixStatus.NoMask] = matrix[x, y];
                     }
                 }
                 return clone;
