@@ -132,6 +132,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 
             using (StreamGeometryContext qrCodeCtx = quietZoneSG.Open())
             {
+                qrCodeCtx.DrawRectGeometry(new Int32Rect(0, 0, width, width));
             }
             quietZoneSG.Freeze();
 

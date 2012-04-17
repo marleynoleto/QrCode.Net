@@ -15,7 +15,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         private bool m_isLocked = false;
         private bool m_isFreezed = false;
 
-        public event QrMatrixChangedEventHandler QrMatrixChanged;
+        public event EventHandler QrMatrixChanged;
 
         #region WBitmap
         public static readonly DependencyProperty WBitmapProperty =
@@ -187,46 +187,41 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         private void CreateBitmap()
         {
             WBitmap = null;
+
+            int suitableWidth = m_QrCode.Matrix == null ? CalculateSuitableWidth(QrCodeWidth, 21) 
+                : CalculateSuitableWidth(QrCodeWidth, m_QrCode.Matrix.Width);
+            
             if (IsGrayImage)
-                WBitmap = new WriteableBitmap(QrCodeWidth, QrCodeHeight, DpiX, DpiY, PixelFormats.Gray8, null);
+                WBitmap = new WriteableBitmap(suitableWidth, suitableWidth, DpiX, DpiY, PixelFormats.Gray8, null);
             else
-                WBitmap = new WriteableBitmap(QrCodeWidth, QrCodeHeight, DpiX, DpiY, PixelFormats.Pbgra32, null);
+                WBitmap = new WriteableBitmap(suitableWidth, suitableWidth, DpiX, DpiY, PixelFormats.Pbgra32, null);
+        }
+
+        private int CalculateSuitableWidth(int width, int bitMatrixWidth)
+        {
+            FixedCodeSize isize = new FixedCodeSize(width, QuietZoneModule);
+            DrawingSize dSize = isize.GetSize(bitMatrixWidth);
+            int gap = dSize.CodeWidth - dSize.ModuleSize * (bitMatrixWidth + 2 * (int)QuietZoneModule);
+
+            if (gap == 0)
+                return width;
+            else if (dSize.CodeWidth / gap < 6)
+                return (dSize.ModuleSize + 1) * (bitMatrixWidth + 2 * (int)QuietZoneModule);
+            else
+                return dSize.ModuleSize * (bitMatrixWidth + 2 * (int)QuietZoneModule);
         }
 
         private void UpdateSource()
         {
-            if (WBitmap == null)
-                this.CreateBitmap();
-            else
-            {
-                if (WBitmap.PixelWidth != QrCodeWidth ||
-                    WBitmap.PixelHeight != QrCodeHeight ||
-                    WBitmap.DpiX != DpiX ||
-                    WBitmap.DpiY != DpiY ||
-                    !this.isColorSettingCorrect())
-                    this.CreateBitmap();
-            }
+            this.CreateBitmap();
 
             if (QrCodeWidth != 0 && QrCodeHeight != 0)
                 WBitmap.Clear(LightColor);
 
             if (m_QrCode.Matrix != null)
             {
-                int offsetX, offsetY, width;
-                if (QrCodeWidth <= QrCodeHeight)
-                {
-                    offsetX = 0;
-                    offsetY = (QrCodeHeight - QrCodeWidth) / 2;
-                    width = QrCodeWidth;
-                }
-                else
-                {
-                    offsetX = (QrCodeWidth - QrCodeHeight) / 2;
-                    offsetY = 0;
-                    width = QrCodeHeight;
-                }
-
-                new WriteableBitmapRenderer(new FixedCodeSize(width, QuietZoneModule), DarkColor, LightColor).DrawDarkModule(WBitmap, m_QrCode.Matrix, offsetX, offsetY);
+                //WBitmap.
+                new WriteableBitmapRenderer(new FixedCodeSize(WBitmap.PixelWidth, QuietZoneModule), DarkColor, LightColor).DrawDarkModule(WBitmap, m_QrCode.Matrix, 0, 0);
             }
         }
 
@@ -237,24 +232,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         }
 
         #endregion
-
-        private bool isColorSettingCorrect()
-        {
-            if (IsGrayImage)
-            {
-                if (WBitmap.Format != PixelFormats.Gray8)
-                    return false;
-                else
-                    return true;
-            }
-            else
-            {
-                if (WBitmap.Format != PixelFormats.Pbgra32)
-                    return false;
-                else
-                    return true;
-            }
-        }
 
         #region Event method
 

@@ -22,7 +22,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
             //Currently only support two PixelFormat.
             int sizeOfColor = wBitmap.Format == PixelFormats.Pbgra32 ? 4 : 1;
 
-            int pixelW = wBitmap.PixelWidth;
+            int pixelW = wBitmap.Format == PixelFormats.Gray8 ? wBitmap.BackBufferStride : wBitmap.PixelWidth;
             int pixelH = wBitmap.PixelHeight;
             int totalPixels = pixelW * pixelH;
 
@@ -67,7 +67,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
             //Currently only support two PixelFormat.
             int sizeOfColor = wBitmap.Format == PixelFormats.Pbgra32 ? 4 : 1;
 
-            int pixelW = wBitmap.PixelWidth;
+            int pixelW = wBitmap.Format == PixelFormats.Gray8 ? wBitmap.BackBufferStride : wBitmap.PixelWidth;
             int pixelH = wBitmap.PixelHeight;
 
             if (rectangle.X >= pixelW
@@ -78,14 +78,14 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 
             if (rectangle.X < 0) rectangle.X = 0;
             if (rectangle.Y < 0) rectangle.Y = 0;
-            if (rectangle.X + rectangle.Width - 1 >= pixelW) rectangle.Width = pixelW - rectangle.X;
-            if (rectangle.Y + rectangle.Height - 1 >= pixelH) rectangle.Height = pixelH - rectangle.Y;
+            if (rectangle.X + rectangle.Width >= pixelW) rectangle.Width = pixelW - rectangle.X;
+            if (rectangle.Y + rectangle.Height >= pixelH) rectangle.Height = pixelH - rectangle.Y;
 
             wBitmap.Lock();
             unsafe
             {
                 byte* pixels = (byte*)wBitmap.BackBuffer;
-                
+
                 int startPoint = rectangle.Y * pixelW + rectangle.X;
                 int endBoundry = startPoint + rectangle.Width;
                 int srcOffsetBytes = startPoint * sizeOfColor;

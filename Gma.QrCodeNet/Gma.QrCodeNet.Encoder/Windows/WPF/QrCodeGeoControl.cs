@@ -7,15 +7,13 @@ using Gma.QrCodeNet.Encoding.Windows.Render;
 
 namespace Gma.QrCodeNet.Encoding.Windows.WPF
 {
-    public delegate void QrMatrixChangedEventHandler(object sender, EventArgs e);
-
     public class QrCodeGeoControl : Control
     {
         private QrCode m_QrCode = new QrCode();
         private int m_width = 21;
         private bool m_isLocked = false;
 
-        public event QrMatrixChangedEventHandler QrMatrixChanged;
+        public event EventHandler QrMatrixChanged;
 
         #region LightBrush
         public static readonly DependencyProperty LightBrushProperty =

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Gma.QrCodeNet.Encoding.Windows.Render
 {
@@ -52,7 +53,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
             else if (wBitmap.PixelHeight == 0 || wBitmap.PixelWidth == 0)
                 return; //writeablebitmap contains no pixel.
             this.DrawQuietZone(wBitmap, size.CodeWidth, offsetX, offsetY);
-
             if (matrix == null)
                 return;
 
@@ -121,6 +121,20 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
                 }
             }
 
+
+        }
+
+        public void WriteToStream(BitMatrix qrMatrix, ImageFormatEnum imageFormat, Stream stream)
+        {
+            DrawingSize dSize = ISize.GetSize(qrMatrix == null ? 21 : qrMatrix.Width);
+
+            WriteableBitmap wBitmap = new WriteableBitmap(dSize.CodeWidth, dSize.CodeWidth, 96, 96, PixelFormats.Gray8, null);
+
+            this.Draw(wBitmap, qrMatrix);
+
+            BitmapEncoder encoder = imageFormat.ChooseEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(wBitmap));
+            encoder.Save(stream);
 
         }
 

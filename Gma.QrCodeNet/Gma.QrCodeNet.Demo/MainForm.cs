@@ -58,33 +58,22 @@ namespace Gma.QrCodeNet.Demo
 			}
 			else
 			{
-                using (Bitmap bitmap = new Bitmap(qrCodeGraphicControl1.Size.Width, qrCodeGraphicControl1.Size.Height))
-				{
-                    qrCodeGraphicControl1.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
-					bitmap.Save(
-						saveFileDialog.FileName,
-						saveFileDialog.FileName.EndsWith("png")
-							? ImageFormat.Png
-							: ImageFormat.Bmp);
-				}
+                
+                //DrawingBrushRenderer dRender = new DrawingBrushRenderer(new FixedModuleSize(5, QuietZoneModules.Four));
+                //BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
+                //using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                //{
+                //    dRender.WriteToStream(matrix, ImageFormatEnum.PNG, stream);
+                //}
+
+                WriteableBitmapRenderer wRender = new WriteableBitmapRenderer(new FixedModuleSize(5, QuietZoneModules.Four));
+                BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
+                using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                {
+                    wRender.WriteToStream(matrix, ImageFormatEnum.PNG, stream);
+                }
 			}
-            //    using (var file = File.CreateText(saveFileDialog.FileName))
-            //    {
-            //        renderer.WriteToStream(qrCode.Matrix, 6, file); // 72/6 = 12 modules per inch
-            //    }
-            //}
-            //else
-            //{
-            //    using (Bitmap bitmap = new Bitmap(qrCodeControl1.Size.Width, qrCodeControl1.Size.Height))
-            //    {
-            //        qrCodeControl1.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
-            //        bitmap.Save(
-            //            saveFileDialog.FileName,
-            //            saveFileDialog.FileName.EndsWith("png")
-            //                ? ImageFormat.Png
-            //                : ImageFormat.Bmp);
-            //    }
-            //}
+           
 
         }
 

@@ -21,8 +21,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.Forms
         public event EventHandler QuietZoneModuleChanged;
         public event EventHandler ErrorCorrectLevelChanged;
         public event EventHandler QrMatrixChanged;
-        public event EventHandler ImageWidthChanged;
-        public event EventHandler ImageHeightChanged;
 
         #region DarkBrush
         private Brush m_darkBrush = Brushes.Black;
@@ -78,57 +76,6 @@ namespace Gma.QrCodeNet.Encoding.Windows.Forms
                 LightBrushChanged(this, e);
         }
 
-        #endregion
-
-        #region ImageWidth
-        private int m_ImageWidth = 200;
-
-        [Category("Qr Code"), Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false)]
-        public int ImageWidth
-        {
-            get { return m_ImageWidth; }
-            set
-            {
-                if (m_ImageWidth != value)
-                {
-                    m_ImageWidth = value;
-                    OnImageWidthChanged(new EventArgs());
-                    UpdateImage();
-                }
-            }
-        }
-
-        protected virtual void OnImageWidthChanged(EventArgs e)
-        {
-            if (ImageWidthChanged != null)
-                ImageWidthChanged(this, e);
-        }
-
-        #endregion
-
-        #region ImageHeight
-        private int m_ImageHeight = 200;
-
-        [Category("Qr Code"), Browsable(true), EditorBrowsable(EditorBrowsableState.Always), RefreshProperties(RefreshProperties.All), Localizable(false)]
-        public int ImageHeight
-        {
-            get { return m_ImageHeight; }
-            set
-            {
-                if (m_ImageHeight != value)
-                {
-                    m_ImageHeight = value;
-                    OnImageHeightChanged(new EventArgs());
-                    UpdateImage();
-                }
-            }
-        }
-
-        protected virtual void OnImageHeightChanged(EventArgs e)
-        {
-            if (ImageHeightChanged != null)
-                ImageHeightChanged(this, e);
-        }
         #endregion
 
         #region QuietZoneModule
@@ -210,25 +157,28 @@ namespace Gma.QrCodeNet.Encoding.Windows.Forms
             {
                 using(MemoryStream ms = new MemoryStream())
                 {
-                    int offsetX, offsetY, width;
-                    if (m_ImageWidth <= m_ImageHeight)
-                    {
-                        offsetX = 0;
-                        offsetY = (m_ImageHeight - m_ImageWidth) / 2;
-                        width = m_ImageWidth;
-                    }
-                    else
-                    {
-                        offsetX = (m_ImageWidth - m_ImageHeight) / 2;
-                        offsetY = 0;
-                        width = m_ImageHeight;
-                    }
-                    new GraphicsRenderer(new FixedCodeSize(width, m_QuietZoneModule), m_darkBrush, m_LightBrush).WriteToStream(m_QrCode.Matrix, ImageFormat.Png, ms);
+                    int width = this.Width < this.Height ? this.Width : this.Height;
+                    int suitableWidth = m_QrCode.Matrix == null ? CalculateSuitableWidth(width, 21) : CalculateSuitableWidth(width, m_QrCode.Matrix.Width);
+                    new GraphicsRenderer(new FixedCodeSize(suitableWidth, m_QuietZoneModule), m_darkBrush, m_LightBrush).WriteToStream(m_QrCode.Matrix, ImageFormat.Png, ms);
                     Bitmap bitmap = new Bitmap(ms);
                     this.Image = bitmap;
                 }
             }
         }
+
+        private int CalculateSuitableWidth(int width, int bitMatrixWidth)
+        {
+            FixedCodeSize isize = new FixedCodeSize(width, m_QuietZoneModule);
+            DrawingSize dSize = isize.GetSize(bitMatrixWidth);
+            int gap = dSize.CodeWidth - dSize.ModuleSize * (bitMatrixWidth + 2 * (int)m_QuietZoneModule);
+            if (gap == 0)
+                return width;
+            else if (dSize.CodeWidth / gap < 6)
+                return (dSize.ModuleSize + 1) * (bitMatrixWidth + 2 * (int)m_QuietZoneModule);
+            else
+                return dSize.ModuleSize * (bitMatrixWidth + 2 * (int)m_QuietZoneModule);
+        }
+
 
         protected override void OnTextChanged(EventArgs e)
         {

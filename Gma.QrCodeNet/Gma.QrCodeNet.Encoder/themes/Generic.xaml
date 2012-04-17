@@ -11,9 +11,6 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Margin="0">
-                        <Border.Background>
-                            <SolidColorBrush Color="{Binding Path=BlueColor, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                        </Border.Background>
                         <Image Source="{TemplateBinding WBitmap}"
                            Width="Auto"
                            Height="Auto"
