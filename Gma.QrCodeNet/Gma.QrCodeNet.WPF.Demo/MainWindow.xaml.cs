@@ -26,12 +26,13 @@ namespace Gma.QrCodeNet.WPF.Demo
 
         private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (qrCodeImgControl1 != null)
+            if (qrCodeGeoControl1 != null)
             {
                 qrCodeImgControl1.Text = textBox1.Text;
-                qrCodeGeoControl1.Text = textBox1.Text;
+                //qrCodeGeoControl1.Text = textBox1.Text;
             }
             //qrCodeControl1.Text = textBox1.Text;
         }
+
     }
 }

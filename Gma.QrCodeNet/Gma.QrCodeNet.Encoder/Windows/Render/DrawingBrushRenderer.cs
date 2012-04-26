@@ -17,8 +17,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
         /// Initialize Renderer. Default brushes will be black and white.
         /// </summary>
         /// <param name="fixedModuleSize"></param>
-        public DrawingBrushRenderer(FixedModuleSize fixedModuleSize)
-            : this(fixedModuleSize, Brushes.Black, Brushes.White)
+        public DrawingBrushRenderer(ISizeCalculation iSize)
+            : this(iSize, Brushes.Black, Brushes.White)
         {
         }
 
@@ -158,6 +158,16 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
         /// <param name="DPI">DPI = DPI.X, DPI.Y(Dots per inch)</param>
         public void WriteToStream(BitMatrix QrMatrix, ImageFormatEnum imageFormat, Stream stream, Point DPI)
         {
+            BitmapSource bitmapSource = WriteToBitmapSource(QrMatrix, DPI);
+
+            BitmapEncoder encoder = imageFormat.ChooseEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+            encoder.Save(stream);
+        }
+
+        public BitmapSource WriteToBitmapSource(BitMatrix QrMatrix, Point DPI)
+        {
             int width = QrMatrix == null ? 21 : QrMatrix.Width;
             DrawingSize dSize = m_ISize.GetSize(width);
             int quietZone = (int)dSize.QuietZoneModules;
@@ -182,10 +192,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 
             renderbmp.Render(drawingVisual);
 
-            BitmapEncoder encoder = imageFormat.ChooseEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(renderbmp));
-
-            encoder.Save(stream);
+            return renderbmp;
         }
 
 

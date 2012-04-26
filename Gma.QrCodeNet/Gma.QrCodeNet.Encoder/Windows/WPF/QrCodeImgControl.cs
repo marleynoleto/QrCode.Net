@@ -31,30 +31,16 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         }
         #endregion
 
-        #region QrCodeWidth
-        public static readonly DependencyProperty QrCodeWidthProperty =
-            DependencyProperty.Register("QrCodeWidth", typeof(int), typeof(QrCodeImgControl),
-            new UIPropertyMetadata(200, new PropertyChangedCallback(OnVisualValueChanged)));
+        #region QrCodeWidthInch
+        public static readonly DependencyProperty QrCodeWidthInchProperty =
+            DependencyProperty.Register("QrCodeWidth", typeof(double), typeof(QrCodeImgControl),
+            new UIPropertyMetadata(2.08, new PropertyChangedCallback(OnVisualValueChanged)));
 
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Category("QrCode")]
-        public int QrCodeWidth
+        public double QrCodeWidthInch
         {
-            get { return (int)GetValue(QrCodeWidthProperty); }
-            set { SetValue(QrCodeWidthProperty, value); }
-        }
-
-        #endregion
-
-        #region QrCodeHeight
-        public static readonly DependencyProperty QrCodeHeightProperty =
-            DependencyProperty.Register("QrCodeHeight", typeof(int), typeof(QrCodeImgControl),
-            new UIPropertyMetadata(200, new PropertyChangedCallback(OnVisualValueChanged)));
-
-        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Category("QrCode")]
-        public int QrCodeHeight
-        {
-            get { return (int)GetValue(QrCodeHeightProperty); }
-            set { SetValue(QrCodeHeightProperty, value); }
+            get { return (double)GetValue(QrCodeWidthInchProperty); }
+            set { SetValue(QrCodeWidthInchProperty, value); }
         }
 
         #endregion
@@ -142,33 +128,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 
         #endregion
 
-        #region DpiX
-        public static readonly DependencyProperty DpiXProperty =
-            DependencyProperty.Register("DpiX", typeof(int), typeof(QrCodeImgControl),
-            new UIPropertyMetadata(96, new PropertyChangedCallback(OnVisualValueChanged)));
-
-        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Category("QrCode")]
-        public int DpiX
-        {
-            get { return (int)GetValue(DpiXProperty); }
-            set { SetValue(DpiXProperty, value); }
-        }
-
-        #endregion
-
-        #region DpiY
-        public static readonly DependencyProperty DpiYProperty =
-            DependencyProperty.Register("DpiY", typeof(int), typeof(QrCodeImgControl),
-            new UIPropertyMetadata(96, new PropertyChangedCallback(OnVisualValueChanged)));
-
-        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Category("QrCode")]
-        public int DpiY
-        {
-            get { return (int)GetValue(DpiYProperty); }
-            set { SetValue(DpiYProperty, value); }
-        }
-
-        #endregion
+        private int m_DpiX = 96;
+        private int m_DpiY = 96;
 
         static QrCodeImgControl()
         {
@@ -179,22 +140,47 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 
         public QrCodeImgControl()
         {
+            MatrixPoint dpi = this.GetDPI();
+            m_DpiX = dpi.X;
+            m_DpiY = dpi.Y;
             this.EncodeAndUpdateBitmap();
+        }
+
+        public MatrixPoint GetDPI()
+        {
+            int dpix, dpiy;
+            PresentationSource source = PresentationSource.FromVisual(this);
+            if (source != null)
+            {
+                Matrix dpi = source.CompositionTarget.TransformToDevice;
+                dpix = (int)(96 * dpi.M11);
+                dpiy = (int)(96 * dpi.M22);
+                return new MatrixPoint(dpix, dpiy);
+            }
+            else
+                return new MatrixPoint(m_DpiX, m_DpiY);
         }
 
         #region ReDraw Bitmap, Update Qr Cache
 
         private void CreateBitmap()
         {
-            WBitmap = null;
+            int pixelWidth = (int)QrCodeWidthInch * m_DpiX;
+            int suitableWidth = m_QrCode.Matrix == null ? CalculateSuitableWidth(pixelWidth, 21)
+                : CalculateSuitableWidth(pixelWidth, m_QrCode.Matrix.Width);
+            PixelFormat pFormat = IsGrayImage ? PixelFormats.Gray8 : PixelFormats.Pbgra32;
 
-            int suitableWidth = m_QrCode.Matrix == null ? CalculateSuitableWidth(QrCodeWidth, 21) 
-                : CalculateSuitableWidth(QrCodeWidth, m_QrCode.Matrix.Width);
-            
-            if (IsGrayImage)
-                WBitmap = new WriteableBitmap(suitableWidth, suitableWidth, DpiX, DpiY, PixelFormats.Gray8, null);
-            else
-                WBitmap = new WriteableBitmap(suitableWidth, suitableWidth, DpiX, DpiY, PixelFormats.Pbgra32, null);
+            if (WBitmap == null)
+            {
+                WBitmap = new WriteableBitmap(suitableWidth, suitableWidth, m_DpiX, m_DpiY, pFormat, null);
+                return;
+            }
+
+            if (WBitmap.PixelHeight != suitableWidth || WBitmap.PixelWidth != suitableWidth || WBitmap.Format != pFormat)
+            {
+                WBitmap = null;
+                WBitmap = new WriteableBitmap(suitableWidth, suitableWidth, m_DpiX, m_DpiY, pFormat, null);
+            }
         }
 
         private int CalculateSuitableWidth(int width, int bitMatrixWidth)
@@ -205,7 +191,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 
             if (gap == 0)
                 return width;
-            else if (dSize.CodeWidth / gap < 6)
+            else if (dSize.CodeWidth / gap < 4)
                 return (dSize.ModuleSize + 1) * (bitMatrixWidth + 2 * (int)QuietZoneModule);
             else
                 return dSize.ModuleSize * (bitMatrixWidth + 2 * (int)QuietZoneModule);
@@ -215,13 +201,15 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         {
             this.CreateBitmap();
 
-            if (QrCodeWidth != 0 && QrCodeHeight != 0)
+            if (WBitmap.PixelWidth != 0 && WBitmap.PixelHeight != 0)
+            {
                 WBitmap.Clear(LightColor);
 
-            if (m_QrCode.Matrix != null)
-            {
-                //WBitmap.
-                new WriteableBitmapRenderer(new FixedCodeSize(WBitmap.PixelWidth, QuietZoneModule), DarkColor, LightColor).DrawDarkModule(WBitmap, m_QrCode.Matrix, 0, 0);
+                if (m_QrCode.Matrix != null)
+                {
+                    //WBitmap.
+                    new WriteableBitmapRenderer(new FixedCodeSize(WBitmap.PixelWidth, QuietZoneModule), DarkColor, LightColor).DrawDarkModule(WBitmap, m_QrCode.Matrix, 0, 0);
+                }
             }
         }
 

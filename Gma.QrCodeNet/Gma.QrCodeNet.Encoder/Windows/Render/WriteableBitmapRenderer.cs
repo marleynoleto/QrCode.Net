@@ -89,6 +89,9 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
             int preX = -1;
             int moduleSize = size.ModuleSize;
 
+            if (moduleSize == 0)
+                return;
+
             for (int y = 0; y < matrix.Width; y++)
             {
                 for (int x = 0; x < matrix.Width; x++)
