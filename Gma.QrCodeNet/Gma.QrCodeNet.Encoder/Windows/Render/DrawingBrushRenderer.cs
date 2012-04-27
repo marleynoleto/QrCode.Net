@@ -195,6 +195,22 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
             return renderbmp;
         }
 
+        public Brush DarkBrush
+        {
+            get { return m_DarkBrush; }
+            set { m_DarkBrush = value; }
+        }
 
+        public Brush LightBrush
+        {
+            get { return m_LightBrush; }
+            set { m_LightBrush = value; }
+        }
+
+        public ISizeCalculation ISize
+        {
+            get { return m_ISize; }
+            set { m_ISize = value; }
+        }
     }
 }

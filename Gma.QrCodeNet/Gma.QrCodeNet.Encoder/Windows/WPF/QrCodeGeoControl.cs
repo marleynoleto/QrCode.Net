@@ -89,7 +89,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         /// <summary>
         /// Occure when ErrorCorrectLevel or Text changed
         /// </summary>
-        public static void OnMatrixValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnMatrixValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             QrCodeGeoControl geoControl = (QrCodeGeoControl)d;
             geoControl.UpdateGeometry();
@@ -108,7 +108,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         /// <summary>
         /// Update Geometry if is unlocked. 
         /// </summary>
-        public void UpdateGeometry()
+        internal void UpdateGeometry()
         {
             if (m_isLocked)
                 return;
@@ -118,7 +118,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
             QrGeometry = new DrawingBrushRenderer(new FixedCodeSize(200, QuietZoneModule), DarkBrush, LightBrush).DrawGeometry(m_QrCode.Matrix, 0, 0);
         }
 
-        public static void OnQuietZonePixelSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnQuietZonePixelSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((QrCodeGeoControl)d).UpdatePadding();
         }
@@ -126,7 +126,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         /// <summary>
         /// This method is use to update QuietZone after use method SetQuietZoneModule
         /// </summary>
-        public void UpdatePadding()
+        internal void UpdatePadding()
         {
             if (m_isLocked)
                 return;

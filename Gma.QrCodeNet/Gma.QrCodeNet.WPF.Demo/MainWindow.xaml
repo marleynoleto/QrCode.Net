@@ -15,6 +15,6 @@
         </Grid.RowDefinitions>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="textBox1" VerticalAlignment="Top" Width="200" TextChanged="textBox1_TextChanged" Text="t" />
         <my1:QrCodeGeoControl Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Name="qrCodeGeoControl1" VerticalAlignment="Stretch" Text="test" LightBrush="#FF00CAEC" DarkBrush="#FF9F8100"></my1:QrCodeGeoControl>
-        <my1:QrCodeImgControl Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Name="qrCodeImgControl1" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Text="test" QuietZoneModule="Zero" IsGrayImage="True" LightColor="#FFFFCCFF" />
+        <my1:QrCodeImgControl Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Name="qrCodeImgControl1" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Text="test" QuietZoneModule="Zero" IsGrayImage="True" LightColor="#FFFFCCFF" DarkColor="#FF910000" />
     </Grid>
 </Window>

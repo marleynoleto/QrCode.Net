@@ -223,7 +223,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 
         #region Event method
 
-        public static void OnVisualValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnVisualValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((QrCodeImgControl)d).UpdateBitmap();
         }
@@ -231,7 +231,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
         /// <summary>
         /// Encode and Update bitmap when ErrorCorrectlevel or Text changed. 
         /// </summary>
-        public static void OnQrValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnQrValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((QrCodeImgControl)d).EncodeAndUpdateBitmap();
         }
@@ -240,7 +240,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
 
         #region Update method
 
-        public void EncodeAndUpdateBitmap()
+        internal void EncodeAndUpdateBitmap()
         {
             if (!IsLocked)
             {
@@ -249,7 +249,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.WPF
             }
         }
 
-        public void UpdateBitmap()
+        internal void UpdateBitmap()
         {
             if(!IsFreezed)
                 this.UpdateSource();
