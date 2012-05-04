@@ -168,25 +168,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EncodingRegion\TestCases" />
-    <Folder Include="ErrorCorrection" />
-    <Folder Include="ErrorCorrection\TestCases" />
-    <Folder Include="EncodingRegion" />
-    <Folder Include="PerformanceTest" />
-    <Folder Include="Terminate" />
-    <Folder Include="ReedSolomon" />
-    <Folder Include="ReedSolomon\TestCase" />
-    <Folder Include="Terminate\TestCases" />
-    <Folder Include="Versions" />
     <Folder Include="Properties\" />
-    <Folder Include="Versions\TestCases" />
-    <Folder Include="Versions\TestCases\TestMethod" />
-    <Folder Include="_compatibility" />
-    <Folder Include="_legacy" />
-    <Folder Include="_legacy\Common" />
-    <Folder Include="_legacy\Common\reedsolomon" />
-    <Folder Include="_legacy\Core" />
-    <Folder Include="_legacy\encoding" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataEncodation\TestCases\AlphanumericDataEncodeTestDataSet.csv">

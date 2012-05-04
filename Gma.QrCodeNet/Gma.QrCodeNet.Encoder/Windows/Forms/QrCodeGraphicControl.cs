@@ -150,7 +150,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Forms
             base.OnPaint(e);
         }
 
-        public void UpdateQrCodeCache()
+        internal void UpdateQrCodeCache()
         {
             if (!m_isLocked)
             {

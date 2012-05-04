@@ -47,7 +47,7 @@ namespace Gma.QrCodeNet.Encoding.Tests.PerformanceTest
 			timeElapsed[1] = sw.ElapsedMilliseconds.ToString();
 			
 			
-			Assert.Pass("EC performance {0} Tests~ QrCode.Net: {1} ZXing: {2}", timesofTest, timeElapsed[0], timeElapsed[1]);
+			Assert.Pass("Encode performance {0} Tests~ QrCode.Net: {1} ZXing: {2}", timesofTest, timeElapsed[0], timeElapsed[1]);
 			
 		}
 	}

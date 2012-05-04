@@ -11,7 +11,7 @@ namespace Gma.QrCodeNet.Encoding.Masking.Scoring
             int score = int.MaxValue;
             int tempScore;
             TriStateMatrix result = new TriStateMatrix(matrix.Width);
-            TriStateMatrix triMatrix = new TriStateMatrix(matrix.Width);
+            TriStateMatrix triMatrix;
             foreach(Pattern pattern in patternFactory.AllPatterns())
             {
             	triMatrix = matrix.Apply(pattern, errorlevel);

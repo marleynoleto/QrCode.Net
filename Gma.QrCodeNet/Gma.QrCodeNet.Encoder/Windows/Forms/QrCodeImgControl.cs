@@ -135,7 +135,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Forms
         }
 
 
-        public void UpdateQrCodeCache()
+        internal void UpdateQrCodeCache()
         {
             if (!m_isLocked)
             {
@@ -151,7 +151,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Forms
                 QrMatrixChanged(this, e);
         }
 
-        public void UpdateImage()
+        internal void UpdateImage()
         {
             if (!m_isFreezed)
             {
