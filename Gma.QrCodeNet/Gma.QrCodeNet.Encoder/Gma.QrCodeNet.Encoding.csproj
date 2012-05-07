@@ -138,6 +138,9 @@
     <Compile Include="Windows\Forms\QrCodeImgControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Windows\Render\EPSColor.cs" />
+    <Compile Include="Windows\Render\EPSFormColor.cs" />
+    <Compile Include="Windows\Render\EPSMediaColor.cs" />
     <Compile Include="Windows\Render\WriteableBitmapRenderer.cs" />
     <Compile Include="Windows\Render\DrawingBrushRenderer.cs" />
     <Compile Include="Windows\Render\DrawingSize.cs" />

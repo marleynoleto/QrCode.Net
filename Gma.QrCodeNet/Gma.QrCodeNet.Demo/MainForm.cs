@@ -46,15 +46,15 @@ namespace Gma.QrCodeNet.Demo
                 //encoder.TryEncode(textBoxInput.Text, out qrCode);
                 BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
 
-				// Initialize the EPS renderer
-				var renderer = new EncapsulatedPostScriptRenderer(
-					new FixedModuleSize(6, QuietZoneModules.Two), // Modules size is 2/72th inch (72 points = 1 inch)
-                    Color.Black, Color.White);
+                // Initialize the EPS renderer
+                var renderer = new EncapsulatedPostScriptRenderer(
+                    new FixedModuleSize(6, QuietZoneModules.Two), // Modules size is 2/72th inch (72 points = 1 inch)
+                    new EPSFormColor(Color.Black), new EPSFormColor(Color.White));
 
-				using (var file = File.OpenWrite(saveFileDialog.FileName))
-				{
+                using (var file = File.OpenWrite(saveFileDialog.FileName))
+                {
                     renderer.WriteToStream(matrix, file);
-				}
+                }
 			}
 			else
 			{

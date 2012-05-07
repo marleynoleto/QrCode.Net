@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Drawing;
 using System.Globalization;
 
 namespace Gma.QrCodeNet.Encoding.Windows.Render
@@ -12,8 +11,8 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 	{
 		private ISizeCalculation m_iSize;
 
-		private Color m_DarkColor;
-		private Color m_LightColor;
+		private EPSColor m_DarkColor;
+		private EPSColor m_LightColor;
 
 		private EpsModuleDrawingTechnique m_DrawingTechnique;
 
@@ -25,7 +24,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 		/// Setting to Color.Transparent allows transparent light modules so the QR Code blends in the existing background.
 		/// In that case the existing background should remain light and rather uniform, and higher error correction levels are recommended.</param>
 		/// <param name="quietZoneModules"></param>
-		public EncapsulatedPostScriptRenderer(ISizeCalculation iSize, Color darkColor, Color lightColor)
+		public EncapsulatedPostScriptRenderer(ISizeCalculation iSize, EPSColor darkColor, EPSColor lightColor)
 		{
 			m_iSize = iSize;
 			m_DarkColor = darkColor;
@@ -137,7 +136,7 @@ s s neg scale";
 {0} 255 div {1} 255 div {2} 255 div setrgbcolor
 newpath 0 0 moveto W 0 rlineto 0 H rlineto W neg 0 rlineto closepath fill";
 
-			if (LightColor != Color.Transparent)
+			if (LightColor.A != 0)
 				stream.WriteLine(string.Format(strBackground,
 					LightColor.R,
 					LightColor.G,
@@ -257,7 +256,7 @@ restore showpage
 		/// <summary>
 		/// DarkColor used to draw Dark modules of the QrCode
 		/// </summary>
-		public Color DarkColor
+		public EPSColor DarkColor
 		{
 			set
 			{
@@ -274,7 +273,7 @@ restore showpage
 		/// Setting to Color.Transparent allows transparent light modules so the QR Code blends in the existing background.
 		/// In that case the existing background should remain light and rather uniform, and higher error correction levels are recommended.
 		/// </summary>
-		public Color LightColor
+		public EPSColor LightColor
 		{
 			set
 			{

@@ -32,8 +32,8 @@
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonSave = new System.Windows.Forms.Button();
             this.checkBoxArtistic = new System.Windows.Forms.CheckBox();
-            this.qrCodeGraphicControl1 = new Gma.QrCodeNet.Encoding.Windows.Forms.QrCodeGraphicControl();
             this.qrCodeImgControl1 = new Gma.QrCodeNet.Encoding.Windows.Forms.QrCodeImgControl();
+            this.qrCodeGraphicControl1 = new Gma.QrCodeNet.Encoding.Windows.Forms.QrCodeGraphicControl();
             ((System.ComponentModel.ISupportInitialize)(this.qrCodeImgControl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,16 +71,6 @@
             this.checkBoxArtistic.UseVisualStyleBackColor = true;
             this.checkBoxArtistic.CheckedChanged += new System.EventHandler(this.checkBoxArtistic_CheckedChanged);
             // 
-            // qrCodeGraphicControl1
-            // 
-            this.qrCodeGraphicControl1.BackColor = System.Drawing.SystemColors.Control;
-            this.qrCodeGraphicControl1.ErrorCorrectLevel = Gma.QrCodeNet.Encoding.ErrorCorrectionLevel.M;
-            this.qrCodeGraphicControl1.Location = new System.Drawing.Point(13, 92);
-            this.qrCodeGraphicControl1.Name = "qrCodeGraphicControl1";
-            this.qrCodeGraphicControl1.QuietZoneModule = Gma.QrCodeNet.Encoding.Windows.Render.QuietZoneModules.Two;
-            this.qrCodeGraphicControl1.Size = new System.Drawing.Size(442, 153);
-            this.qrCodeGraphicControl1.TabIndex = 5;
-            // 
             // qrCodeImgControl1
             // 
             this.qrCodeImgControl1.ErrorCorrectLevel = Gma.QrCodeNet.Encoding.ErrorCorrectionLevel.M;
@@ -92,6 +82,16 @@
             this.qrCodeImgControl1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.qrCodeImgControl1.TabIndex = 6;
             this.qrCodeImgControl1.TabStop = false;
+            // 
+            // qrCodeGraphicControl1
+            // 
+            this.qrCodeGraphicControl1.BackColor = System.Drawing.SystemColors.Control;
+            this.qrCodeGraphicControl1.ErrorCorrectLevel = Gma.QrCodeNet.Encoding.ErrorCorrectionLevel.M;
+            this.qrCodeGraphicControl1.Location = new System.Drawing.Point(13, 92);
+            this.qrCodeGraphicControl1.Name = "qrCodeGraphicControl1";
+            this.qrCodeGraphicControl1.QuietZoneModule = Gma.QrCodeNet.Encoding.Windows.Render.QuietZoneModules.Two;
+            this.qrCodeGraphicControl1.Size = new System.Drawing.Size(442, 153);
+            this.qrCodeGraphicControl1.TabIndex = 5;
             // 
             // MainForm
             // 
