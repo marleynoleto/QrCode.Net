@@ -21,7 +21,7 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
 		/// </summary>
 		/// <param name="darkColor">DarkColor used to draw Dark modules of the QrCode</param>
 		/// <param name="lightColor">LightColor used to draw Light modules and QuietZone of the QrCode.
-		/// Setting to Color.Transparent allows transparent light modules so the QR Code blends in the existing background.
+		/// Setting to a transparent color (A = 0) allows transparent light modules so the QR Code blends in the existing background.
 		/// In that case the existing background should remain light and rather uniform, and higher error correction levels are recommended.</param>
 		/// <param name="quietZoneModules"></param>
 		public EncapsulatedPostScriptRenderer(ISizeCalculation iSize, EPSColor darkColor, EPSColor lightColor)
@@ -270,7 +270,7 @@ restore showpage
 
 		/// <summary>
 		/// LightColor used to draw Light modules and QuietZone of the QrCode.
-		/// Setting to Color.Transparent allows transparent light modules so the QR Code blends in the existing background.
+		/// Setting to a transparent color (A = 0) allows transparent light modules so the QR Code blends in the existing background.
 		/// In that case the existing background should remain light and rather uniform, and higher error correction levels are recommended.
 		/// </summary>
 		public EPSColor LightColor

@@ -40,15 +40,11 @@ namespace Gma.QrCodeNet.Demo
 
 			if (saveFileDialog.FileName.EndsWith("eps"))
 			{
-				// Generate the matrix from scratch as it is not reachable from the qrCodeControl1
-                //var encoder = new QrEncoder(qrCodeGraphicControl1.ErrorCorrectLevel);
-                //QrCode qrCode;
-                //encoder.TryEncode(textBoxInput.Text, out qrCode);
                 BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
 
                 // Initialize the EPS renderer
                 var renderer = new EncapsulatedPostScriptRenderer(
-                    new FixedModuleSize(6, QuietZoneModules.Two), // Modules size is 2/72th inch (72 points = 1 inch)
+                    new FixedModuleSize(6, QuietZoneModules.Two), // Modules size is 6/72th inch (72 points = 1 inch)
                     new EPSFormColor(Color.Black), new EPSFormColor(Color.White));
 
                 using (var file = File.OpenWrite(saveFileDialog.FileName))
