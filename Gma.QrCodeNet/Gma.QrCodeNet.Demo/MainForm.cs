@@ -54,20 +54,27 @@ namespace Gma.QrCodeNet.Demo
 			}
 			else
 			{
-                
-                //DrawingBrushRenderer dRender = new DrawingBrushRenderer(new FixedModuleSize(5, QuietZoneModules.Four));
-                //BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
-                //using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
-                //{
-                //    dRender.WriteToStream(matrix, ImageFormatEnum.PNG, stream);
-                //}
 
-                WriteableBitmapRenderer wRender = new WriteableBitmapRenderer(new FixedModuleSize(5, QuietZoneModules.Four));
+                DrawingBrushRenderer dRender = new DrawingBrushRenderer(new FixedModuleSize(5, QuietZoneModules.Four));
                 BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
                 using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
-                    wRender.WriteToStream(matrix, ImageFormatEnum.PNG, stream);
+                    dRender.WriteToStream(matrix, ImageFormatEnum.PNG, stream);
                 }
+
+                //WriteableBitmapRenderer wRender = new WriteableBitmapRenderer(new FixedModuleSize(15, QuietZoneModules.Four));
+                //BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
+                //using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                //{
+                //    wRender.WriteToStream(matrix, ImageFormatEnum.PNG, stream);
+                //}
+
+                //GraphicsRenderer gRender = new GraphicsRenderer(new FixedModuleSize(15, QuietZoneModules.Four));
+                //BitMatrix matrix = qrCodeGraphicControl1.GetQrMatrix();
+                //using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                //{
+                //    gRender.WriteToStream(matrix, ImageFormat.Png, stream);
+                //}
 			}
            
 

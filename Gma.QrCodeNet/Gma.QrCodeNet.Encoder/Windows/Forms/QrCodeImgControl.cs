@@ -129,6 +129,25 @@ namespace Gma.QrCodeNet.Encoding.Windows.Forms
 
         #endregion
 
+
+        #region text
+
+        [Category("Qr Code"), Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Bindable(true), RefreshProperties(RefreshProperties.All),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public override string Text
+        {
+            get
+            {
+                return base.Text;
+            }
+            set
+            {
+                base.Text = value;
+            }
+        }
+
+        #endregion
+
         public QrCodeImgControl()
         {
             UpdateImage();

@@ -187,9 +187,9 @@ namespace Gma.QrCodeNet.Encoding.Windows.Render
             DrawingVisual drawingVisual = new DrawingVisual();
             using (DrawingContext dContext = drawingVisual.RenderOpen())
             {
-                dContext.DrawRectangle(qrBrush, null, new Rect(0, 0, dSize.CodeWidth, dSize.CodeWidth));
+                dContext.DrawRectangle(qrBrush, null, new Rect(0, 0, (dSize.CodeWidth / DPI.X) * 96, (dSize.CodeWidth / DPI.Y) * 96));
             }
-
+            
             renderbmp.Render(drawingVisual);
 
             return renderbmp;
