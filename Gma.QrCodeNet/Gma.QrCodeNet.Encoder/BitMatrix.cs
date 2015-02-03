@@ -5,8 +5,8 @@ namespace Gma.QrCodeNet.Encoding
     public abstract class BitMatrix
     {
         public abstract bool this[int i, int j] { get; set; }
-        public abstract int Width { get; }
-        public abstract int Height { get; }
+        public abstract int Width { get; set; }
+        public abstract int Height { get; set; }
 
         internal MatrixSize Size
         {
